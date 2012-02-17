@@ -79,8 +79,8 @@ coro.event_loop()
 </div>
 <div class="rst-section" id="rst-coroutines">
 <h1 class="heading">Coroutines</h1>
-<p>Every coroutine thread is created with either the <a href="coro-module.html#new" class="link">new</a> function (which does
-NOT automatically start the thread) or the <a href="coro-module.html#spawn" class="link">spawn</a> function (which DOES
+<p>Every coroutine thread is created with either the <a href="coro-module.html#new" class="link" onclick="show_private();">new</a> function (which does
+NOT automatically start the thread) or the <a href="coro-module.html#spawn" class="link" onclick="show_private();">spawn</a> function (which DOES
 automatically start it).</p>
 <p>Every thread has a unique numeric ID.  You may also set the name of the thread
 when you create it.</p>
@@ -107,7 +107,7 @@ assign attributes to it that will be specific to that thread.  See the
 <h1 class="heading">Signal Handlers</h1>
 <p>By default when you start the event loop, two signal handlers are installed
 (for SIGTERM and SIGINT). The default signal handler will exit the event loop.
-You can change this behavior by setting <a href="coro-module.html#install_signal_handlers" class="link">install_signal_handlers</a> to False
+You can change this behavior by setting <a href="coro-module.html#install_signal_handlers" class="link" onclick="show_private();">install_signal_handlers</a> to False
 before starting the event loop.</p>
 <p>See <a href="coro.signal_handler-module.html" class="link">coro.signal_handler</a> for more detail on setting coro signal handlers.</p>
 </div>
@@ -127,7 +127,7 @@ value for a stable and high-resolution unit of time.  See that module's
 documentation for more detail.</p>
 <p>A thread is always created when you start the event loop that will
 resynchronize the TSC relationship to accomodate any clock drift (see
-<a href="coro-module.html#tick_updater" class="link">tick_updater</a> and <a href="coro.clocks.tsc_time-module.html#update_time_relation" class="link">tsc_time.update_time_relation</a>).</p>
+<a href="coro-module.html#tick_updater" class="link" onclick="show_private();">tick_updater</a> and <a href="coro.clocks.tsc_time-module.html#update_time_relation" class="link">tsc_time.update_time_relation</a>).</p>
 </div>
 <div class="rst-section" id="rst-exception-notifier">
 <h1 class="heading">Exception Notifier</h1>
@@ -139,9 +139,9 @@ stderr.  You may install your own callback to handle this situation.  See the
 <h1 class="heading">Debug Output</h1>
 <p>The shrapnel library provides a mechanism for printing debug information to
 stderr.  The <a href="coro._coro-module.html#P" class="link">print_stderr</a> function will print a string with a timestamp
-and the thread number.  The <a href="coro-module.html#write_stderr" class="link">write_stderr</a> function writes the string verbatim.</p>
-<p>Shrapnel keeps a reference to the &quot;real&quot; stderr (in <a href="coro-module.html#saved_stderr" class="link">saved_stderr</a>) and the
-<a href="coro._coro-module.html#P" class="link">print_stderr</a> and <a href="coro-module.html#write_stderr" class="link">write_stderr</a> functions always use the real stderr value. A
+and the thread number.  The <a href="coro-module.html#write_stderr" class="link" onclick="show_private();">write_stderr</a> function writes the string verbatim.</p>
+<p>Shrapnel keeps a reference to the &quot;real&quot; stderr (in <a href="coro-module.html#saved_stderr" class="link" onclick="show_private();">saved_stderr</a>) and the
+<a href="coro._coro-module.html#P" class="link">print_stderr</a> and <a href="coro-module.html#write_stderr" class="link" onclick="show_private();">write_stderr</a> functions always use the real stderr value. A
 particular reason for doing this is the backdoor module replaces sys.stderr and
 sys.stdout, but we do not want debug output to go to the interactive session.</p>
 </div>
@@ -170,10 +170,10 @@ details on how to run the profiler.</p>
 </tr>
   <tr><td class="summary">
   <ul class="nomargin">
-    <li class="private"> <strong class="uidlink"><a href="coro._coro-module.html" onclick="show_private();">coro._coro</a></strong>: <em class="summary">Pyrex module for coroutine implementation.</em>    </li>
+    <li> <strong class="uidlink"><a href="coro._coro-module.html">coro._coro</a></strong>: <em class="summary">Pyrex module for coroutine implementation.</em>    </li>
     <li> <strong class="uidlink"><a href="coro.backdoor-module.html">coro.backdoor</a></strong>: <em class="summary">Backdoor Python access.</em>    </li>
-    <li> <strong class="uidlink"><a href="coro.clocks-module.html">coro.clocks</a></strong>
-    <ul>
+    <li class="private"> <strong class="uidlink"><a href="coro.clocks-module.html" onclick="show_private();">coro.clocks</a></strong>
+    <ul class="private">
     <li> <strong class="uidlink"><a href="coro.clocks.tsc_time-module.html">coro.clocks.tsc_time</a></strong>: <em class="summary">TSC time library.</em>    </li>
     </ul>
     </li>
@@ -205,12 +205,34 @@ details on how to run the profiler.</p>
     </table>
   </td>
 </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro.InParallelError-class.html" class="summary-name" onclick="show_private();">InParallelError</a><br />
+      An error occurred in the <a href="coro-module.html#in_parallel" class="link" onclick="show_private();">in_parallel</a> function.
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="coro.InParallelError-class.html" class="summary-name">InParallelError</a><br />
-      An error occurred in the <a href="coro-module.html#in_parallel" class="link">in_parallel</a> function.
+        <a href="coro._coro.event_queue-class.html" class="summary-name">event_queue</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.fifo-class.html" class="summary-name">fifo</a><br />
+      First-in First-Out container.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.rusage-class.html" class="summary-name">rusage</a>
     </td>
   </tr>
 </table>
@@ -301,13 +323,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#coro_is_running" class="summary-sig-name">coro_is_running</a>()</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#coro_is_running" class="summary-sig-name" onclick="show_private();">coro_is_running</a>()</span><br />
       Determine if the coro event loop is running.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro-pysrc.html#coro_is_running">source&nbsp;code</a></span>
@@ -318,7 +340,7 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
@@ -335,7 +357,7 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
@@ -352,7 +374,7 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
@@ -368,13 +390,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#event_loop" class="summary-sig-name">event_loop</a>(<span class="summary-sig-arg">timeout</span>=<span class="summary-sig-default">30</span>)</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#event_loop" class="summary-sig-name" onclick="show_private();">event_loop</a>(<span class="summary-sig-arg">timeout</span>=<span class="summary-sig-default">30</span>)</span><br />
       Start the event loop.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro-pysrc.html#event_loop">source&nbsp;code</a></span>
@@ -385,13 +407,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#get_thread_by_id" class="summary-sig-name">get_thread_by_id</a>(<span class="summary-sig-arg">thread_id</span>)</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#get_thread_by_id" class="summary-sig-name" onclick="show_private();">get_thread_by_id</a>(<span class="summary-sig-arg">thread_id</span>)</span><br />
       Get a coro thread by ID.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro-pysrc.html#get_thread_by_id">source&nbsp;code</a></span>
@@ -402,7 +424,7 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
@@ -419,13 +441,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#in_parallel" class="summary-sig-name">in_parallel</a>(<span class="summary-sig-arg">fun_arg_list</span>)</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#in_parallel" class="summary-sig-name" onclick="show_private();">in_parallel</a>(<span class="summary-sig-arg">fun_arg_list</span>)</span><br />
       Execute several functions in parallel.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro-pysrc.html#in_parallel">source&nbsp;code</a></span>
@@ -436,13 +458,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#install_thread_emulation" class="summary-sig-name">install_thread_emulation</a>()</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#install_thread_emulation" class="summary-sig-name" onclick="show_private();">install_thread_emulation</a>()</span><br />
       Install Python threading emulation.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro-pysrc.html#install_thread_emulation">source&nbsp;code</a></span>
@@ -453,13 +475,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#new" class="summary-sig-name">new</a>(<span class="summary-sig-arg">fun</span>,
+          <td><span class="summary-sig"><a href="coro-module.html#new" class="summary-sig-name" onclick="show_private();">new</a>(<span class="summary-sig-arg">fun</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwargs</span>)</span><br />
       Create a new coroutine object.</td>
@@ -472,13 +494,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#set_handler" class="summary-sig-name">set_handler</a>(<span class="summary-sig-arg">...</span>)</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#set_handler" class="summary-sig-name" onclick="show_private();">set_handler</a>(<span class="summary-sig-arg">...</span>)</span><br />
       Add a kevent handler.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro-pysrc.html#_coro.set_handler">source&nbsp;code</a></span>
@@ -489,13 +511,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#set_latency_warning" class="summary-sig-name">set_latency_warning</a>(<span class="summary-sig-arg">...</span>)</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#set_latency_warning" class="summary-sig-name" onclick="show_private();">set_latency_warning</a>(<span class="summary-sig-arg">...</span>)</span><br />
       Set the latency warning threshold multiplier.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro-pysrc.html#_coro.set_latency_warning">source&nbsp;code</a></span>
@@ -506,7 +528,7 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
@@ -522,7 +544,7 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
@@ -539,13 +561,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#spawn" class="summary-sig-name">spawn</a>(<span class="summary-sig-arg">fun</span>,
+          <td><span class="summary-sig"><a href="coro-module.html#spawn" class="summary-sig-name" onclick="show_private();">spawn</a>(<span class="summary-sig-arg">fun</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwargs</span>)</span><br />
       Spawn a new coroutine.</td>
@@ -558,13 +580,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#tick_updater" class="summary-sig-name">tick_updater</a>()</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#tick_updater" class="summary-sig-name" onclick="show_private();">tick_updater</a>()</span><br />
       Updates TSC&lt;-&gt;POSIX relation.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro-pysrc.html#tick_updater">source&nbsp;code</a></span>
@@ -575,13 +597,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#wait_for" class="summary-sig-name">wait_for</a>(<span class="summary-sig-arg">...</span>)</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#wait_for" class="summary-sig-name" onclick="show_private();">wait_for</a>(<span class="summary-sig-arg">...</span>)</span><br />
       Wait for an event.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro-pysrc.html#_coro.wait_for">source&nbsp;code</a></span>
@@ -592,13 +614,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#waitpid" class="summary-sig-name">waitpid</a>(<span class="summary-sig-arg">pid</span>)</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#waitpid" class="summary-sig-name" onclick="show_private();">waitpid</a>(<span class="summary-sig-arg">pid</span>)</span><br />
       Wait for a process to exit.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro-pysrc.html#waitpid">source&nbsp;code</a></span>
@@ -609,13 +631,13 @@ details on how to run the profiler.</p>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#where" class="summary-sig-name">where</a>(<span class="summary-sig-arg">co</span>)</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#where" class="summary-sig-name" onclick="show_private();">where</a>(<span class="summary-sig-arg">co</span>)</span><br />
       Return a string indicating where the given coroutine thread is currently
 running.</td>
           <td align="right" valign="top">
@@ -627,13 +649,13 @@ running.</td>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#where_all" class="summary-sig-name">where_all</a>()</span><br />
+          <td><span class="summary-sig"><a href="coro-module.html#where_all" class="summary-sig-name" onclick="show_private();">where_all</a>()</span><br />
       Get a dictionary of where all coroutines are currently executing.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro-pysrc.html#where_all">source&nbsp;code</a></span>
@@ -662,107 +684,107 @@ running.</td>
     </table>
   </td>
 </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="FAILURE"></a><span class="summary-name">FAILURE</span> = <code title="'failure'"><code class="variable-quote">'</code><code class="variable-string">failure</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="SUCCESS"></a><span class="summary-name">SUCCESS</span> = <code title="'success'"><code class="variable-quote">'</code><code class="variable-string">success</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="UNAME"></a><span class="summary-name">UNAME</span> = <code title="'FreeBSD'"><code class="variable-quote">'</code><code class="variable-string">FreeBSD</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'coro'"><code class="variable-quote">'</code><code class="variable-string">coro</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="coro-module.html#all_threads" class="summary-name">all_threads</a> = <code title="{}"><code class="variable-group">{</code><code class="variable-group">}</code></code><br />
+        <a href="coro-module.html#all_threads" class="summary-name" onclick="show_private();">all_threads</a> = <code title="{}"><code class="variable-group">{</code><code class="variable-group">}</code></code><br />
       : A dictionary of all live coroutine objects.
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="event_loop_is_running"></a><span class="summary-name">event_loop_is_running</span> = <code title="False">False</code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="event_map"></a><span class="summary-name">event_map</span> = <code title="{}"><code class="variable-group">{</code><code class="variable-group">}</code></code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="install_signal_handlers"></a><span class="summary-name">install_signal_handlers</span> = <code title="True">True</code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="microseconds"></a><span class="summary-name">microseconds</span> = <code title="1000000">1000000</code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="now"></a><span class="summary-name">now</span> = <code title="6410808728087811">6410808728087811</code>
+        <a name="now"></a><span class="summary-name">now</span> = <code title="6412134603272295">6412134603272295</code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="now_usec"></a><span class="summary-name">now_usec</span> = <code title="1329443900109059">1329443900109059</code>
+        <a name="now_usec"></a><span class="summary-name">now_usec</span> = <code title="1329444398561186">1329444398561186</code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="coro-module.html#saved_stderr" class="summary-name">saved_stderr</a> = <code title="&lt;epydoc.docintrospecter._DevNull instance at 0x80272ac20&gt;">&lt;epydoc.docintrospecter._DevNull instance at 0x<code class="variable-ellipsis">...</code></code><br />
+        <a href="coro-module.html#saved_stderr" class="summary-name" onclick="show_private();">saved_stderr</a> = <code title="&lt;epydoc.docintrospecter._DevNull instance at 0x80272ac20&gt;">&lt;epydoc.docintrospecter._DevNull instance at 0x<code class="variable-ellipsis">...</code></code><br />
       : The actual stderr object for the process.
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="tick_update_interval"></a><span class="summary-name">tick_update_interval</span> = <code title="3600">3600</code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="ticks_per_sec"></a><span class="summary-name">ticks_per_sec</span> = <code title="2659636680">2659636680</code>
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
@@ -899,7 +921,7 @@ timeout.</li>
 </div></td></tr></table>
 </div>
 <a name="coro_is_running"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -920,7 +942,7 @@ timeout.</li>
 </td></tr></table>
 </div>
 <a name="event_loop"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -944,7 +966,7 @@ events. You should probably <em>not</em> set this value.</li>
 </td></tr></table>
 </div>
 <a name="get_thread_by_id"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -973,7 +995,7 @@ events. You should probably <em>not</em> set this value.</li>
 </td></tr></table>
 </div>
 <a name="in_parallel"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -988,7 +1010,7 @@ events. You should probably <em>not</em> set this value.</li>
   
   <p>Execute several functions in parallel.</p>
 <p>This will block until all functions have returned or raised an exception.</p>
-<p>If one or more functions raises an exception, then the <a href="coro.InParallelError-class.html" class="link">InParallelError</a>
+<p>If one or more functions raises an exception, then the <a href="coro.InParallelError-class.html" class="link" onclick="show_private();">InParallelError</a>
 exception will be raised.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -999,13 +1021,13 @@ exception will be raised.</p>
         <dd>Returns a list of return values from the functions.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="coro.InParallelError-class.html">InParallelError</a></strong></code> - : One or more of the functions raised an exception.</li>
+        <li><code><strong class='fraise'><a href="coro.InParallelError-class.html" onclick="show_private();">InParallelError</a></strong></code> - : One or more of the functions raised an exception.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
 </div>
 <a name="install_thread_emulation"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1033,7 +1055,7 @@ cause the following modules to be emulated:</p>
 </td></tr></table>
 </div>
 <a name="new"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1066,7 +1088,7 @@ function.</li>
 </td></tr></table>
 </div>
 <a name="set_handler"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1099,7 +1121,7 @@ event.</li>
 </td></tr></table>
 </div>
 <a name="set_latency_warning"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1131,7 +1153,7 @@ you to change the threshold by multiplying the 0.2 value.</p>
 </td></tr></table>
 </div>
 <a name="spawn"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1161,7 +1183,7 @@ function.</li>
 </td></tr></table>
 </div>
 <a name="tick_updater"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1184,7 +1206,7 @@ because our ticks_per_sec variable might be slightly off.</p>
 </td></tr></table>
 </div>
 <a name="wait_for"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1216,7 +1238,7 @@ is often a file descriptor).</li>
 </td></tr></table>
 </div>
 <a name="waitpid"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1246,7 +1268,7 @@ ID.</li>
 </td></tr></table>
 </div>
 <a name="where"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1273,7 +1295,7 @@ executing.</dd>
 </td></tr></table>
 </div>
 <a name="where_all"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1315,7 +1337,7 @@ coroutine is currently running.</dd>
 </tr>
 </table>
 <a name="all_threads"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1334,7 +1356,7 @@ the coroutine ID, and the value is the coroutine object.
 </td></tr></table>
 </div>
 <a name="saved_stderr"></a>
-<div>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
@@ -1380,7 +1402,7 @@ backdoor replaces sys.stderr while executing user code.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb 16 17:58:25 2012
+    Generated by Epydoc 3.0.1 on Thu Feb 16 18:06:43 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
