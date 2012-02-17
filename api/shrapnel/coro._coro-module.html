@@ -1,0 +1,2332 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>coro._coro</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="coro-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="coro-module.html">Package&nbsp;coro</a> ::
+        Module&nbsp;_coro
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="coro._coro-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module _coro</h1><p class="nomargin-top"></p>
+<p>Pyrex module for coroutine implementation.</p>
+<p>Module variables defined below are available only from Pyrex. Python-accessible
+variables are documented in the top level of the coro package <tt class="rst-docutils literal">__init__.py</tt>.</p>
+
+<!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Classes</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Classes"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.AF-class.html" class="summary-name">AF</a><br />
+      Socket families.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.ClosedError-class.html" class="summary-name">ClosedError</a><br />
+      Another thread closed this descriptor.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.DeadCoroutine-class.html" class="summary-name">DeadCoroutine</a><br />
+      attempt to resume a dead coroutine
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.EV-class.html" class="summary-name">EV</a><br />
+      Kevent flags.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.EVFILT-class.html" class="summary-name">EVFILT</a><br />
+      Kevent filters.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.Exit-class.html" class="summary-name">Exit</a><br />
+      exception used to exit the event loop
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.Interrupted-class.html" class="summary-name">Interrupted</a><br />
+      A coroutine has been interrupted unexpectedly
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.LockError-class.html" class="summary-name">LockError</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.NOTE-class.html" class="summary-name">NOTE</a><br />
+      Kevent filter flags.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.NotStartedError-class.html" class="summary-name">NotStartedError</a><br />
+      Attempted to interrupt a thread before it has started.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.AF-class.html" class="summary-name">PF</a><br />
+      Socket families.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.SHUT-class.html" class="summary-name">SHUT</a><br />
+      Socket shutdown methods.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.SO-class.html" class="summary-name">SO</a><br />
+      Socket options.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.SOCK-class.html" class="summary-name">SOCK</a><br />
+      Socket types.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.SOL-class.html" class="summary-name">SOL</a><br />
+      Socket levels.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.ScheduleError-class.html" class="summary-name">ScheduleError</a><br />
+      attempt to schedule an already-scheduled coroutine
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.Shutdown-class.html" class="summary-name">Shutdown</a><br />
+      The thread is shutting down.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.SimultaneousError-class.html" class="summary-name">SimultaneousError</a><br />
+      Two threads attempted a conflicting blocking operation (e.g., read() on
+the same descriptor).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.SysctlError-class.html" class="summary-name">SysctlError</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.ThreadLocal-class.html" class="summary-name">ThreadLocal</a><br />
+      Thread Local Storage.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.TimeoutError-class.html" class="summary-name">TimeoutError</a><br />
+      A call to with_timeout() has expired
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.WakeUp-class.html" class="summary-name">WakeUp</a><br />
+      A convenience exception used to wake up a sleeping thread.
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro._fifo-class.html" class="summary-name" onclick="show_private();">_fifo</a>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro._fifo_iterator-class.html" class="summary-name" onclick="show_private();">_fifo_iterator</a>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro._profiler-class.html" class="summary-name" onclick="show_private();">_profiler</a><br />
+      The profiler object.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.aio_control_block-class.html" class="summary-name">aio_control_block</a><br />
+      Wrapper for 'struct aiocb'.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.bench-class.html" class="summary-name">bench</a><br />
+      Base benchmarking class.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.c_function-class.html" class="summary-name">c_function</a><br />
+      C function.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.call_counts_object-class.html" class="summary-name">call_counts_object</a><br />
+      Track caller-&gt;callee call counts.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.condition_variable-class.html" class="summary-name">condition_variable</a><br />
+      Condition variable.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.coro-class.html" class="summary-name">coro</a><br />
+      XXX
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.file_sock-class.html" class="summary-name">coro_fd</a><br />
+      A file-object wrapper using the socket object.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.event-class.html" class="summary-name">event</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.event_queue-class.html" class="summary-name">event_queue</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.event_queue_iter-class.html" class="summary-name">event_queue_iter</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.exception-class.html" class="summary-name">exception</a><br />
+      used to interrupt coroutines with an exception
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.fd_sock-class.html" class="summary-name">fd_sock</a><br />
+      A file-descriptor wrapper using the socket object.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.fifo-class.html" class="summary-name">fifo</a><br />
+      First-in First-Out container.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.file_sock-class.html" class="summary-name">file_sock</a><br />
+      A file-object wrapper using the socket object.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.function-class.html" class="summary-name">function</a><br />
+      Function representation for the profiler.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.internal_function-class.html" class="summary-name">internal_function</a><br />
+      Internal function.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.inverted_semaphore-class.html" class="summary-name">inverted_semaphore</a><br />
+      Inverted semaphore.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.kevent_key-class.html" class="summary-name">kevent_key</a><br />
+      Kevent key.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.kevent_target-class.html" class="summary-name">kevent_target</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.mutex-class.html" class="summary-name">mutex</a><br />
+      Mutual Exclusion lock object.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.node-class.html" class="summary-name">node</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.py_kevent-class.html" class="summary-name">py_kevent</a><br />
+      Representation of a kevent.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.python_function-class.html" class="summary-name">python_function</a><br />
+      Python function.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.queue_poller-class.html" class="summary-name">queue_poller</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.rusage-class.html" class="summary-name">rusage</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.rusage_bench-class.html" class="summary-name">rusage_bench</a><br />
+      Subclass of bench object that tracks rusage data.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.rw_lock-class.html" class="summary-name">rw_lock</a><br />
+      A many-reader single-writer lock.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.sched-class.html" class="summary-name">sched</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.semaphore-class.html" class="summary-name">semaphore</a><br />
+      Semaphore lock object.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.sock-class.html" class="summary-name">sock</a><br />
+      Coro socket object.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro.timebomb-class.html" class="summary-name">timebomb</a>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Functions</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Functions"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#P" class="summary-sig-name">P</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Print a string to stderr with a timestamp.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_yield"></a><span class="summary-sig-name">_yield</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#aio_read" class="summary-sig-name">aio_read</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Asynchronously read data from a file.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#aio_stats" class="summary-sig-name">aio_stats</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Return AIO statistics.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#aio_write" class="summary-sig-name">aio_write</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Asynchronously write data to a file.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="current"></a><span class="summary-sig-name">current</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Return the current coroutine object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="default_exception_notifier"></a><span class="summary-sig-name">default_exception_notifier</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#event_loop" class="summary-sig-name">event_loop</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Start the event loop.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_original_event_loop">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#get_live_coros" class="summary-sig-name">get_live_coros</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Get the number of live coroutines.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#get_live_sockets" class="summary-sig-name">get_live_sockets</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Get the number of live socket objects.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_module_name"></a><span class="summary-sig-name">get_module_name</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_refcnt"></a><span class="summary-sig-name">get_refcnt</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_the_profiler"></a><span class="summary-sig-name">get_the_profiler</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#has_ipv6" class="summary-sig-name">has_ipv6</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Whether or not this system can create an IPv6 socket.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#make_socket" class="summary-sig-name">make_socket</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Create a socket object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#new" class="summary-sig-name">new</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Create a new coroutine object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="new_profiler"></a><span class="summary-sig-name">new_profiler</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#print_stderr" class="summary-sig-name">print_stderr</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Print a string to stderr with a timestamp.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#schedule" class="summary-sig-name">schedule</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Schedule a coroutine to run.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#set_exception_notifier" class="summary-sig-name">set_exception_notifier</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Set the exception notifier.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#set_exit" class="summary-sig-name">set_exit</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Indicate that the event loop should exit.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#set_handler" class="summary-sig-name">set_handler</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Add a kevent handler.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_coro.set_handler">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#set_latency_warning" class="summary-sig-name">set_latency_warning</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Set the latency warning threshold multiplier.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_coro.set_latency_warning">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#set_print_exit_string" class="summary-sig-name">set_print_exit_string</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Set whether or not &quot;Exiting&quot; should be printed when the event loop
+exits.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_selfishness"></a><span class="summary-sig-name">set_selfishness</span>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="sleep_absolute"></a><span class="summary-sig-name">sleep_absolute</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      This is an alias for the <code class="link">sleep</code> method.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_coro.sleep_absolute">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#sleep_relative" class="summary-sig-name">sleep_relative</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Sleep for a period of time.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_original_sleep_relative">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#socketpair" class="summary-sig-name">socketpair</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Create an unnamed pair of connected sockets.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#spawn" class="summary-sig-name">spawn</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Spawn a new coroutine.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#tcp6_sock" class="summary-sig-name">tcp6_sock</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Create a streaming IPv6 socket.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#tcp_sock" class="summary-sig-name">tcp_sock</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Create a streaming IPv4 socket.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#udp6_sock" class="summary-sig-name">udp6_sock</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Create a datagram IPv6 socket.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#udp_sock" class="summary-sig-name">udp_sock</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Create a datagram IPv4 socket.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#unix_sock" class="summary-sig-name">unix_sock</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Create a streaming unix-domain socket.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#wait_for" class="summary-sig-name">wait_for</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Wait for an event.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_coro.wait_for">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#with_timeout" class="summary-sig-name">with_timeout</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Call a function with a timeout.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_original_with_timeout">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro._coro-module.html#yield_slice" class="summary-sig-name">yield_slice</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Yield to allow other threads to run.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro-module.html#__aio_version__" class="summary-name">__aio_version__</a> = <code title="'$Id: //prod/main/ap/shrapnel/coro/aio.pyx#19 $'"><code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/aio.pyx#1</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro-module.html#__coro_version__" class="summary-name">__coro_version__</a> = <code title="'$Id: //prod/main/ap/shrapnel/coro/_coro.pyx#114 $'"><code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/_coro.py</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro-module.html#__event_queue_version__" class="summary-name">__event_queue_version__</a> = <code title="'$Id: event_queue.pyx,v 1.1 2007/01/03 00:19:50 ehuss Exp $'"><code class="variable-quote">'</code><code class="variable-string">$Id: event_queue.pyx,v 1.1 2007/01/</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'coro'"><code class="variable-quote">'</code><code class="variable-string">coro</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro-module.html#__poller_version__" class="summary-name">__poller_version__</a> = <code title="'$Id: //prod/main/ap/shrapnel/coro/poller.pyx#46 $'"><code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/poller</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro-module.html#__profile_version__" class="summary-name">__profile_version__</a> = <code title="'$Id: //prod/main/ap/shrapnel/coro/profile.pyx#15 $'"><code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/profi</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro-module.html#__socket_version__" class="summary-name">__socket_version__</a> = <code title="'$Id: //prod/main/ap/shrapnel/coro/socket.pyx#57 $'"><code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/socket</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro-module.html#__sync_version__" class="summary-name">__sync_version__</a> = <code title="'$Id: //prod/main/ap/shrapnel/coro/sync.pyx#29 $'"><code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/sync.pyx</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__test__"></a><span class="summary-name">__test__</span> = <code title="{}"><code class="variable-group">{</code><code class="variable-group">}</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro-module.html#__versions__" class="summary-name">__versions__</a> = <code title="['$Id: //prod/main/ap/shrapnel/coro/_coro.pyx#114 $',
+ '$Id: //prod/main/ap/shrapnel/coro/socket.pyx#57 $',
+ '$Id: //prod/main/ap/shrapnel/coro/sync.pyx#29 $',
+ '$Id: event_queue.pyx,v 1.1 2007/01/03 00:19:50 ehuss Exp $',
+ '$Id: //prod/main/ap/shrapnel/coro/poller.pyx#46 $',
+ '$Id: //prod/main/ap/shrapnel/coro/profile.pyx#15 $',
+ '$Id: //prod/main/ap/shrapnel/coro/aio.pyx#19 $']"><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/_coro.pyx#1</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_print_exit_string"></a><span class="summary-name">_print_exit_string</span> = <code title="True">True</code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_the_scheduler"></a><span class="summary-name">_the_scheduler</span> = <code title="&lt;coro._coro.sched object at 0x802774710&gt;">&lt;coro._coro.sched object at 0x802774710&gt;</code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_ticks_per_sec"></a><span class="summary-name">_ticks_per_sec</span><br />
+      : Number of CPU ticks per second (uint64_t).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="all_threads"></a><span class="summary-name">all_threads</span> = <code title="{}"><code class="variable-group">{</code><code class="variable-group">}</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="event_map"></a><span class="summary-name">event_map</span> = <code title="{}"><code class="variable-group">{</code><code class="variable-group">}</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro._coro-module.html#saved_stderr" class="summary-name">saved_stderr</a> = <code title="&lt;epydoc.docintrospecter._DevNull instance at 0x80272ac20&gt;">&lt;epydoc.docintrospecter._DevNull instance at 0x<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Function Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-FunctionDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="P"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">P</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Print a string to stderr with a timestamp.</p>
+<p>This will print the thread id, followed by a timestamp, followed by the
+string. If the string does not end with a newline, one will be added.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>s</code></strong> - : A string to print.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="aio_read"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">aio_read</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Asynchronously read data from a file.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fd</code></strong> - : The file descriptor to read from.</li>
+        <li><strong class="pname"><code>nbytes</code></strong> - : The number of bytes to read.</li>
+        <li><strong class="pname"><code>offset</code></strong> - : The offset to read from.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns a string of data read from the file.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OSError</strong></code> - : OS-level error.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="aio_stats"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">aio_stats</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Return AIO statistics.
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><p>Returns a tuple of <tt class="rst-docutils literal">(rnb, rb, wnb, wb, rp, wp)</tt>:</p>
+<ul class="rst-simple">
+<li><tt class="rst-docutils literal">rnb</tt>: Non-blocking reads.</li>
+<li><tt class="rst-docutils literal">rb</tt>: Blocking-reads.</li>
+<li><tt class="rst-docutils literal">wnb</tt>: Non-blocking writes.</li>
+<li><tt class="rst-docutils literal">wb</tt>: Blocking-writes.</li>
+<li><tt class="rst-docutils literal">rp</tt>: Pending reads.</li>
+<li><tt class="rst-docutils literal">wp</tt>: Pending writes.</li>
+</ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="aio_write"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">aio_write</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Asynchronously write data to a file.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fd</code></strong> - : The file descriptor to write to.</li>
+        <li><strong class="pname"><code>buffer</code></strong> - : String data to write.</li>
+        <li><strong class="pname"><code>offset</code></strong> - : The offset to write the data.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the number of bytes written.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OSError</strong></code> - : OS-level error.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="event_loop"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">event_loop</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_original_event_loop">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Start the event loop.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>timeout</code></strong> - : The amount of time to wait for kevent to return
+events. You should probably <em>not</em> set this value.  Defaults to 30
+seconds.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_live_coros"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_live_coros</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the number of live coroutines.</p>
+<p>Note that this includes coroutines that have not started or have exited,
+but not deallocated, yet.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns the number of live coroutine objects.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_live_sockets"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_live_sockets</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Get the number of live socket objects.  This includes socket objects
+that are closed.
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns the number of socket objects.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="has_ipv6"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">has_ipv6</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Whether or not this system can create an IPv6 socket.
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns True if this system can create an IPv6 socket, False otherwise</dd>
+  </dl>
+<div class="fields">      <p><strong>Exceptions:</strong>
+        <ul class="rst-simple">
+<li>None</li>
+</ul>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="make_socket"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">make_socket</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Create a socket object.</p>
+<p>This is a backwards-compatibility wrapper around the sock object
+constructor.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>domain</code></strong> - : The socket domain family (see <a href="coro._coro.AF-class.html" class="link">AF</a>).</li>
+        <li><strong class="pname"><code>stype</code></strong> - : The socket type (see <a href="coro._coro.SOCK-class.html" class="link">SOCK</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns a socket object.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OSError</strong></code> - : OS-level error.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="new"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">new</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Create a new coroutine object.</p>
+<p>Additional arguments and keyword arguments will be passed to the given function.</p>
+<p>This will not start the coroutine.  Call the <tt class="rst-docutils literal">start</tt> method on the
+coroutine to schedule it to run.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fun</code></strong> - : The function to call when the coroutine starts.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the new coroutine object.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="print_stderr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">print_stderr</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Print a string to stderr with a timestamp.</p>
+<p>This will print the thread id, followed by a timestamp, followed by the
+string. If the string does not end with a newline, one will be added.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>s</code></strong> - : A string to print.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="schedule"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">schedule</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Schedule a coroutine to run.</p>
+<p>See <a href="coro._coro.coro-class.html#schedule" class="link">coro.schedule</a> for more detail.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>co</code></strong> - : The coroutine to schedule.</li>
+        <li><strong class="pname"><code>value</code></strong> - : The value to resume the coroutine with.  Defaults to None.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_exception_notifier"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_exception_notifier</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the exception notifier.</p>
+<p>The exception notifier is a function that is called when a coroutine exits
+due to an exception.  The default exception notifier simply prints the name
+of the coroutine and a traceback of where the exception was raised.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>new_func</code></strong> - : The exception notifier to call.  It takes no arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the old exception notifier.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_exit"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_exit</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Indicate that the event loop should exit.</p>
+<p>Note that if any other coroutines are scheduled to run, they will be given
+a chance to run before exiting.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>exit_code</code></strong> - : The exit code of the process.  Defaults to 0.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_handler"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_handler</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_coro.set_handler">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Add a kevent handler.</p>
+<p>This is a low-level interface to register a kevent handler.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>event</code></strong> - : A tuple of <tt class="rst-rst-docutils literal rst-docutils literal">(ident, filter)</tt> of the kevent to handle.</li>
+        <li><strong class="pname"><code>handler</code></strong> - : The handler to use,  a callable object which will be
+called with one argument, a <a href="coro._coro.py_kevent-class.html" class="link">py_kevent</a> object.</li>
+        <li><strong class="pname"><code>flags</code></strong> - : Kevent flags to use.  Defaults to <tt class="rst-rst-docutils literal rst-docutils literal">EV_ADD|EV_ONESHOT</tt>.</li>
+        <li><strong class="pname"><code>fflags`</code></strong> - : Kevent filter flags to use.  Defaults to 0.</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="coro._coro.SimultaneousError-class.html">SimultaneousError</a></strong></code> - : There is already a handler set for this
+event.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_latency_warning"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_latency_warning</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_coro.set_latency_warning">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the latency warning threshold multiplier.</p>
+<p>The default latency warning threshold is 0.2 seconds.  This will allow
+you to change the threshold by multiplying the 0.2 value.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>factor</code></strong> - : The latency threshold multiplier.  May be a number from
+0 to 300.  A value of 0 disables latency warnings.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the old multipler factor.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - : The factor is too small or too large.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_print_exit_string"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_print_exit_string</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set whether or not &quot;Exiting&quot; should be printed when the event loop
+exits.</p>
+<p>By default, the string will be printed.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>val</code></strong> - : Whether or not &quot;Exiting&quot; should be printed when the event loop
+exits.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="sleep_relative"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sleep_relative</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_original_sleep_relative">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Sleep for a period of time.</p>
+<p>If a thread is interrupted at the exact same time the sleep is
+finished, it is not defined whether the interrupt or the sleep &quot;wins&quot;.
+Your thread may continue running (with the interrupt rescheduled to try
+again later), or it may be interrupted.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>delta</code></strong> - : The number of seconds to sleep.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="socketpair"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">socketpair</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Create an unnamed pair of connected sockets.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>domain</code></strong> - : The socket domain family (defaults to AF_UNIX).</li>
+        <li><strong class="pname"><code>stype</code></strong> - : The socket type (defaults to SOCK_STREAM).</li>
+        <li><strong class="pname"><code>protocol</code></strong> - : The socket protocol (normally not used, defaults to 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns a tuple of 2 connected sockets.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OSError</strong></code> - : OS-level error.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="spawn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">spawn</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Spawn a new coroutine.</p>
+<p>Additional arguments and keyword arguments will be passed to the given function.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fun</code></strong> - : The function to call when the coroutine starts.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the new coroutine object.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="tcp6_sock"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tcp6_sock</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Create a streaming IPv6 socket.
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns a socket object.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OSError</strong></code> - : OS-level error.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="tcp_sock"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tcp_sock</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Create a streaming IPv4 socket.
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns a socket object.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OSError</strong></code> - : OS-level error.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="udp6_sock"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">udp6_sock</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Create a datagram IPv6 socket.
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns a socket object.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OSError</strong></code> - : OS-level error.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="udp_sock"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">udp_sock</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Create a datagram IPv4 socket.
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns a socket object.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OSError</strong></code> - : OS-level error.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="unix_sock"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">unix_sock</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Create a streaming unix-domain socket.
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns a socket object.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OSError</strong></code> - : OS-level error.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="wait_for"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wait_for</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_coro.wait_for">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Wait for an event.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ident</code></strong> - : The kevent identifier (depends on the filter type, but
+is often a file descriptor).</li>
+        <li><strong class="pname"><code>filter</code></strong> - : The kevent filter (see <a href="coro._coro.EVFILT-class.html" class="link">EVFILT</a>).</li>
+        <li><strong class="pname"><code>fflags</code></strong> - : Filter flags (defaults to 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns a <a href="coro._coro.py_kevent-class.html" class="link">py_kevent</a> instance that indicates the event that fired.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="coro._coro.SimultaneousError-class.html">SimultaneousError</a></strong></code> - : Something is already waiting for this event.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="with_timeout"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">with_timeout</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_original_with_timeout">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Call a function with a timeout.</p>
+<p>Additional arguments and keyword arguments provided are passed to the
+function.  This will re-raise any exceptions raised by the function.</p>
+<p>If a timeout expires, but the function returns before the next pass in
+the event loop, then the timeout will be diffused.</p>
+<p>If a coroutine is already scheduled to run (such as if it received a
+kevent), and the timeout expires, the timeout will be put on &quot;hold&quot; to
+let the coroutine run and process the data.  If the function returns,
+then the timeout will be defused, otherwise the timeout will be given
+another chance to fire during the next pass through the event loop. One
+should note that due to this behavior, if a coroutine is continually
+receiving kevents, the timeout will never fire until the kevents stop.</p>
+<p>Nested timeouts will be handled correctly. If an outer timeout fires
+first, then only the outer <tt class="rst-rst-docutils literal rst-docutils literal">except TimeoutError</tt> exception handler
+will catch it.  An exception handlers on the inside will be skipped
+becaue the actual exception is the <a href="coro._coro.Interrupted-class.html" class="link">Interrupted</a> exception until it
+gets to the original <tt class="rst-rst-docutils literal rst-docutils literal">with_timeout</tt> frame.</p>
+<p>Nested timeouts that are set to fire at the exact same time are not
+defined which one will fire first.</p>
+<p>Care must be taken to <em>never</em> catch the <a href="coro._coro.Interrupted-class.html" class="link">Interrupted</a> exception within
+code that is wrapped with a timeout.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns the return value of the function.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="coro._coro.TimeoutError-class.html">TimeoutError</a></strong></code> - : The function did not return within the specified
+timeout.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Parameters:</strong>
+        <ul>
+<li><dl class="rst-rst-first rst-rst-docutils rst-first rst-docutils">
+<dt><code class="link">delta</code>: The number of seconds to wait before raising a timeout.</dt>
+<dd><p class="rst-rst-first rst-rst-last rst-first rst-last">Should be &gt;= 0. Negative value will be treated as 0.</p>
+</dd>
+</dl>
+</li>
+<li><p class="rst-rst-first rst-first"><a href="coro._coro.function-class.html" class="link">function</a>: The function to call.</p>
+</li>
+</ul>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="yield_slice"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">yield_slice</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield to allow other threads to run.</p>
+<p>This will yield to allow other threads to run.  The coroutine will be
+rescheduled to run during the next pass through the event loop.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-VariablesDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__aio_version__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__aio_version__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/aio.pyx#19 $</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__coro_version__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__coro_version__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/_coro.pyx#114 $</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__event_queue_version__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__event_queue_version__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">$Id: event_queue.pyx,v 1.1 2007/01/03 00:19:50 ehuss Exp $</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__poller_version__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__poller_version__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/poller.pyx#46 $</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__profile_version__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__profile_version__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/profile.pyx#15 $</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__socket_version__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__socket_version__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/socket.pyx#57 $</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__sync_version__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__sync_version__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/sync.pyx#29 $</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__versions__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__versions__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/_coro.pyx#114 $</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/socket.pyx#57 $</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/sync.pyx#29 $</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">$Id: event_queue.pyx,v 1.1 2007/01/03 00:19:50 ehuss Exp $</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/poller.pyx#46 $</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/profile.pyx#15 $</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">$Id: //prod/main/ap/shrapnel/coro/aio.pyx#19 $</code><code class="variable-quote">'</code><code class="variable-group">]</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="saved_stderr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">saved_stderr</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+&lt;epydoc.docintrospecter._DevNull instance at 0x80272ac20&gt;
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="coro-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Feb 16 17:58:25 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

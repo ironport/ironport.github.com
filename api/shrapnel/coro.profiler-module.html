@@ -64,11 +64,11 @@ then use the <a href="coro.print_profile-module.html" class="link">coro.print_pr
 </div>
 <div class="rst-section" id="rst-using-the-profiler">
 <h1 class="heading">Using The Profiler</h1>
-<p>There are two ways to run the profiler.  One is to use the <a href="coro.profiler-module.html#go" class="link">go</a> function where
+<p>There are two ways to run the profiler.  One is to use the go function where
 you give it a python function to run.  Profiling will start and call the
 function, and then the profiler will automatically stop when the function
 exits.</p>
-<p>The other method is to call <a href="coro.profiler-module.html#start" class="link">start</a> to start the profiler and <a href="coro.profiler-module.html#stop" class="link">stop</a> when you
+<p>The other method is to call start to start the profiler and stop when you
 want to stop profiling.  This can be conveniently done from the backdoor.</p>
 </div>
 <div class="rst-section" id="rst-rendering-output">
@@ -83,12 +83,12 @@ python -m coro.print_profile /tmp/coro_profile.bin &gt; my_profile.html
 <div class="rst-section" id="rst-profiler-types">
 <h1 class="heading">Profiler Types</h1>
 <p>The profiler supports different ways of gathering statistics.  This is done by
-specifying the &quot;bench&quot; object to use (see <a href="coro.profiler-module.html#go" class="link">go</a> and <a href="coro.profiler-module.html#start" class="link">start</a>).  They default to
+specifying the &quot;bench&quot; object to use (see go and start).  They default to
 the &quot;rusage&quot; method of gathering statistics about every function call (see the
 getrusage man page for more detail).  If you want a higher performance profile,
-you can use the <code class="link">coro.bench</code> object instead which simply records TSC values for
+you can use the <a href="coro._coro.bench-class.html" class="link">coro.bench</a> object instead which simply records TSC values for
 every function call.  If you want to define your own method of gathering
-statistics, subclass <code class="link">coro.bench</code> and implement your own techniques.</p>
+statistics, subclass <a href="coro._coro.bench-class.html" class="link">coro.bench</a> and implement your own techniques.</p>
 </div>
 
 <!-- ==================== FUNCTIONS ==================== -->
@@ -150,7 +150,7 @@ statistics, subclass <code class="link">coro.bench</code> and implement your own
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro.profiler-module.html#start" class="summary-sig-name">start</a>(<span class="summary-sig-arg">profile_bench</span>=<span class="summary-sig-default">coro.rusage_bench</span>)</span><br />
+          <td><span class="summary-sig"><a href="coro.profiler-module.html#start" class="summary-sig-name">start</a>(<span class="summary-sig-arg">profile_bench</span>=<span class="summary-sig-default">&lt;type 'coro._coro.rusage_bench'&gt;</span>)</span><br />
       Start the profiler.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro.profiler-pysrc.html#start">source&nbsp;code</a></span>
@@ -167,7 +167,7 @@ statistics, subclass <code class="link">coro.bench</code> and implement your own
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro.profiler-module.html#stop" class="summary-sig-name">stop</a>(<span class="summary-sig-arg">filename</span>=<span class="summary-sig-default">'/tmp/coro_profile.bin'</span>)</span><br />
+          <td><span class="summary-sig"><a href="coro.profiler-module.html#stop" class="summary-sig-name">stop</a>(<span class="summary-sig-arg">filename</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">/tmp/coro_profile.bin</code><code class="variable-quote">'</code></span>)</span><br />
       Stop the profiler.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro.profiler-pysrc.html#stop">source&nbsp;code</a></span>
@@ -236,7 +236,14 @@ statistics, subclass <code class="link">coro.bench</code> and implement your own
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="MAGIC"></a><span class="summary-name">MAGIC</span> = <code title="'SHRAP_PROF1'">'SHRAP_PROF1'</code>
+        <a name="MAGIC"></a><span class="summary-name">MAGIC</span> = <code title="'SHRAP_PROF1'"><code class="variable-quote">'</code><code class="variable-string">SHRAP_PROF1</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'coro'"><code class="variable-quote">'</code><code class="variable-string">coro</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 </table>
@@ -286,7 +293,7 @@ The profiler will shut down once the function returns.</p>
         <li><strong class="pname"><code>profile_filename</code></strong> - : The name of the file to save the profile data.
 Defaults to '/tmp/coro_profile.bin'.</li>
         <li><strong class="pname"><code>profile_bench</code></strong> - : The bench object type to use.  Defaults to
-<code class="link">coro.rusage_bench</code>.</li>
+<a href="coro._coro.rusage_bench-class.html" class="link">coro.rusage_bench</a>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -298,7 +305,7 @@ Defaults to '/tmp/coro_profile.bin'.</li>
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">start</span>(<span class="sig-arg">profile_bench</span>=<span class="sig-default">coro.rusage_bench</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">start</span>(<span class="sig-arg">profile_bench</span>=<span class="sig-default">&lt;type 'coro._coro.rusage_bench'&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="coro.profiler-pysrc.html#start">source&nbsp;code</a></span>&nbsp;
@@ -321,7 +328,7 @@ Defaults to '/tmp/coro_profile.bin'.</li>
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">stop</span>(<span class="sig-arg">filename</span>=<span class="sig-default">'/tmp/coro_profile.bin'</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">stop</span>(<span class="sig-arg">filename</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">/tmp/coro_profile.bin</code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="coro.profiler-pysrc.html#stop">source&nbsp;code</a></span>&nbsp;
@@ -364,7 +371,7 @@ Defaults to '/tmp/coro_profile.bin'.</li>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb 16 17:30:46 2012
+    Generated by Epydoc 3.0.1 on Thu Feb 16 17:58:25 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

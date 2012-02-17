@@ -58,9 +58,11 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class stdin</h1><p class="nomargin-top"><span class="codelink"><a href="coro.frontdoor-pysrc.html#stdin">source&nbsp;code</a></span></p>
 <pre class="base-tree">
-sock --+
-       |
-      <strong class="uidshort">stdin</strong>
+object --+    
+         |    
+<a href="coro._coro.sock-class.html">_coro.sock</a> --+
+             |
+            <strong class="uidshort">stdin</strong>
 </pre>
 
 <hr />
@@ -87,7 +89,8 @@ sock --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__init__"></a><span class="summary-sig-name">__init__</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a href="coro.frontdoor.stdin-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      x.__init__(...) initializes x; see help(type(x)) for signature</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro.frontdoor-pysrc.html#stdin.__init__">source&nbsp;code</a></span>
             
@@ -135,8 +138,9 @@ sock --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="read"></a><span class="summary-sig-name">read</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">size</span>)</span></td>
+          <td><span class="summary-sig"><a href="coro.frontdoor.stdin-class.html#read" class="summary-sig-name">read</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">size</span>)</span><br />
+      Read data.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro.frontdoor-pysrc.html#stdin.read">source&nbsp;code</a></span>
             
@@ -152,8 +156,9 @@ sock --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="write"></a><span class="summary-sig-name">write</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">data</span>)</span></td>
+          <td><span class="summary-sig"><a href="coro.frontdoor.stdin-class.html#write" class="summary-sig-name">write</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">data</span>)</span><br />
+      Write data.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="coro.frontdoor-pysrc.html#stdin.write">source&nbsp;code</a></span>
             
@@ -180,7 +185,201 @@ sock --+
       
     </td>
   </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="coro._coro.sock-class.html">_coro.sock</a></code></b>:
+      <code><a href="coro._coro.sock-class.html#__new__">__new__</a></code>,
+      <code><a href="coro._coro.sock-class.html#__repr__">__repr__</a></code>,
+      <code><a href="coro._coro.sock-class.html#accept">accept</a></code>,
+      <code><a href="coro._coro.sock-class.html#accept_many">accept_many</a></code>,
+      <code><a href="coro._coro.sock-class.html#bind">bind</a></code>,
+      <code><a href="coro._coro.sock-class.html#close">close</a></code>,
+      <code><a href="coro._coro.sock-class.html#connect">connect</a></code>,
+      <code><a href="coro._coro.sock-class.html#dup">dup</a></code>,
+      <code><a href="coro._coro.sock-class.html#fileno">fileno</a></code>,
+      <code><a href="coro._coro.sock-class.html#get_fileno">get_fileno</a></code>,
+      <code><a href="coro._coro.sock-class.html#getpeername">getpeername</a></code>,
+      <code><a href="coro._coro.sock-class.html#getsockname">getsockname</a></code>,
+      <code><a href="coro._coro.sock-class.html#getsockopt">getsockopt</a></code>,
+      <code><a href="coro._coro.sock-class.html#listen">listen</a></code>,
+      <code><a href="coro._coro.sock-class.html#makefile">makefile</a></code>,
+      <code><a href="coro._coro.sock-class.html#readv">readv</a></code>,
+      <code><a href="coro._coro.sock-class.html#recv">recv</a></code>,
+      <code><a href="coro._coro.sock-class.html#recv_exact">recv_exact</a></code>,
+      <code><a href="coro._coro.sock-class.html#recv_into">recv_into</a></code>,
+      <code><a href="coro._coro.sock-class.html#recvfrom">recvfrom</a></code>,
+      <code><a href="coro._coro.sock-class.html#recvfrom_into">recvfrom_into</a></code>,
+      <code><a href="coro._coro.sock-class.html#send">send</a></code>,
+      <code><a href="coro._coro.sock-class.html#sendall">sendall</a></code>,
+      <code><a href="coro._coro.sock-class.html#sendto">sendto</a></code>,
+      <code><a href="coro._coro.sock-class.html#set_reuse_addr">set_reuse_addr</a></code>,
+      <code><a href="coro._coro.sock-class.html#setsockopt">setsockopt</a></code>,
+      <code><a href="coro._coro.sock-class.html#shutdown">shutdown</a></code>,
+      <code><a href="coro._coro.sock-class.html#wait_for_read">wait_for_read</a></code>,
+      <code><a href="coro._coro.sock-class.html#wait_for_write">wait_for_write</a></code>,
+      <code><a href="coro._coro.sock-class.html#writev">writev</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
 </table>
+<!-- ==================== INSTANCE VARIABLES ==================== -->
+<a name="section-InstanceVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="coro._coro.sock-class.html">_coro.sock</a></code></b>:
+      <code><a href="coro._coro.sock-class.html#domain">domain</a></code>,
+      <code><a href="coro._coro.sock-class.html#fd">fd</a></code>,
+      <code><a href="coro._coro.sock-class.html#orig_fd">orig_fd</a></code>,
+      <code><a href="coro._coro.sock-class.html#stype">stype</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro.frontdoor-pysrc.html#stdin.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  x.__init__(...) initializes x; see help(type(x)) for signature
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="read"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">read</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">size</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro.frontdoor-pysrc.html#stdin.read">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Read data.</p>
+<p>This is an alias for the <a href="coro._coro.sock-class.html#recv" class="link">recv</a> method.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="coro._coro.sock-class.html#read">_coro.sock.read</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="write"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">write</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">data</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro.frontdoor-pysrc.html#stdin.write">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Write data.</p>
+<p>This is an alias for the <a href="coro._coro.sock-class.html#send" class="link">send</a> method.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="coro._coro.sock-class.html#write">_coro.sock.write</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -207,7 +406,7 @@ sock --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb 16 17:30:46 2012
+    Generated by Epydoc 3.0.1 on Thu Feb 16 17:58:26 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

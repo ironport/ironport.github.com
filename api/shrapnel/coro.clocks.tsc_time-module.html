@@ -1,0 +1,1438 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>coro.clocks.tsc_time</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="coro-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="coro-module.html">Package&nbsp;coro</a> ::
+        <a href="coro.clocks-module.html">Package&nbsp;clocks</a> ::
+        Module&nbsp;tsc_time
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="coro.clocks.tsc_time-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module tsc_time</h1><p class="nomargin-top"></p>
+<p>TSC time library.</p>
+<div class="rst-section" id="rst-introduction">
+<h1 class="heading">Introduction</h1>
+<p>This module implements a &quot;Time&quot; object that is based on the TSC value of the
+x86 processor. This is a monotonically increasing value that is somewhat
+dependable (whereas system time may change).  It is also very high resolution
+and very efficient to retrieve.</p>
+<p>This library is designed to be as high-performance as possible.  If you use it
+correctly, you can ensure your code maintains that high level of performance.</p>
+</div>
+<div class="rst-section" id="rst-objects">
+<h1 class="heading">Objects</h1>
+<p>There are 4 objects in this module all deriving from the base Time object.
+They are:</p>
+<ul class="rst-simple">
+<li><tt class="rst-docutils literal">TSC</tt>: TSC value</li>
+<li><tt class="rst-docutils literal">Posix</tt>: POSIX, seconds since 1970</li>
+<li><tt class="rst-docutils literal">uPosix</tt>: POSIX, microseconds since 1970</li>
+<li><tt class="rst-docutils literal">fPosix</tt>: POSIX, floating-point seconds since 1970</li>
+</ul>
+<p>Each of these objects are relatively the same.  The main difference is when
+adding or comparing the objects, they behave as their type describes.</p>
+<p>The base Time object defines methods for converting the TSC value to another
+type.  They are <tt class="rst-docutils literal">as_posix_sec</tt>, <tt class="rst-docutils literal">as_posix_usec</tt>, and <tt class="rst-docutils literal">as_posix_fsec</tt>.</p>
+<p>There are a three classes of functions in the module for creating these
+objects. The <tt class="rst-docutils literal">now_*</tt> functions compute the current time.  The <tt class="rst-docutils literal">mktime_*</tt>
+functions convert a Python &quot;time tuple&quot; to a Time object.  The <tt class="rst-docutils literal">*_from_*</tt>
+functions take a raw value (TSC, Posix, etc.) and create a Time object.</p>
+</div>
+<div class="rst-section" id="rst-raw-conversions">
+<h1 class="heading">Raw Conversions</h1>
+<p>The module also provides methods for converting raw values from one type to
+another. These are the <tt class="rst-docutils literal">*_to_*</tt> functions, and generally should not be needed
+if your code uses Time objects throughout.</p>
+</div>
+<div class="rst-section" id="rst-wall-clock-synchronization">
+<h1 class="heading">Wall Clock Synchronization</h1>
+<p>When the module is first imported, it captures the current wall-clock time and
+TSC value.  This information is used for doing conversions between TSC and
+Posix time. It is important to call the <tt class="rst-docutils literal">update_time_relation</tt> function
+whenever the wall-clock is changed.  Also, it is a good idea to call it
+periodically to retain accuracy.  This is necessary because the library uses
+the <tt class="rst-docutils literal">ticks_per_sec</tt> value for conversions. This value is obtained from the
+<tt class="rst-docutils literal">machdep.tsc_freq</tt> sysctl, and may be slightly off (my system is about 0.002%
+off which is about 10 minutes per year).  Long-term computations based on the
+<tt class="rst-docutils literal">ticks_per_sec</tt> value should not be trusted to be very accurate.</p>
+</div>
+<div class="rst-section" id="rst-accuracy-and-precision">
+<h1 class="heading">Accuracy and Precision</h1>
+<p>The conversion functions use roughly imprecise, but faster integer arithmetic.
+The reason it is inaccurate is because it uses the ticks_per_usec value which
+is less accurate than ticks_per_sec.  To compute the inaccuracy, you can use
+the formula:</p>
+<pre class="rst-literal-block">
+(1000000 / ticks_per_sec)
+</pre>
+<p>This is a rough estimate.  On my 3.5 GHz system, this is about 0.027% or about
+2.3 hours per year.  Slower systems have less accuracy (about 0.09% for a 1 GHz
+machine or about 8 hours per year).</p>
+<p>To be more accurate, we would either need to use numbers larger than 64 bits
+(bignums, Python Longs, 80-bit C doubles, etc.), but it would slow the
+conversions down a little (for C doubles it was about 30% slower on my system).</p>
+<p>TSC values that are significantly far from the current time should not be
+trusted to be very accurate.</p>
+</div>
+<div class="rst-section" id="rst-external-c-access">
+<h1 class="heading">External C Access</h1>
+<p>The C functions in this module are available for direct access from other C
+extension modules.  For C modules, simply include &quot;tsc_time.h&quot; and call the
+initialization function once.  For Pyrex modules, include
+&quot;tsc_time_include.pyx&quot;. See the respective files for more detail.</p>
+</div>
+<div class="rst-section" id="rst-signedness">
+<h1 class="heading">Signedness</h1>
+<p>TSC values may be negative (to indicate a time before the computer booted). In
+general, this library uses signed data types to avoid signed/unsigned
+multiplication/division.  A particular exception is the <a href="coro.clocks.tsc_time-module.html#ticks_per_sec" class="link">ticks_per_sec</a> value
+because it is currently defined as a 32-bit number, and we need to support
+machines with CPU's faster than 2GHz.</p>
+<p>On most POSIX systems, time_t is a signed 32-bit integer (on some it is a
+signed 64-bit integer, whose negative value extends past the beginning of the
+universe). In theory, a signed 32-bit value can handle negative values from
+1901 to 1970 and 1970 to 2038 positive.  Some foolish systems have attempted to
+define time_t as an unsigned value to extend the overflow point to 2106, but
+this is rare.</p>
+</div>
+<div class="rst-section" id="rst-notes">
+<h1 class="heading">Notes</h1>
+<p>The rate of the TSC value may change on systems with thermal and power
+throttling. (though rumor has it some processors adjust the TSC rate when
+auto-throttling to ensure it runs at a constant speed). This invalidates
+assumptions made in this library, so do not use those features.</p>
+<p>On SMP kernels, FreeBSD will synchronize the TSC value on all CPU's at
+boot time, and the assumption is made that they will remain roughly in sync.
+Rumor has it that some motherboards will attempt to keep the TSC value in
+sync on all processors over time.  AMD CPU's are rumored to be especially
+vulnerable to this.</p>
+</div>
+<div class="rst-section" id="rst-rdtsc">
+<h1 class="heading">RDTSC</h1>
+<p>This is detailed low-level information about the rdtsc instruction that is used
+to obtain the TSC value.</p>
+<p>rdtsc - ReaD TimeStamp Counter</p>
+<p>The cycle counter in the Pentium series of processors is incremented once for
+every clock cycle.  It starts out as 0 on system boot. It is a 64-bit number,
+and thus will wrap over in 292 years on a 2 gigahertz processor.  It should
+keep counting unless the system goes into deep sleep mode.</p>
+<p>FYI, the control registers on the Pentium can be configured to restrict RDTSC
+to privileged level 0.</p>
+<p>The RDTSC instruction is generally not synchronized.  Thus, with out of order
+execution, it is possible for it to run ahead of other instructions that came
+before it.  This is mainly only important if you are trying to do exact
+profiling of instruction cycles.</p>
+</div>
+<div class="rst-section" id="rst-other-counters">
+<h1 class="heading">Other Counters</h1>
+<p>Most x86 systems have other hardware timers.  They all have different
+frequencies, accuracies, performance characteristics, etc.  The following is a
+list of alternate counters that we may want to investigate:</p>
+<ul class="rst-simple">
+<li>Intel 8254 Interval Timer (i8254).  This was introduced in the IBM AT (the
+8253 was used in the IBM XT).</li>
+<li>ACPI (Advanced Configuration and Power Interface) counter (ACPI was
+introduced around 1996).</li>
+<li>HPET (High Precision Event Timer) introduced by Intel around 2004 as a
+replacement to the i8254.</li>
+</ul>
+</div>
+<div class="rst-section" id="rst-further-reading">
+<h1 class="heading">Further Reading</h1>
+<p>Some interesting papers:</p>
+<ul class="rst-simple">
+<li>Timecounters: Efficient and precise timekeeping in SMP kernels:
+<a class="rst-reference external" href="http://phk.freebsd.dk/pubs/timecounter.pdf" target="_top">http://phk.freebsd.dk/pubs/timecounter.pdf</a></li>
+<li>TSC and Power Management Events on AMD Processors:
+<a class="rst-reference external" href="http://www.opensolaris.org/os/community/performance/technical_docs/amd_tsc_power" target="_top">http://www.opensolaris.org/os/community/performance/technical_docs/amd_tsc_power</a></li>
+</ul>
+</div>
+<div class="rst-section" id="rst-todo">
+<h1 class="heading">TODO</h1>
+<ul class="rst-simple">
+<li>Investigate SMP drift over long periods of time.</li>
+<li>Find a way to detect if the current platform has thermal or power
+throttling, and whether or not it compensates the TSC rate to remain constant.</li>
+<li>machdep.tsc_freq is a 32-bit unsigned integer.  For systems with CPU's faster
+that 4 GHz, this is no longer sufficient.</li>
+<li>Get a better (more accurate) value of machdep.tsc_freq.  Investigate
+CLK_USE_TSC_CALIBRATION, CLK_USE_I8254_CALIBRATION, CLK_CALIBRATION_LOOP in
+FreeBSD kernel which use the mc146818A chip.  (CLK_USE_TSC_CALIBRATION seems
+to have disappeared, but is available in older kernels.)</li>
+<li>Write something that will periodically adjust the <a href="coro.clocks.tsc_time-module.html#ticks_per_sec" class="link">ticks_per_sec</a> value to be
+more accurate, comparing against the wall clock assuming the wall clock is
+adjusted with NTP.  See djb's clockspeed for inspiration.</li>
+</ul>
+</div>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        $Revision: 1.4 $
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Classes</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Classes"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro.clocks.tsc_time.Posix-class.html" class="summary-name">Posix</a><br />
+      Time in POSIX seconds.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro.clocks.tsc_time.TSC-class.html" class="summary-name">TSC</a><br />
+      Time in TSC ticks.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro.clocks.tsc_time.Time-class.html" class="summary-name">Time</a><br />
+      Base time object.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro.clocks.tsc_time.fPosix-class.html" class="summary-name">fPosix</a><br />
+      Time in POSIX seconds as a floating-point number.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro.clocks.tsc_time.uPosix-class.html" class="summary-name">uPosix</a><br />
+      Time in POSIX microseconds.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Functions</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Functions"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="Posix_from_posix_fsec"></a><span class="summary-sig-name">Posix_from_posix_fsec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX floating-point seconds value to a Posix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="Posix_from_posix_sec"></a><span class="summary-sig-name">Posix_from_posix_sec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX seconds value to a Posix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="Posix_from_posix_usec"></a><span class="summary-sig-name">Posix_from_posix_usec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX microseconds value to a Posix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="Posix_from_ticks"></a><span class="summary-sig-name">Posix_from_ticks</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw TSC value to a Posix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="TSC_from_posix_fsec"></a><span class="summary-sig-name">TSC_from_posix_fsec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX floating-point seconds value to a TSC object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="TSC_from_posix_sec"></a><span class="summary-sig-name">TSC_from_posix_sec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX seconds value to a TSC object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="TSC_from_posix_usec"></a><span class="summary-sig-name">TSC_from_posix_usec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX microseconds value to a TSC object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="TSC_from_ticks"></a><span class="summary-sig-name">TSC_from_ticks</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw TSC value to a TSC object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="fPosix_from_posix_fsec"></a><span class="summary-sig-name">fPosix_from_posix_fsec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX floating-point seconds value to an fPosix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="fPosix_from_posix_sec"></a><span class="summary-sig-name">fPosix_from_posix_sec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX seconds value to an fPosix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="fPosix_from_posix_usec"></a><span class="summary-sig-name">fPosix_from_posix_usec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX microseconds value to an fPosix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="fPosix_from_ticks"></a><span class="summary-sig-name">fPosix_from_ticks</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw TSC value to an fPosix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#fsec_to_ticks" class="summary-sig-name">fsec_to_ticks</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert POSIX seconds (a floating-point number) to ticks.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#get_kernel_usec" class="summary-sig-name">get_kernel_usec</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Get the current time from the kernel in microseconds.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="mktime_posix_fsec"></a><span class="summary-sig-name">mktime_posix_fsec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a Python time-tuple to an fPosix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="mktime_posix_sec"></a><span class="summary-sig-name">mktime_posix_sec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a Python time-tuple to a Posix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="mktime_posix_usec"></a><span class="summary-sig-name">mktime_posix_usec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a Python time-tuple to a uPosix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="mktime_tsc"></a><span class="summary-sig-name">mktime_tsc</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a Python time-tuple to a TSC object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="now_posix_fsec"></a><span class="summary-sig-name">now_posix_fsec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Return an fPosix object of the current time.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="now_posix_sec"></a><span class="summary-sig-name">now_posix_sec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Return a Posix object of the current time.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="now_posix_usec"></a><span class="summary-sig-name">now_posix_usec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Return a uPosix object of the current time.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="now_raw_posix_fsec"></a><span class="summary-sig-name">now_raw_posix_fsec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Get the current time as raw POSIX floating-point seconds.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="now_raw_posix_sec"></a><span class="summary-sig-name">now_raw_posix_sec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Get the current time as raw POSIX seconds.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="now_raw_posix_usec"></a><span class="summary-sig-name">now_raw_posix_usec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Get the current time as raw POSIX microseconds.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="now_raw_tsc"></a><span class="summary-sig-name">now_raw_tsc</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Get the current time as raw ticks.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="now_tsc"></a><span class="summary-sig-name">now_tsc</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Return a TSC object of the current time.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="rdtsc"></a><span class="summary-sig-name">rdtsc</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Return the current TSC value.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#sec_to_ticks" class="summary-sig-name">sec_to_ticks</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert POSIX seconds to ticks.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#set_time" class="summary-sig-name">set_time</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Emulate setting the system time to the given timestamp.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#step_time" class="summary-sig-name">step_time</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Emulate changing the system time by the given number of seconds.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#ticks_to_fsec" class="summary-sig-name">ticks_to_fsec</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert ticks to POSIX seconds (a floating-point number).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#ticks_to_sec" class="summary-sig-name">ticks_to_sec</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert ticks to POSIX seconds (an integer).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#ticks_to_usec" class="summary-sig-name">ticks_to_usec</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert ticks to POSIX microseconds.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#ticks_to_usec_safe" class="summary-sig-name">ticks_to_usec_safe</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert ticks to POSIX microseconds.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="uPosix_from_posix_fsec"></a><span class="summary-sig-name">uPosix_from_posix_fsec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX floating-point seconds value to a uPosix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="uPosix_from_posix_sec"></a><span class="summary-sig-name">uPosix_from_posix_sec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX seconds value to a uPosix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="uPosix_from_posix_usec"></a><span class="summary-sig-name">uPosix_from_posix_usec</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw POSIX microseconds value to a uPosix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="uPosix_from_ticks"></a><span class="summary-sig-name">uPosix_from_ticks</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert a raw TSC value to a uPosix object.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#update_time_relation" class="summary-sig-name">update_time_relation</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Update the relative time stamps.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#usec_to_ticks" class="summary-sig-name">usec_to_ticks</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert POSIX microseconds to ticks.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro.clocks.tsc_time-module.html#usec_to_ticks_safe" class="summary-sig-name">usec_to_ticks_safe</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Convert POSIX microseconds to ticks.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'coro.clocks'"><code class="variable-quote">'</code><code class="variable-string">coro.clocks</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__test__"></a><span class="summary-name">__test__</span> = <code title="{}"><code class="variable-group">{</code><code class="variable-group">}</code></code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_extern_pointers"></a><span class="summary-name">_extern_pointers</span> = <code title="&lt;PyCObject object at 0x80278b5a8&gt;">&lt;PyCObject object at 0x80278b5a8&gt;</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="relative_sec_time"></a><span class="summary-name">relative_sec_time</span> = <code title="1329443900">1329443900</code><br />
+      : Value of POSIX time (in seconds) that relates to
+<a href="coro.clocks.tsc_time-module.html#relative_tsc_time" class="link">relative_tsc_time</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="relative_tsc_time"></a><span class="summary-name">relative_tsc_time</span> = <code title="6410808710020939">6410808710020939</code><br />
+      : Value of TSC counter that corresponds to
+<a href="coro.clocks.tsc_time-module.html#relative_usec_time" class="link">relative_usec_time</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="relative_usec_time"></a><span class="summary-name">relative_usec_time</span> = <code title="1329443900102264">1329443900102264</code><br />
+      : Value of POSIX time (in microseconds) that relates
+to <a href="coro.clocks.tsc_time-module.html#relative_tsc_time" class="link">relative_tsc_time</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="ticks_per_sec"></a><span class="summary-name">ticks_per_sec</span> = <code title="2659636680">2659636680</code><br />
+      : Number of processor ticks per second.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="ticks_per_usec"></a><span class="summary-name">ticks_per_usec</span> = <code title="2659">2659</code><br />
+      : Number of processor ticks per microsecond.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Function Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-FunctionDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="fsec_to_ticks"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsec_to_ticks</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Convert POSIX seconds (a floating-point number) to ticks.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>t</code></strong> - : The time in POSIX seconds (a float).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the time in TSC ticks.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_kernel_usec"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_kernel_usec</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the current time from the kernel in microseconds.</p>
+<p>Avoid using this unless absolutely necessary due to performance reasons.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns the current time in microseconds.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="sec_to_ticks"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sec_to_ticks</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Convert POSIX seconds to ticks.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>t</code></strong> - : The time in POSIX seconds (an integer).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the time in TSC ticks.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_time"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_time</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Emulate setting the system time to the given timestamp.</p>
+<p>This alters the library to behave as-if the current time is the given time.
+Note that this is different than changing the clock on the system.
+Changing the clock on the system does not affect TSC values, but this
+function does affect TSC values to behave as-if time has elapsed in the
+real world.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>posix_timestamp</code></strong> - : The POSIX timestamp (in seconds) to set the
+current time.  Pass in a value of 0 to disable emulation.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="step_time"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">step_time</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Emulate changing the system time by the given number of seconds.</p>
+<p>See <a href="coro.clocks.tsc_time-module.html#set_time" class="link">set_time</a> for more detail.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>delta_secs</code></strong> - : The number of seconds to alter the current time.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="ticks_to_fsec"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ticks_to_fsec</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Convert ticks to POSIX seconds (a floating-point number).
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>t</code></strong> - : The time in TSC.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the time in POSIX microseconds.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="ticks_to_sec"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ticks_to_sec</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Convert ticks to POSIX seconds (an integer).
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>t</code></strong> - : The time in TSC.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the time in POSIX microseconds.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="ticks_to_usec"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ticks_to_usec</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Convert ticks to POSIX microseconds.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>t</code></strong> - : The time in TSC.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the time in POSIX microseconds.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="ticks_to_usec_safe"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ticks_to_usec_safe</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert ticks to POSIX microseconds.</p>
+<p>This is &quot;safe&quot; in that if the value is zero, then it returns zero.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>t</code></strong> - : The time in TSC.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the time in POSIX microseconds.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="update_time_relation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">update_time_relation</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Update the relative time stamps.</p>
+<p>You should call this whenever you think the clock has been changed. It
+should also be called periodically due to inaccuracies in the
+<tt class="rst-docutils literal">ticks_per_sec</tt> value.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="usec_to_ticks"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">usec_to_ticks</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  Convert POSIX microseconds to ticks.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>t</code></strong> - : The time in POSIX microseconds.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the time in TSC ticks.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="usec_to_ticks_safe"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">usec_to_ticks_safe</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert POSIX microseconds to ticks.</p>
+<p>This is &quot;safe&quot; in that if the value is zero, then it returns zero.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>t</code></strong> - : The time in POSIX microseconds.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the time in TSC ticks.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="coro-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Feb 16 17:58:25 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

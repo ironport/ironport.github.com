@@ -89,19 +89,19 @@ when you create it.</p>
 <h1 class="heading">Timeouts</h1>
 <p>The shrapnel timeout facility allows you to execute a function which will be
 interrupted if it does finish within a specified period of time.  The
-<code class="link">coro.TimeoutError</code> exception will be raised if the timeout expires.  See the
-with_timeout docstring for more detail.</p>
+<a href="coro._coro.TimeoutError-class.html" class="link">coro.TimeoutError</a> exception will be raised if the timeout expires.  See the
+<a href="coro.optional-module.html#with_timeout" class="link">with_timeout</a> docstring for more detail.</p>
 <p>If the event loop is not running (such as in a non-coro process), a custom
-version of with_timeout is installed that will operate using SIGALRM so that
-you may use with_timeout in code that needs to run in non-coro processes
+version of <a href="coro.optional-module.html#with_timeout" class="link">with_timeout</a> is installed that will operate using SIGALRM so that
+you may use <a href="coro.optional-module.html#with_timeout" class="link">with_timeout</a> in code that needs to run in non-coro processes
 (though this is not recommended and should be avoided if possible).</p>
 </div>
 <div class="rst-section" id="rst-thread-local-storage">
 <h1 class="heading">Thread Local Storage</h1>
 <p>There is a tread-local storage interface available for storing global data this
-is thread-specific.  You instantiate a <code class="link">ThreadLocal</code> instance and you can
+is thread-specific.  You instantiate a <a href="coro._coro.ThreadLocal-class.html" class="link">ThreadLocal</a> instance and you can
 assign attributes to it that will be specific to that thread.  See the
-<code class="link">ThreadLocal</code> docs for more detail.</p>
+<a href="coro._coro.ThreadLocal-class.html" class="link">ThreadLocal</a> docs for more detail.</p>
 </div>
 <div class="rst-section" id="rst-signal-handlers">
 <h1 class="heading">Signal Handlers</h1>
@@ -109,7 +109,7 @@ assign attributes to it that will be specific to that thread.  See the
 (for SIGTERM and SIGINT). The default signal handler will exit the event loop.
 You can change this behavior by setting <a href="coro-module.html#install_signal_handlers" class="link">install_signal_handlers</a> to False
 before starting the event loop.</p>
-<p>See coro.signal_handler for more detail on setting coro signal handlers.</p>
+<p>See <a href="coro.signal_handler-module.html" class="link">coro.signal_handler</a> for more detail on setting coro signal handlers.</p>
 </div>
 <div class="rst-section" id="rst-selfishness">
 <h1 class="heading">Selfishness</h1>
@@ -117,37 +117,37 @@ before starting the event loop.</p>
 they are able to (such as send/receiving data on a local socket or on a
 high-speed network). However, there is a limit to the number of times a thread
 is allowed to do this. The default is 4.  The default may be changed
-(<code class="link">set_selfishness</code>) and the value on a per-thread may be changed
-(<code class="link">coro.coro.set_max_selfish_acts</code>).</p>
+(<a href="coro._coro-module.html#set_selfishness" class="link">set_selfishness</a>) and the value on a per-thread may be changed
+(<a href="coro._coro.coro-class.html#set_max_selfish_acts" class="link">coro.coro.set_max_selfish_acts</a>).</p>
 </div>
 <div class="rst-section" id="rst-time">
 <h1 class="heading">Time</h1>
-<p>Shrapnel uses the tsc_time module for handling time.  It uses the TSC
+<p>Shrapnel uses the <a href="coro.clocks.tsc_time-module.html" class="link">tsc_time</a> module for handling time.  It uses the TSC
 value for a stable and high-resolution unit of time.  See that module's
 documentation for more detail.</p>
 <p>A thread is always created when you start the event loop that will
 resynchronize the TSC relationship to accomodate any clock drift (see
-<a href="coro-module.html#tick_updater" class="link">tick_updater</a> and <code class="link">tsc_time.update_time_relation</code>).</p>
+<a href="coro-module.html#tick_updater" class="link">tick_updater</a> and <a href="coro.clocks.tsc_time-module.html#update_time_relation" class="link">tsc_time.update_time_relation</a>).</p>
 </div>
 <div class="rst-section" id="rst-exception-notifier">
 <h1 class="heading">Exception Notifier</h1>
 <p>When a thread exits due to an exception, by default a stack trace is printed to
 stderr.  You may install your own callback to handle this situation.  See the
-<code class="link">set_exception_notifier</code> function for more detail.</p>
+<a href="coro._coro-module.html#set_exception_notifier" class="link">set_exception_notifier</a> function for more detail.</p>
 </div>
 <div class="rst-section" id="rst-debug-output">
 <h1 class="heading">Debug Output</h1>
 <p>The shrapnel library provides a mechanism for printing debug information to
-stderr.  The <code class="link">print_stderr</code> function will print a string with a timestamp
-and the thread number.  The <code class="link">write_stderr</code> function writes the string verbatim.</p>
+stderr.  The <a href="coro._coro-module.html#P" class="link">print_stderr</a> function will print a string with a timestamp
+and the thread number.  The <a href="coro-module.html#write_stderr" class="link">write_stderr</a> function writes the string verbatim.</p>
 <p>Shrapnel keeps a reference to the &quot;real&quot; stderr (in <a href="coro-module.html#saved_stderr" class="link">saved_stderr</a>) and the
-<code class="link">print_stderr</code> and <code class="link">write_stderr</code> functions always use the real stderr value. A
+<a href="coro._coro-module.html#P" class="link">print_stderr</a> and <a href="coro-module.html#write_stderr" class="link">write_stderr</a> functions always use the real stderr value. A
 particular reason for doing this is the backdoor module replaces sys.stderr and
 sys.stdout, but we do not want debug output to go to the interactive session.</p>
 </div>
 <div class="rst-section" id="rst-profiling">
 <h1 class="heading">Profiling</h1>
-<p>Shrapnel has its own profiler that is coro-aware.  See <a href="coro.profiler-module.html" class="link">coro.profiler</a> for
+<p>Shrapnel has its own profiler that is coro-aware.  See coro.profiler for
 details on how to run the profiler.</p>
 </div>
 
@@ -170,18 +170,16 @@ details on how to run the profiler.</p>
 </tr>
   <tr><td class="summary">
   <ul class="nomargin">
+    <li class="private"> <strong class="uidlink"><a href="coro._coro-module.html" onclick="show_private();">coro._coro</a></strong>: <em class="summary">Pyrex module for coroutine implementation.</em>    </li>
     <li> <strong class="uidlink"><a href="coro.backdoor-module.html">coro.backdoor</a></strong>: <em class="summary">Backdoor Python access.</em>    </li>
-    <li> <strong class="uidlink"><a href="coro.clocks-module.html">coro.clocks</a></strong>    </li>
-    <li> <strong class="uidlink"><a href="coro.emulation-module.html">coro.emulation</a></strong>: <em class="summary">Package of modules used in emulating Python's thread behavior in a coro
-process.</em>
+    <li> <strong class="uidlink"><a href="coro.clocks-module.html">coro.clocks</a></strong>
     <ul>
-    <li> <strong class="uidlink"><a href="coro.emulation.socket-module.html">coro.emulation.socket</a></strong>: <em class="summary">Emulation of Python's socket module in a coro app.</em>    </li>
-    <li> <strong class="uidlink"><a href="coro.emulation.thread-module.html">coro.emulation.thread</a></strong>: <em class="summary">Emulation of the Python <tt class="rst-rst-docutils literal rst-docutils literal">thread</tt> module.</em>    </li>
-    <li> <strong class="uidlink"><a href="coro.emulation.threading-module.html">coro.emulation.threading</a></strong>: <em class="summary">Emulation of the Python <tt class="rst-rst-docutils literal rst-docutils literal">threading</tt> module.</em>    </li>
+    <li> <strong class="uidlink"><a href="coro.clocks.tsc_time-module.html">coro.clocks.tsc_time</a></strong>: <em class="summary">TSC time library.</em>    </li>
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="coro.frontdoor-module.html">coro.frontdoor</a></strong>    </li>
     <li> <strong class="uidlink"><a href="coro.optional-module.html">coro.optional</a></strong>: <em class="summary">Functions that can run in or out of coro.</em>    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors-module.html">coro.oserrors</a></strong>: <em class="summary">OSError mapping.</em>    </li>
     <li> <strong class="uidlink"><a href="coro.print_profile-module.html">coro.print_profile</a></strong>: <em class="summary">Display profile data as HTML.</em>    </li>
     <li> <strong class="uidlink"><a href="coro.profiler-module.html">coro.profiler</a></strong>: <em class="summary">Coro code profiler.</em>    </li>
     <li> <strong class="uidlink"><a href="coro.signal_handler-module.html">coro.signal_handler</a></strong>: <em class="summary">Signal handler.</em>    </li>
@@ -233,41 +231,6 @@ process.</em>
     </table>
   </td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#compact_traceback" class="summary-sig-name">compact_traceback</a>(<span class="summary-sig-arg">t</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">v</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">tb</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Returns a compact string representing the current exception.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="coro.tb-pysrc.html#traceback_string">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="default_exception_notifier"></a><span class="summary-sig-name">default_exception_notifier</span>()</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#default_exception_notifier">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -287,16 +250,50 @@ process.</em>
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#in_parallel" class="summary-sig-name">in_parallel</a>(<span class="summary-sig-arg">fun_arg_list</span>)</span><br />
-      Execute several functions in parallel.</td>
+          <td><span class="summary-sig"><a href="coro-module.html#_original_event_loop" class="summary-sig-name" onclick="show_private();">_original_event_loop</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Start the event loop.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#in_parallel">source&nbsp;code</a></span>
+            <span class="codelink"><a href="coro-pysrc.html#_original_event_loop">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#_original_sleep_relative" class="summary-sig-name" onclick="show_private();">_original_sleep_relative</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Sleep for a period of time.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_original_sleep_relative">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#_original_with_timeout" class="summary-sig-name" onclick="show_private();">_original_with_timeout</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Call a function with a timeout.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_original_with_timeout">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -310,134 +307,10 @@ process.</em>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#tick_updater" class="summary-sig-name">tick_updater</a>()</span><br />
-      Updates TSC&lt;-&gt;POSIX relation.</td>
+          <td><span class="summary-sig"><a href="coro-module.html#coro_is_running" class="summary-sig-name">coro_is_running</a>()</span><br />
+      Determine if the coro event loop is running.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#tick_updater">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#waitpid" class="summary-sig-name">waitpid</a>(<span class="summary-sig-arg">pid</span>)</span><br />
-      Wait for a process to exit.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#waitpid">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#get_thread_by_id" class="summary-sig-name">get_thread_by_id</a>(<span class="summary-sig-arg">thread_id</span>)</span><br />
-      Get a coro thread by ID.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#get_thread_by_id">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#where" class="summary-sig-name">where</a>(<span class="summary-sig-arg">co</span>)</span><br />
-      Return a string indicating where the given coroutine thread is currently
-running.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#where">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#where_all" class="summary-sig-name">where_all</a>()</span><br />
-      Get a dictionary of where all coroutines are currently executing.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#where_all">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#spawn" class="summary-sig-name">spawn</a>(<span class="summary-sig-arg">fun</span>,
-        <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**kwargs</span>)</span><br />
-      Spawn a new coroutine.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#spawn">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#new" class="summary-sig-name">new</a>(<span class="summary-sig-arg">fun</span>,
-        <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**kwargs</span>)</span><br />
-      Create a new coroutine object.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#new">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="get_usec"></a><span class="summary-sig-name">get_usec</span>()</span><br />
-      This is for backwards compatibility and should not be used.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#get_usec">source&nbsp;code</a></span>
+            <span class="codelink"><a href="coro-pysrc.html#coro_is_running">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -485,13 +358,9 @@ running.</td>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#with_timeout" class="summary-sig-name">with_timeout</a>(<span class="summary-sig-arg">timeout</span>,
-        <span class="summary-sig-arg">function</span>,
-        <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**kwargs</span>)</span><br />
-      Call a function with a timeout.</td>
+          <td><span class="summary-sig"><a name="default_exception_notifier"></a><span class="summary-sig-name">default_exception_notifier</span>()</span></td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="coro.optional-pysrc.html#with_timeout">source&nbsp;code</a></span>
+            <span class="codelink"><a href="coro-pysrc.html#default_exception_notifier">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -505,10 +374,61 @@ running.</td>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#sleep_relative" class="summary-sig-name">sleep_relative</a>(<span class="summary-sig-arg">delta</span>)</span><br />
-      Sleep for a period of time.</td>
+          <td><span class="summary-sig"><a href="coro-module.html#event_loop" class="summary-sig-name">event_loop</a>(<span class="summary-sig-arg">timeout</span>=<span class="summary-sig-default">30</span>)</span><br />
+      Start the event loop.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="coro.optional-pysrc.html#sleep_relative">source&nbsp;code</a></span>
+            <span class="codelink"><a href="coro-pysrc.html#event_loop">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#get_thread_by_id" class="summary-sig-name">get_thread_by_id</a>(<span class="summary-sig-arg">thread_id</span>)</span><br />
+      Get a coro thread by ID.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#get_thread_by_id">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_usec"></a><span class="summary-sig-name">get_usec</span>()</span><br />
+      This is for backwards compatibility and should not be used.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#get_usec">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#in_parallel" class="summary-sig-name">in_parallel</a>(<span class="summary-sig-arg">fun_arg_list</span>)</span><br />
+      Execute several functions in parallel.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#in_parallel">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -539,10 +459,46 @@ running.</td>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#coro_is_running" class="summary-sig-name">coro_is_running</a>()</span><br />
-      Determine if the coro event loop is running.</td>
+          <td><span class="summary-sig"><a href="coro-module.html#new" class="summary-sig-name">new</a>(<span class="summary-sig-arg">fun</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Create a new coroutine object.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#coro_is_running">source&nbsp;code</a></span>
+            <span class="codelink"><a href="coro-pysrc.html#new">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#set_handler" class="summary-sig-name">set_handler</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Add a kevent handler.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_coro.set_handler">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#set_latency_warning" class="summary-sig-name">set_latency_warning</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Set the latency warning threshold multiplier.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_coro.set_latency_warning">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -572,10 +528,115 @@ running.</td>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="coro-module.html#event_loop" class="summary-sig-name">event_loop</a>(<span class="summary-sig-arg">timeout</span>=<span class="summary-sig-default">30</span>)</span><br />
-      Start the event loop.</td>
+          <td><span class="summary-sig"><a name="sleep_absolute"></a><span class="summary-sig-name">sleep_absolute</span>(<span class="summary-sig-arg">...</span>)</span><br />
+      This is an alias for the <code class="link">sleep</code> method.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="coro-pysrc.html#event_loop">source&nbsp;code</a></span>
+            <span class="codelink"><a href="coro-pysrc.html#_coro.sleep_absolute">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#spawn" class="summary-sig-name">spawn</a>(<span class="summary-sig-arg">fun</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Spawn a new coroutine.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#spawn">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#tick_updater" class="summary-sig-name">tick_updater</a>()</span><br />
+      Updates TSC&lt;-&gt;POSIX relation.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#tick_updater">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#wait_for" class="summary-sig-name">wait_for</a>(<span class="summary-sig-arg">...</span>)</span><br />
+      Wait for an event.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#_coro.wait_for">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#waitpid" class="summary-sig-name">waitpid</a>(<span class="summary-sig-arg">pid</span>)</span><br />
+      Wait for a process to exit.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#waitpid">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#where" class="summary-sig-name">where</a>(<span class="summary-sig-arg">co</span>)</span><br />
+      Return a string indicating where the given coroutine thread is currently
+running.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#where">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="coro-module.html#where_all" class="summary-sig-name">where_all</a>()</span><br />
+      Get a dictionary of where all coroutines are currently executing.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="coro-pysrc.html#where_all">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -605,161 +666,36 @@ running.</td>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="UNAME"></a><span class="summary-name">UNAME</span> = <code title="os.uname() [0]">os.uname() [0]</code>
+        <a name="FAILURE"></a><span class="summary-name">FAILURE</span> = <code title="'failure'"><code class="variable-quote">'</code><code class="variable-string">failure</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="SUCCESS"></a><span class="summary-name">SUCCESS</span> = <code title="'success'">'success'</code>
+        <a name="SUCCESS"></a><span class="summary-name">SUCCESS</span> = <code title="'success'"><code class="variable-quote">'</code><code class="variable-string">success</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="FAILURE"></a><span class="summary-name">FAILURE</span> = <code title="'failure'">'failure'</code>
+        <a name="UNAME"></a><span class="summary-name">UNAME</span> = <code title="'FreeBSD'"><code class="variable-quote">'</code><code class="variable-string">FreeBSD</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="tick_update_interval"></a><span class="summary-name">tick_update_interval</span> = <code title="3600">3600</code>
-    </td>
-  </tr>
-<tr class="private">
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="_original_spawn"></a><span class="summary-name">_original_spawn</span> = <code title="spawn">spawn</code>
-    </td>
-  </tr>
-<tr class="private">
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="_original_new"></a><span class="summary-name">_original_new</span> = <code title="new">new</code>
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'coro'"><code class="variable-quote">'</code><code class="variable-string">coro</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="ticks_per_sec"></a><span class="summary-name">ticks_per_sec</span> = <code title="tsc_time.ticks_per_sec">tsc_time.ticks_per_sec</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="ticks_per_usec"></a><span class="summary-name">ticks_per_usec</span> = <code title="tsc_time.ticks_per_usec">tsc_time.ticks_per_usec</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="microseconds"></a><span class="summary-name">microseconds</span> = <code title="1000000">1000000</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="absolute_time_to_ticks"></a><span class="summary-name">absolute_time_to_ticks</span> = <code title="tsc_time.usec_to_ticks">tsc_time.usec_to_ticks</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="ticks_to_absolute_time"></a><span class="summary-name">ticks_to_absolute_time</span> = <code title="tsc_time.ticks_to_usec">tsc_time.ticks_to_usec</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="absolute_time_to_ticks_safe"></a><span class="summary-name">absolute_time_to_ticks_safe</span> = <code title="tsc_time.usec_to_ticks_safe">tsc_time.usec_to_ticks_safe</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="ticks_to_absolute_time_safe"></a><span class="summary-name">ticks_to_absolute_time_safe</span> = <code title="tsc_time.ticks_to_usec_safe">tsc_time.ticks_to_usec_safe</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="absolute_secs_to_ticks"></a><span class="summary-name">absolute_secs_to_ticks</span> = <code title="tsc_time.sec_to_ticks">tsc_time.sec_to_ticks</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="ticks_to_absolute_secs"></a><span class="summary-name">ticks_to_absolute_secs</span> = <code title="tsc_time.ticks_to_sec">tsc_time.ticks_to_sec</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="get_now"></a><span class="summary-name">get_now</span> = <code title="tsc_time.rdtsc">tsc_time.rdtsc</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="update_time_relation"></a><span class="summary-name">update_time_relation</span> = <code title="tsc_time.update_time_relation">tsc_time.update_time_relation</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="now"></a><span class="summary-name">now</span> = <code title="get_now()">get_now()</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="now_usec"></a><span class="summary-name">now_usec</span> = <code title="get_usec()">get_usec()</code>
-    </td>
-  </tr>
-<tr class="private">
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="_original_with_timeout"></a><span class="summary-name">_original_with_timeout</span> = <code title="with_timeout">with_timeout</code>
-    </td>
-  </tr>
-<tr class="private">
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="_original_sleep_relative"></a><span class="summary-name">_original_sleep_relative</span> = <code title="sleep_relative">sleep_relative</code>
-    </td>
-  </tr>
-<tr class="private">
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="_original_event_loop"></a><span class="summary-name">_original_event_loop</span> = <code title="event_loop">event_loop</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="install_signal_handlers"></a><span class="summary-name">install_signal_handlers</span> = <code title="True">True</code>
+        <a href="coro-module.html#all_threads" class="summary-name">all_threads</a> = <code title="{}"><code class="variable-group">{</code><code class="variable-group">}</code></code><br />
+      : A dictionary of all live coroutine objects.
     </td>
   </tr>
 <tr>
@@ -773,16 +709,64 @@ running.</td>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="coro-module.html#all_threads" class="summary-name">all_threads</a><br />
-      : A dictionary of all live coroutine objects.
+        <a name="event_map"></a><span class="summary-name">event_map</span> = <code title="{}"><code class="variable-group">{</code><code class="variable-group">}</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="coro-module.html#saved_stderr" class="summary-name">saved_stderr</a><br />
+        <a name="install_signal_handlers"></a><span class="summary-name">install_signal_handlers</span> = <code title="True">True</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="microseconds"></a><span class="summary-name">microseconds</span> = <code title="1000000">1000000</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="now"></a><span class="summary-name">now</span> = <code title="6410808728087811">6410808728087811</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="now_usec"></a><span class="summary-name">now_usec</span> = <code title="1329443900109059">1329443900109059</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="coro-module.html#saved_stderr" class="summary-name">saved_stderr</a> = <code title="&lt;epydoc.docintrospecter._DevNull instance at 0x80272ac20&gt;">&lt;epydoc.docintrospecter._DevNull instance at 0x<code class="variable-ellipsis">...</code></code><br />
       : The actual stderr object for the process.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="tick_update_interval"></a><span class="summary-name">tick_update_interval</span> = <code title="3600">3600</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="ticks_per_sec"></a><span class="summary-name">ticks_per_sec</span> = <code title="2659636680">2659636680</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="ticks_per_usec"></a><span class="summary-name">ticks_per_usec</span> = <code title="2659">2659</code>
     </td>
   </tr>
 </table>
@@ -804,34 +788,187 @@ running.</td>
   </td>
 </tr>
 </table>
-<a name="compact_traceback"></a>
+<a name="_original_event_loop"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_original_event_loop</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_original_event_loop">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Start the event loop.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>timeout</code></strong> - : The amount of time to wait for kevent to return
+events. You should probably <em>not</em> set this value.  Defaults to 30
+seconds.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_original_sleep_relative"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_original_sleep_relative</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_original_sleep_relative">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Sleep for a period of time.</p>
+<p>If a thread is interrupted at the exact same time the sleep is
+finished, it is not defined whether the interrupt or the sleep &quot;wins&quot;.
+Your thread may continue running (with the interrupt rescheduled to try
+again later), or it may be interrupted.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>delta</code></strong> - : The number of seconds to sleep.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_original_with_timeout"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_original_with_timeout</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_original_with_timeout">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Call a function with a timeout.</p>
+<p>Additional arguments and keyword arguments provided are passed to the
+function.  This will re-raise any exceptions raised by the function.</p>
+<p>If a timeout expires, but the function returns before the next pass in
+the event loop, then the timeout will be diffused.</p>
+<p>If a coroutine is already scheduled to run (such as if it received a
+kevent), and the timeout expires, the timeout will be put on &quot;hold&quot; to
+let the coroutine run and process the data.  If the function returns,
+then the timeout will be defused, otherwise the timeout will be given
+another chance to fire during the next pass through the event loop. One
+should note that due to this behavior, if a coroutine is continually
+receiving kevents, the timeout will never fire until the kevents stop.</p>
+<p>Nested timeouts will be handled correctly. If an outer timeout fires
+first, then only the outer <tt class="rst-docutils literal">except TimeoutError</tt> exception handler
+will catch it.  An exception handlers on the inside will be skipped
+becaue the actual exception is the <a href="coro._coro.Interrupted-class.html" class="link">Interrupted</a> exception until it
+gets to the original <tt class="rst-docutils literal">with_timeout</tt> frame.</p>
+<p>Nested timeouts that are set to fire at the exact same time are not
+defined which one will fire first.</p>
+<p>Care must be taken to <em>never</em> catch the <a href="coro._coro.Interrupted-class.html" class="link">Interrupted</a> exception within
+code that is wrapped with a timeout.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns the return value of the function.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="coro._coro.TimeoutError-class.html">TimeoutError</a></strong></code> - : The function did not return within the specified
+timeout.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Parameters:</strong>
+        <ul>
+<li><dl class="rst-first rst-docutils">
+<dt><code class="link">delta</code>: The number of seconds to wait before raising a timeout.</dt>
+<dd><p class="rst-first rst-last">Should be &gt;= 0. Negative value will be treated as 0.</p>
+</dd>
+</dl>
+</li>
+<li><p class="rst-first"><a href="coro._coro.function-class.html" class="link">function</a>: The function to call.</p>
+</li>
+</ul>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="coro_is_running"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">compact_traceback</span>(<span class="sig-arg">t</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">v</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">tb</span>=<span class="sig-default">None</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">coro_is_running</span>()</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="coro.tb-pysrc.html#traceback_string">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="coro-pysrc.html#coro_is_running">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Returns a compact string representing the current exception.</p>
-<p>If an exception is not provided as an argument, then it will get the
-current exception from <code class="link">sys.exc_info</code>.</p>
+  Determine if the coro event loop is running.
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Returns True if the event loop is running, otherwise False.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="event_loop"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">event_loop</span>(<span class="sig-arg">timeout</span>=<span class="sig-default">30</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#event_loop">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Start the event loop.
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>t</code></strong> - : Exception type.</li>
-        <li><strong class="pname"><code>v</code></strong> - : Exception value.</li>
-        <li><strong class="pname"><code>tb</code></strong> - : Traceback object.</li>
+        <li><strong class="pname"><code>timeout</code></strong> - : The amount of time to wait for kevent to return
+events. You should probably <em>not</em> set this value.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_thread_by_id"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_thread_by_id</span>(<span class="sig-arg">thread_id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#get_thread_by_id">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Get a coro thread by ID.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>thread_id</code></strong> - : The thread ID.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Returns a string of the current exception and stack trace.</dd>
+        <dd>Returns the coroutine object.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>KeyError</strong></code> - : The coroutine does not exist.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -867,6 +1004,162 @@ exception will be raised.</p>
   </dl>
 </td></tr></table>
 </div>
+<a name="install_thread_emulation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">install_thread_emulation</span>()</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#install_thread_emulation">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Install Python threading emulation.</p>
+<p>It is recommended that you call this at the very beginning of the main
+script of your application before importing anything else.  This will
+cause the following modules to be emulated:</p>
+<ul class="rst-simple">
+<li>thread</li>
+<li>threading</li>
+<li>socket</li>
+</ul>
+<p>At this time, no other blocking operations are supported.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="new"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">new</span>(<span class="sig-arg">fun</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#new">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Create a new coroutine object.</p>
+<p>Additional arguments and keyword arguments will be passed to the given
+function.</p>
+<p>This will not start the coroutine.  Call the <tt class="rst-docutils literal">start</tt> method on the
+coroutine to schedule it to run.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fun</code></strong> - : The function to call when the coroutine starts.</li>
+        <li><strong class="pname"><code>thread_name</code></strong> - : The name of the thread.  Defaults to the name of the
+function.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the new coroutine object.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_handler"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_handler</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_coro.set_handler">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Add a kevent handler.</p>
+<p>This is a low-level interface to register a kevent handler.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>event</code></strong> - : A tuple of <tt class="rst-docutils literal">(ident, filter)</tt> of the kevent to handle.</li>
+        <li><strong class="pname"><code>handler</code></strong> - : The handler to use,  a callable object which will be
+called with one argument, a <a href="coro._coro.py_kevent-class.html" class="link">py_kevent</a> object.</li>
+        <li><strong class="pname"><code>flags</code></strong> - : Kevent flags to use.  Defaults to <tt class="rst-docutils literal">EV_ADD|EV_ONESHOT</tt>.</li>
+        <li><strong class="pname"><code>fflags`</code></strong> - : Kevent filter flags to use.  Defaults to 0.</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="coro._coro.SimultaneousError-class.html">SimultaneousError</a></strong></code> - : There is already a handler set for this
+event.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_latency_warning"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_latency_warning</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_coro.set_latency_warning">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the latency warning threshold multiplier.</p>
+<p>The default latency warning threshold is 0.2 seconds.  This will allow
+you to change the threshold by multiplying the 0.2 value.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>factor</code></strong> - : The latency threshold multiplier.  May be a number from
+0 to 300.  A value of 0 disables latency warnings.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the old multipler factor.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - : The factor is too small or too large.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="spawn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">spawn</span>(<span class="sig-arg">fun</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#spawn">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Spawn a new coroutine.</p>
+<p>Additional arguments and keyword arguments will be passed to the given function.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fun</code></strong> - : The function to call when the coroutine starts.</li>
+        <li><strong class="pname"><code>thread_name</code></strong> - : The name of the thread.  Defaults to the name of the
+function.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns the new coroutine object.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="tick_updater"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -887,6 +1180,38 @@ and now_usec variables every hour.  This will take care of any clock drift
 because our ticks_per_sec variable might be slightly off.</p>
 <p>This runs once an hour.</p>
   <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="wait_for"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wait_for</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="coro-pysrc.html#_coro.wait_for">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Wait for an event.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ident</code></strong> - : The kevent identifier (depends on the filter type, but
+is often a file descriptor).</li>
+        <li><strong class="pname"><code>filter</code></strong> - : The kevent filter (see <a href="coro._coro.EVFILT-class.html" class="link">EVFILT</a>).</li>
+        <li><strong class="pname"><code>fflags</code></strong> - : Filter flags (defaults to 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Returns a <a href="coro._coro.py_kevent-class.html" class="link">py_kevent</a> instance that indicates the event that fired.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="coro._coro.SimultaneousError-class.html">SimultaneousError</a></strong></code> - : Something is already waiting for this event.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -914,37 +1239,8 @@ because our ticks_per_sec variable might be slightly off.</p>
         <dd>Returns a tuple <tt class="rst-docutils literal">(pid, status)</tt> of the process.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>SimultaneousError</strong></code> - : Something is already waiting for this process
+        <li><code><strong class='fraise'><a href="coro._coro.SimultaneousError-class.html">SimultaneousError</a></strong></code> - : Something is already waiting for this process
 ID.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="get_thread_by_id"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_thread_by_id</span>(<span class="sig-arg">thread_id</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="coro-pysrc.html#get_thread_by_id">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  Get a coro thread by ID.
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>thread_id</code></strong> - : The thread ID.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Returns the coroutine object.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>KeyError</strong></code> - : The coroutine does not exist.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -999,202 +1295,6 @@ coroutine is currently running.</dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="spawn"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">spawn</span>(<span class="sig-arg">fun</span>,
-        <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**kwargs</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="coro-pysrc.html#spawn">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Spawn a new coroutine.</p>
-<p>Additional arguments and keyword arguments will be passed to the given function.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>fun</code></strong> - : The function to call when the coroutine starts.</li>
-        <li><strong class="pname"><code>thread_name</code></strong> - : The name of the thread.  Defaults to the name of the
-function.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Returns the new coroutine object.</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="new"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">new</span>(<span class="sig-arg">fun</span>,
-        <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**kwargs</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="coro-pysrc.html#new">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Create a new coroutine object.</p>
-<p>Additional arguments and keyword arguments will be passed to the given
-function.</p>
-<p>This will not start the coroutine.  Call the <tt class="rst-docutils literal">start</tt> method on the
-coroutine to schedule it to run.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>fun</code></strong> - : The function to call when the coroutine starts.</li>
-        <li><strong class="pname"><code>thread_name</code></strong> - : The name of the thread.  Defaults to the name of the
-function.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Returns the new coroutine object.</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="with_timeout"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">with_timeout</span>(<span class="sig-arg">timeout</span>,
-        <span class="sig-arg">function</span>,
-        <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**kwargs</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="coro.optional-pysrc.html#with_timeout">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Call a function with a timeout.</p>
-<p>This version supports running even if the coro event loop isn't running by
-using SIGALRM.</p>
-<p>See <code class="link">coro._coro.sched.with_timeout</code> for more detail.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>timeout</code></strong> - : The number of seconds to wait before raising the timeout.
-May be a floating point number.</li>
-        <li><strong class="pname"><code>function</code></strong> - : The function to call.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Returns the return value of the function.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>coro.TimeoutError</strong></code> - : The timeout expired.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="sleep_relative"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">sleep_relative</span>(<span class="sig-arg">delta</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="coro.optional-pysrc.html#sleep_relative">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  Sleep for a period of time.
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>delta</code></strong> - : The number of seconds to sleep.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="install_thread_emulation"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">install_thread_emulation</span>()</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="coro-pysrc.html#install_thread_emulation">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Install Python threading emulation.</p>
-<p>It is recommended that you call this at the very beginning of the main
-script of your application before importing anything else.  This will
-cause the following modules to be emulated:</p>
-<ul class="rst-simple">
-<li>thread</li>
-<li>threading</li>
-<li>socket</li>
-</ul>
-<p>At this time, no other blocking operations are supported.</p>
-  <dl class="fields">
-  </dl>
-</td></tr></table>
-</div>
-<a name="coro_is_running"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">coro_is_running</span>()</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="coro-pysrc.html#coro_is_running">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  Determine if the coro event loop is running.
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>Returns True if the event loop is running, otherwise False.</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="event_loop"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">event_loop</span>(<span class="sig-arg">timeout</span>=<span class="sig-default">30</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="coro-pysrc.html#event_loop">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  Start the event loop.
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>timeout</code></strong> - : The amount of time to wait for kevent to return
-events. You should probably <em>not</em> set this value.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <br />
 <!-- ==================== VARIABLES DETAILS ==================== -->
 <a name="section-VariablesDetails"></a>
@@ -1224,6 +1324,13 @@ events. You should probably <em>not</em> set this value.</li>
 the coroutine ID, and the value is the coroutine object.
   <dl class="fields">
   </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">{</code><code class="variable-group">}</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
 </td></tr></table>
 </div>
 <a name="saved_stderr"></a>
@@ -1236,6 +1343,13 @@ the coroutine ID, and the value is the coroutine object.
 should not be used.  An example of why this exists is because the
 backdoor replaces sys.stderr while executing user code.
   <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+&lt;epydoc.docintrospecter._DevNull instance at 0x80272ac20&gt;
+</pre></td></tr></table>
+</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1266,7 +1380,7 @@ backdoor replaces sys.stderr while executing user code.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb 16 17:30:46 2012
+    Generated by Epydoc 3.0.1 on Thu Feb 16 17:58:25 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

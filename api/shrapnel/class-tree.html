@@ -55,6 +55,30 @@
 </b></center><br />
 <h1 class="epydoc">Class Hierarchy</h1>
 <ul class="nomargin-top">
+    <li> <strong class="uidlink"><a href="coro._coro.AF-class.html">coro._coro.AF</a></strong>:
+      <em class="summary">Socket families.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.EV-class.html">coro._coro.EV</a></strong>:
+      <em class="summary">Kevent flags.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.EVFILT-class.html">coro._coro.EVFILT</a></strong>:
+      <em class="summary">Kevent filters.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.NOTE-class.html">coro._coro.NOTE</a></strong>:
+      <em class="summary">Kevent filter flags.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.SHUT-class.html">coro._coro.SHUT</a></strong>:
+      <em class="summary">Socket shutdown methods.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.SO-class.html">coro._coro.SO</a></strong>:
+      <em class="summary">Socket options.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.SOCK-class.html">coro._coro.SOCK</a></strong>:
+      <em class="summary">Socket types.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.SOL-class.html">coro._coro.SOL</a></strong>:
+      <em class="summary">Socket levels.</em>
+    </li>
     <li> <strong class="uidlink"><a href="coro.backdoor.backdoor-class.html">coro.backdoor.backdoor</a></strong>
     </li>
     <li> <strong class="uidlink">object</strong>:
@@ -66,36 +90,350 @@
     <li> <strong class="uidlink">exceptions.Exception</strong>:
       <em class="summary">Common base class for all non-exit exceptions.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="coro.optional._shutdown_sigalrm_exc-class.html">coro.optional._shutdown_sigalrm_exc</a></strong>
+    <li> <strong class="uidlink"><a href="coro._coro.ClosedError-class.html">coro._coro.ClosedError</a></strong>:
+      <em class="summary">Another thread closed this descriptor.</em>
     </li>
-    <li> <strong class="uidlink"><a href="coro.emulation.thread.error-class.html">coro.emulation.thread.error</a></strong>
+    <li> <strong class="uidlink"><a href="coro._coro.Exit-class.html">coro._coro.Exit</a></strong>:
+      <em class="summary">exception used to exit the event loop</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.InParallelError-class.html">coro.InParallelError</a></strong>:
+      <em class="summary">An error occurred in the <a href="coro-module.html#in_parallel" class="link">in_parallel</a> function.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.LockError-class.html">coro._coro.LockError</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.ScheduleError-class.html">coro._coro.ScheduleError</a></strong>:
+      <em class="summary">attempt to schedule an already-scheduled coroutine</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="coro._coro.DeadCoroutine-class.html">coro._coro.DeadCoroutine</a></strong>:
+      <em class="summary">attempt to resume a dead coroutine</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.NotStartedError-class.html">coro._coro.NotStartedError</a></strong>:
+      <em class="summary">Attempted to interrupt a thread before it has started.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.SimultaneousError-class.html">coro._coro.SimultaneousError</a></strong>:
+      <em class="summary">Two threads attempted a conflicting blocking operation (e.g., read() on
+the same descriptor).</em>
+    </li>
+    <li> <strong class="uidlink">exceptions.StandardError</strong>:
+      <em class="summary">Base class for all standard Python exceptions that do not represent
+interpreter exiting.</em>
+    <ul>
+    <li> <strong class="uidlink">exceptions.EnvironmentError</strong>:
+      <em class="summary">Base class for I/O related errors.</em>
+    <ul>
+    <li> <strong class="uidlink">exceptions.OSError</strong>:
+      <em class="summary">OS system call failed.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="coro.oserrors.E2BIG-class.html">coro.oserrors.E2BIG</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EACCES-class.html">coro.oserrors.EACCES</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EADDRINUSE-class.html">coro.oserrors.EADDRINUSE</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EADDRNOTAVAIL-class.html">coro.oserrors.EADDRNOTAVAIL</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EAFNOSUPPORT-class.html">coro.oserrors.EAFNOSUPPORT</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EAGAIN-class.html">coro.oserrors.EAGAIN</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EALREADY-class.html">coro.oserrors.EALREADY</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EBADF-class.html">coro.oserrors.EBADF</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EBADMSG-class.html">coro.oserrors.EBADMSG</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EBUSY-class.html">coro.oserrors.EBUSY</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ECHILD-class.html">coro.oserrors.ECHILD</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ECONNABORTED-class.html">coro.oserrors.ECONNABORTED</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ECONNREFUSED-class.html">coro.oserrors.ECONNREFUSED</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ECONNRESET-class.html">coro.oserrors.ECONNRESET</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EDEADLK-class.html">coro.oserrors.EDEADLK</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EDESTADDRREQ-class.html">coro.oserrors.EDESTADDRREQ</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EDOM-class.html">coro.oserrors.EDOM</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EDQUOT-class.html">coro.oserrors.EDQUOT</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EEXIST-class.html">coro.oserrors.EEXIST</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EFAULT-class.html">coro.oserrors.EFAULT</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EFBIG-class.html">coro.oserrors.EFBIG</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EHOSTDOWN-class.html">coro.oserrors.EHOSTDOWN</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EHOSTUNREACH-class.html">coro.oserrors.EHOSTUNREACH</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EIDRM-class.html">coro.oserrors.EIDRM</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EILSEQ-class.html">coro.oserrors.EILSEQ</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EINPROGRESS-class.html">coro.oserrors.EINPROGRESS</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EINTR-class.html">coro.oserrors.EINTR</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EINVAL-class.html">coro.oserrors.EINVAL</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EIO-class.html">coro.oserrors.EIO</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EISCONN-class.html">coro.oserrors.EISCONN</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EISDIR-class.html">coro.oserrors.EISDIR</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ELOOP-class.html">coro.oserrors.ELOOP</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EMFILE-class.html">coro.oserrors.EMFILE</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EMLINK-class.html">coro.oserrors.EMLINK</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EMSGSIZE-class.html">coro.oserrors.EMSGSIZE</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EMULTIHOP-class.html">coro.oserrors.EMULTIHOP</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENAMETOOLONG-class.html">coro.oserrors.ENAMETOOLONG</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENETDOWN-class.html">coro.oserrors.ENETDOWN</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENETRESET-class.html">coro.oserrors.ENETRESET</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENETUNREACH-class.html">coro.oserrors.ENETUNREACH</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENFILE-class.html">coro.oserrors.ENFILE</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOBUFS-class.html">coro.oserrors.ENOBUFS</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENODEV-class.html">coro.oserrors.ENODEV</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOENT-class.html">coro.oserrors.ENOENT</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOEXEC-class.html">coro.oserrors.ENOEXEC</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOLCK-class.html">coro.oserrors.ENOLCK</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOLINK-class.html">coro.oserrors.ENOLINK</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOMEM-class.html">coro.oserrors.ENOMEM</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOMSG-class.html">coro.oserrors.ENOMSG</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOPROTOOPT-class.html">coro.oserrors.ENOPROTOOPT</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOSPC-class.html">coro.oserrors.ENOSPC</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOSYS-class.html">coro.oserrors.ENOSYS</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOTBLK-class.html">coro.oserrors.ENOTBLK</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOTCONN-class.html">coro.oserrors.ENOTCONN</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOTDIR-class.html">coro.oserrors.ENOTDIR</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOTEMPTY-class.html">coro.oserrors.ENOTEMPTY</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOTSOCK-class.html">coro.oserrors.ENOTSOCK</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENOTTY-class.html">coro.oserrors.ENOTTY</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ENXIO-class.html">coro.oserrors.ENXIO</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EOPNOTSUPP-class.html">coro.oserrors.EOPNOTSUPP</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EOVERFLOW-class.html">coro.oserrors.EOVERFLOW</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EPERM-class.html">coro.oserrors.EPERM</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EPFNOSUPPORT-class.html">coro.oserrors.EPFNOSUPPORT</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EPIPE-class.html">coro.oserrors.EPIPE</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EPROTO-class.html">coro.oserrors.EPROTO</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EPROTONOSUPPORT-class.html">coro.oserrors.EPROTONOSUPPORT</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EPROTOTYPE-class.html">coro.oserrors.EPROTOTYPE</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ERANGE-class.html">coro.oserrors.ERANGE</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EREMOTE-class.html">coro.oserrors.EREMOTE</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EROFS-class.html">coro.oserrors.EROFS</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ESHUTDOWN-class.html">coro.oserrors.ESHUTDOWN</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ESOCKTNOSUPPORT-class.html">coro.oserrors.ESOCKTNOSUPPORT</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ESPIPE-class.html">coro.oserrors.ESPIPE</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ESRCH-class.html">coro.oserrors.ESRCH</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ESTALE-class.html">coro.oserrors.ESTALE</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ETIMEDOUT-class.html">coro.oserrors.ETIMEDOUT</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ETOOMANYREFS-class.html">coro.oserrors.ETOOMANYREFS</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.ETXTBSY-class.html">coro.oserrors.ETXTBSY</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EUSERS-class.html">coro.oserrors.EUSERS</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.oserrors.EXDEV-class.html">coro.oserrors.EXDEV</a></strong>
     </li>
     </ul>
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="coro.emulation.threading.Condition-class.html">coro.emulation.threading.Condition</a></strong>
+    </ul>
     </li>
-    <li> <strong class="uidlink"><a href="coro.emulation.threading.Event-class.html">coro.emulation.threading.Event</a></strong>
+    <li> <strong class="uidlink"><a href="coro._coro.SysctlError-class.html">coro._coro.SysctlError</a></strong>
     </li>
-    <li> <strong class="uidlink"><a href="coro.emulation.thread.LockType-class.html">coro.emulation.thread.LockType</a></strong>:
-      <em class="summary">A simple mutex lock.</em>
+    <li> <strong class="uidlink"><a href="coro._coro.WakeUp-class.html">coro._coro.WakeUp</a></strong>:
+      <em class="summary">A convenience exception used to wake up a sleeping thread.</em>
     </li>
-    <li> <strong class="uidlink"><a href="coro.emulation.threading.Semaphore-class.html">coro.emulation.threading.Semaphore</a></strong>
+    <li> <strong class="uidlink"><a href="coro.optional._shutdown_sigalrm_exc-class.html" onclick="show_private();">coro.optional._shutdown_sigalrm_exc</a></strong>
     </li>
-    <li> <strong class="uidlink"><a href="coro.emulation.threading.Thread-class.html">coro.emulation.threading.Thread</a></strong>:
-      <em class="summary">Shrapnel emulation of Python Thread.</em>
+    </ul>
     </li>
-    <li> <strong class="uidlink"><a href="coro.emulation.socket._ErrorConverter-class.html" onclick="show_private();">coro.emulation.socket._ErrorConverter</a></strong>
+    <li> <strong class="uidlink"><a href="coro._coro.Interrupted-class.html">coro._coro.Interrupted</a></strong>:
+      <em class="summary">A coroutine has been interrupted unexpectedly</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="coro._coro.Shutdown-class.html">coro._coro.Shutdown</a></strong>:
+      <em class="summary">The thread is shutting down.</em>
     </li>
-    <li> <strong class="uidlink"><a href="coro.emulation.socket.socket-class.html">coro.emulation.socket.socket</a></strong>
+    <li> <strong class="uidlink"><a href="coro._coro.TimeoutError-class.html">coro._coro.TimeoutError</a></strong>:
+      <em class="summary">A call to with_timeout() has expired</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.ThreadLocal-class.html">coro._coro.ThreadLocal</a></strong>:
+      <em class="summary">Thread Local Storage.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.clocks.tsc_time.Time-class.html">coro.clocks.tsc_time.Time</a></strong>:
+      <em class="summary">Base time object.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="coro.clocks.tsc_time.Posix-class.html">coro.clocks.tsc_time.Posix</a></strong>:
+      <em class="summary">Time in POSIX seconds.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.clocks.tsc_time.TSC-class.html">coro.clocks.tsc_time.TSC</a></strong>:
+      <em class="summary">Time in TSC ticks.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.clocks.tsc_time.fPosix-class.html">coro.clocks.tsc_time.fPosix</a></strong>:
+      <em class="summary">Time in POSIX seconds as a floating-point number.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.clocks.tsc_time.uPosix-class.html">coro.clocks.tsc_time.uPosix</a></strong>:
+      <em class="summary">Time in POSIX microseconds.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro._fifo-class.html" onclick="show_private();">coro._coro._fifo</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro._fifo_iterator-class.html" onclick="show_private();">coro._coro._fifo_iterator</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro._profiler-class.html" onclick="show_private();">coro._coro._profiler</a></strong>:
+      <em class="summary">The profiler object.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.aio_control_block-class.html">coro._coro.aio_control_block</a></strong>:
+      <em class="summary">Wrapper for 'struct aiocb'.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.bench-class.html">coro._coro.bench</a></strong>:
+      <em class="summary">Base benchmarking class.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="coro._coro.rusage_bench-class.html">coro._coro.rusage_bench</a></strong>:
+      <em class="summary">Subclass of bench object that tracks rusage data.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.call_counts_object-class.html">coro._coro.call_counts_object</a></strong>:
+      <em class="summary">Track caller-&gt;callee call counts.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.condition_variable-class.html">coro._coro.condition_variable</a></strong>:
+      <em class="summary">Condition variable.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.coro-class.html">coro._coro.coro</a></strong>:
+      <em class="summary">XXX</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.event-class.html">coro._coro.event</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.event_queue-class.html">coro._coro.event_queue</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.event_queue_iter-class.html">coro._coro.event_queue_iter</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.exception-class.html">coro._coro.exception</a></strong>:
+      <em class="summary">used to interrupt coroutines with an exception</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.fifo-class.html">coro._coro.fifo</a></strong>:
+      <em class="summary">First-in First-Out container.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.function-class.html">coro._coro.function</a></strong>:
+      <em class="summary">Function representation for the profiler.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="coro._coro.c_function-class.html">coro._coro.c_function</a></strong>:
+      <em class="summary">C function.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.internal_function-class.html">coro._coro.internal_function</a></strong>:
+      <em class="summary">Internal function.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.python_function-class.html">coro._coro.python_function</a></strong>:
+      <em class="summary">Python function.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.inverted_semaphore-class.html">coro._coro.inverted_semaphore</a></strong>:
+      <em class="summary">Inverted semaphore.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.kevent_key-class.html">coro._coro.kevent_key</a></strong>:
+      <em class="summary">Kevent key.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.kevent_target-class.html">coro._coro.kevent_target</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.mutex-class.html">coro._coro.mutex</a></strong>:
+      <em class="summary">Mutual Exclusion lock object.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.node-class.html">coro._coro.node</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.py_kevent-class.html">coro._coro.py_kevent</a></strong>:
+      <em class="summary">Representation of a kevent.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.queue_poller-class.html">coro._coro.queue_poller</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.rusage-class.html">coro._coro.rusage</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.rw_lock-class.html">coro._coro.rw_lock</a></strong>:
+      <em class="summary">A many-reader single-writer lock.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.sched-class.html">coro._coro.sched</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.semaphore-class.html">coro._coro.semaphore</a></strong>:
+      <em class="summary">Semaphore lock object.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.sock-class.html">coro._coro.sock</a></strong>:
+      <em class="summary">Coro socket object.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="coro._coro.fd_sock-class.html">coro._coro.fd_sock</a></strong>:
+      <em class="summary">A file-descriptor wrapper using the socket object.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.file_sock-class.html">coro._coro.file_sock</a></strong>:
+      <em class="summary">A file-object wrapper using the socket object.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="coro.frontdoor.stdin-class.html">coro.frontdoor.stdin</a></strong>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="coro._coro.timebomb-class.html">coro._coro.timebomb</a></strong>
     </li>
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="coro.print_profile.profile_data-class.html">coro.print_profile.profile_data</a></strong>:
       <em class="summary">profile_data = {function_string: data_tuple}</em>
-    </li>
-    <li> <strong class="uidlink">coro.sock</strong>
     </li>
 </ul>
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -124,7 +462,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb 16 17:30:46 2012
+    Generated by Epydoc 3.0.1 on Thu Feb 16 17:58:25 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
