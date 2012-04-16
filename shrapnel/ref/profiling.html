@@ -1,0 +1,204 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10. Profiling &mdash; Shrapnel 1.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Shrapnel 1.0.2 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-coro.profiler">
+<span id="profiling"></span><h1>10. Profiling<a class="headerlink" href="#module-coro.profiler" title="Permalink to this headline">¶</a></h1>
+<p>Coro code profiler.</p>
+<div class="section" id="introduction">
+<h2>10.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This profiler is coro-aware.  It produces output to a binary file on disk. You
+then use the <tt class="xref py py-mod docutils literal"><span class="pre">coro.print_profile</span></tt> module to convert it to an HTML file.</p>
+</div>
+<div class="section" id="using-the-profiler">
+<h2>10.2. Using The Profiler<a class="headerlink" href="#using-the-profiler" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways to run the profiler.  One is to use the
+<a class="reference internal" href="#coro.profiler.go" title="coro.profiler.go"><tt class="xref py py-func docutils literal"><span class="pre">coro.profiler.go()</span></tt></a> function where you give it a python function to run.
+Profiling will start and call the function, and then the profiler will
+automatically stop when the function exits.</p>
+<p>The other method is to call <a class="reference internal" href="#coro.profiler.start" title="coro.profiler.start"><tt class="xref py py-func docutils literal"><span class="pre">coro.profiler.start()</span></tt></a> to start the profiler
+and <a class="reference internal" href="#coro.profiler.stop" title="coro.profiler.stop"><tt class="xref py py-func docutils literal"><span class="pre">coro.profiler.stop()</span></tt></a> when you want to stop profiling.  This can be
+conveniently done from the backdoor.</p>
+</div>
+<div class="section" id="rendering-output">
+<h2>10.3. Rendering Output<a class="headerlink" href="#rendering-output" title="Permalink to this headline">¶</a></h2>
+<p>Once you have profiler output, you must use the <tt class="docutils literal"><span class="pre">print_profile</span></tt> module
+to convert it to HTML.  The typical method for doing this is:</p>
+<div class="highlight-python"><pre>python -m coro.print_profile /tmp/coro_profile.bin &gt; my_profile.html</pre>
+</div>
+<p>Then view the profile output in your web browser.</p>
+</div>
+<div class="section" id="profiler-types">
+<h2>10.4. Profiler Types<a class="headerlink" href="#profiler-types" title="Permalink to this headline">¶</a></h2>
+<p>The profiler supports different ways of gathering statistics.  This is done by
+specifying the &#8220;bench&#8221; object to use (see <a class="reference internal" href="#coro.profiler.go" title="coro.profiler.go"><tt class="xref py py-func docutils literal"><span class="pre">go()</span></tt></a> and <a class="reference internal" href="#coro.profiler.start" title="coro.profiler.start"><tt class="xref py py-func docutils literal"><span class="pre">start()</span></tt></a>).  They
+default to the &#8220;rusage&#8221; method of gathering statistics about every function
+call (see the getrusage man page for more detail).  If you want a higher
+performance profile, you can use the <tt class="xref py py-class docutils literal"><span class="pre">coro.bench</span></tt> object instead which
+simply records TSC values for every function call.  If you want to define your
+own method of gathering statistics, subclass <tt class="xref py py-class docutils literal"><span class="pre">coro.bench</span></tt> and implement
+your own techniques.</p>
+<dl class="function">
+<dt id="coro.profiler.go">
+<tt class="descclassname">coro.profiler.</tt><tt class="descname">go</tt><big>(</big><em>fun</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#coro.profiler.go" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the profiler on a function.</p>
+<p>This will start the profiler, and then call the provided function.
+The profiler will shut down once the function returns.</p>
+<p>Additional arguments provided are passed to the function.</p>
+<p>This will display the results to stdout after the function is finished.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fun</strong> &#8211; The function to call.</li>
+<li><strong>profile_filename</strong> &#8211; The name of the file to save the profile data.
+Defaults to &#8216;/tmp/coro_profile.bin&#8217;.</li>
+<li><strong>profile_bench</strong> &#8211; The bench object type to use.  Defaults to
+<tt class="xref py py-class docutils literal"><span class="pre">coro.rusage_bench</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.profiler.start">
+<tt class="descclassname">coro.profiler.</tt><tt class="descname">start</tt><big>(</big><em>profile_bench=&lt;type 'coro._coro.rusage_bench'&gt;</em><big>)</big><a class="headerlink" href="#coro.profiler.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the profiler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first last simple">
+<li><cite>profile_bench</cite>: The profiler type to use.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.profiler.stop">
+<tt class="descclassname">coro.profiler.</tt><tt class="descname">stop</tt><big>(</big><em>filename='/tmp/coro_profile.bin'</em><big>)</big><a class="headerlink" href="#coro.profiler.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the profiler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first last simple">
+<li><cite>filename</cite>: The filename to use for the profile output.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">10. Profiling</a><ul>
+<li><a class="reference internal" href="#introduction">10.1. Introduction</a></li>
+<li><a class="reference internal" href="#using-the-profiler">10.2. Using The Profiler</a></li>
+<li><a class="reference internal" href="#rendering-output">10.3. Rendering Output</a></li>
+<li><a class="reference internal" href="#profiler-types">10.4. Profiler Types</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/ref/profiling.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Sam Rushing.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

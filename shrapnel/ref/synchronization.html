@@ -1,0 +1,541 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Synchronization &mdash; Shrapnel 1.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Shrapnel 1.0.2 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="synchronization">
+<h1>3. Synchronization<a class="headerlink" href="#synchronization" title="Permalink to this headline">¶</a></h1>
+<p>You typically do not need to use synchronization primitives with Shrapnel
+because coroutines are cooperative. However, there are situations where they
+can be useful.  For example, if you manipulate multiple shared data structures
+that need to remain consistent, and you have potentially context-switch calls
+interspersed (such as socket I/O).</p>
+<div class="section" id="synchronization-classes">
+<h2>3.1. Synchronization Classes<a class="headerlink" href="#synchronization-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="coro.condition_variable">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">condition_variable</tt><a class="headerlink" href="#coro.condition_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>condition_variable()</p>
+<p>This locking primitive provides a method to &#8220;trigger&#8221; an event for other
+threads.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><strong>_waiting</strong> &#8211; A fifo of coroutine objects waiting for the lock. (C only.)</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="coro.condition_variable.raise_all">
+<tt class="descname">raise_all</tt><big>(</big><em>self</em>, <em>the_exception</em><big>)</big><a class="headerlink" href="#coro.condition_variable.raise_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise an exception on all waiting threads.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>the_exception</strong> &#8211; The exception to raise on all waiting threads.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.condition_variable.wait">
+<tt class="descname">wait</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.condition_variable.wait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for the condition variable to be triggered.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The arguments given to the wake call (defaults to the empty
+tuple).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.condition_variable.wait_timeout">
+<tt class="descname">wait_timeout</tt><big>(</big><em>self</em>, <em>timeout</em><big>)</big><a class="headerlink" href="#coro.condition_variable.wait_timeout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deprecated.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.condition_variable.wake_all">
+<tt class="descname">wake_all</tt><big>(</big><em>self</em>, <em>args=()</em><big>)</big><a class="headerlink" href="#coro.condition_variable.wake_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wake all waiting threads.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> &#8211; The arguments to wake the thread with.  Defaults to the
+empty tuple.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.condition_variable.wake_n">
+<tt class="descname">wake_n</tt><big>(</big><em>self</em>, <em>int count</em>, <em>args=()</em><big>)</big><a class="headerlink" href="#coro.condition_variable.wake_n" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wake a specific number of threads.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>count</strong> &#8211; The number of threads to wake up.</li>
+<li><strong>args</strong> &#8211; The arguments to wake the thread with.  Defaults to the
+empty tuple.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The total number of threads actually awoken.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.condition_variable.wake_one">
+<tt class="descname">wake_one</tt><big>(</big><em>self</em>, <em>args=()</em><big>)</big><a class="headerlink" href="#coro.condition_variable.wake_one" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wake only 1 thread.</p>
+<p>If there are no threads waiting, this does nothing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> &#8211; The arguments to wake the thread with.  Defaults to the
+empty tuple.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if a thread was awoken, False if not.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.fifo">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">fifo</tt><a class="headerlink" href="#coro.fifo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>fifo()</p>
+<p>First-in First-Out container.</p>
+<p>This uses a linked list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fifo</strong> &#8211; The fifo object. (C only.)</li>
+<li><strong>cv</strong> &#8211; A condition variable. (C only.)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="coro.fifo.pop">
+<tt class="descname">pop</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.fifo.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pop an object from the head of the FIFO.</p>
+<p>This blocks if the FIFO is empty.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The next object from the FIFO.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.fifo.pop_all">
+<tt class="descname">pop_all</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.fifo.pop_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pop all objects from the FIFO.</p>
+<p>This will block if the fifo is empty and wait until there is an element
+to pop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of objects.  Returns an empty list if the FIFO is
+empty.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.fifo.push">
+<tt class="descname">push</tt><big>(</big><em>self</em>, <em>thing</em><big>)</big><a class="headerlink" href="#coro.fifo.push" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push an object to the end of the FIFO.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>thing</strong> &#8211; The thing to add to the FIFO.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.inverted_semaphore">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">inverted_semaphore</tt><a class="headerlink" href="#coro.inverted_semaphore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>inverted_semaphore(value=0)</p>
+<p>An inverted semaphore works very much like a regular semaphore, except
+threads block _until_ the value reaches zero. For example, if you want a
+thread to wait for 1 or more events to finish, you can have each event
+raise the value (always nonblocking) and have your waiter thread call
+block_till_zero.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>value</strong> &#8211; The value to start the semaphore with.  It defaults to 0.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>value</strong> &#8211; The value of the inverted semaphore. Also available via
+__int__.</li>
+<li><strong>_waiting</strong> &#8211; A fifo of coroutine objects waiting for the semaphore to
+reach zero. (C only).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="coro.inverted_semaphore.acquire">
+<tt class="descname">acquire</tt><big>(</big><em>self</em>, <em>value=1</em><big>)</big><a class="headerlink" href="#coro.inverted_semaphore.acquire" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire a number of resource elements.</p>
+<p>This never blocks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> &#8211; The number of resource elements to acquire (add to the
+semaphore).  Defaults to 1.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.inverted_semaphore.block_till_zero">
+<tt class="descname">block_till_zero</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.inverted_semaphore.block_till_zero" title="Permalink to this definition">¶</a></dt>
+<dd><p>Block until the inverted semaphore reaches zero.</p>
+<p>This will return immediately if the value is already zero.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.inverted_semaphore.release">
+<tt class="descname">release</tt><big>(</big><em>self</em>, <em>value=1</em><big>)</big><a class="headerlink" href="#coro.inverted_semaphore.release" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release a number of resource elements.</p>
+<p>This never blocks.  This may wake up waiting threads.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> &#8211; The number of resource elements to release (subtract
+from the semaphore).  Defaults to 1.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="coro.inverted_semaphore.value">
+<tt class="descname">value</tt><a class="headerlink" href="#coro.inverted_semaphore.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>value: object</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.LockError">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">LockError</tt><a class="headerlink" href="#coro.LockError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.mutex">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">mutex</tt><a class="headerlink" href="#coro.mutex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>mutex()</p>
+<p>Mutual Exclusion lock object.</p>
+<p>A single thread may acquire the mutex multiple times, but it must release
+the lock an equal number of times.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>_locked</strong> &#8211; Count of how many locks on the mutex are currently held.</li>
+<li><strong>_owner</strong> &#8211; The coroutine object that owns the lock (None if no owner).
+(C only.)</li>
+<li><strong>_waiting</strong> &#8211; A fifo of coroutine objects waiting for the lock.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="coro.mutex.has_lock">
+<tt class="descname">has_lock</tt><big>(</big><em>self</em>, <em>thread=None</em><big>)</big><a class="headerlink" href="#coro.mutex.has_lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if a particular coroutine has the lock.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>thread</strong> &#8211; The coroutine object to check if it owns the lock. If
+not specified, defaults to the current thread.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the specified thread has the lock, otherwise
+returns False.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.mutex.lock">
+<tt class="descname">lock</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.mutex.lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lock the mutex.</p>
+<p>This will block if another coro already owns the mutex.</p>
+<p>A coro thread may lock the mutex multiple times.  It must call unlock
+the same number of times to release it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if it blocked, False if the mutex was acquired
+immediately.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.mutex.locked">
+<tt class="descname">locked</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.mutex.locked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the mutex is currently locked.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the mutex is locked, otherwise False.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.mutex.trylock">
+<tt class="descname">trylock</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.mutex.trylock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to lock the mutex.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if it is already locked by another coroutine thread.
+Returns False if the lock was successfully acquired.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.mutex.unlock">
+<tt class="descname">unlock</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.mutex.unlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unlock the mutex.</p>
+<p>The thread unlocking must be the thread that initially locked it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if another thread was waiting for the lock, otherwise
+it returns False.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.semaphore">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">semaphore</tt><a class="headerlink" href="#coro.semaphore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>semaphore(value)</p>
+<p>A semaphore is a locking primitive that corresponds with a set of
+resources.  A semphore is essentially a counter.  Whenever a resource is
+aquired, the count is lowered.  If the count goes below 0, then it blocks
+until it goes above zero.  Once you are done with a resource, you raise
+the counter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>value</strong> &#8211; The value to start the semaphore with (an integer).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>avail</strong> &#8211; The current value of the semaphore.  Also available via __int__.</li>
+<li><strong>_waiting</strong> &#8211; A fifo of <tt class="docutils literal"><span class="pre">(value,</span> <span class="pre">co)</span></tt> tuples of coroutines waiting
+for the semaphore. <tt class="docutils literal"><span class="pre">value</span></tt> is the value being requested, and <tt class="docutils literal"><span class="pre">co</span></tt>
+is the coroutine object. (C only.)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="coro.semaphore.acquire">
+<tt class="descname">acquire</tt><big>(</big><em>self</em>, <em>int value</em><big>)</big><a class="headerlink" href="#coro.semaphore.acquire" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire a number of resource elements from the semaphore.</p>
+<p>This will subtract the given value from the semaphore.  This will block
+if the requested number of resource elements are not available (if the
+value would go negative).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> &#8211; The number of resource elements.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="coro.semaphore.avail">
+<tt class="descname">avail</tt><a class="headerlink" href="#coro.semaphore.avail" title="Permalink to this definition">¶</a></dt>
+<dd><p>avail: object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.semaphore.release">
+<tt class="descname">release</tt><big>(</big><em>self</em>, <em>int value</em><big>)</big><a class="headerlink" href="#coro.semaphore.release" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release a number of resource elements.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> &#8211; The number of resource elements to release (add to the
+sempahore).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. Synchronization</a><ul>
+<li><a class="reference internal" href="#synchronization-classes">3.1. Synchronization Classes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/ref/synchronization.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Sam Rushing.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

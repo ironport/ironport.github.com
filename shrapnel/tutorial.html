@@ -1,0 +1,816 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1   Getting Started with Shrapnel &mdash; Shrapnel 1.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <link rel="top" title="Shrapnel 1.0.2 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started-with-shrapnel">
+<h1><a class="toc-backref" href="#contents">1&nbsp;&nbsp;&nbsp;Getting Started with Shrapnel</a><a class="headerlink" href="#getting-started-with-shrapnel" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">$Date: 2012/03/30 $</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Sam Rushing</td>
+</tr>
+</tbody>
+</table>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="auto-toc simple">
+<li><a class="reference internal" href="#getting-started-with-shrapnel" id="id1">1&nbsp;&nbsp;&nbsp;Getting Started with Shrapnel</a><ul class="auto-toc">
+<li><a class="reference internal" href="#intro" id="id2">1.1&nbsp;&nbsp;&nbsp;Intro</a></li>
+<li><a class="reference internal" href="#basics" id="id3">1.2&nbsp;&nbsp;&nbsp;Basics</a></li>
+<li><a class="reference internal" href="#servers-and-clients" id="id4">1.3&nbsp;&nbsp;&nbsp;Servers and Clients</a></li>
+<li><a class="reference internal" href="#profiler" id="id5">1.4&nbsp;&nbsp;&nbsp;Profiler</a></li>
+<li><a class="reference internal" href="#the-killer-demo" id="id6">1.5&nbsp;&nbsp;&nbsp;The Killer Demo</a></li>
+<li><a class="reference internal" href="#details" id="id7">1.6&nbsp;&nbsp;&nbsp;Details</a></li>
+<li><a class="reference internal" href="#credits" id="id8">1.7&nbsp;&nbsp;&nbsp;Credits</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Shrapnel/Coro is a highly scalable cooperative threading facility for CPython.</p>
+<div class="section" id="intro">
+<h2><a class="toc-backref" href="#contents">1.1&nbsp;&nbsp;&nbsp;Intro</a><a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
+<p>Shrapnel is a library for high-performance concurrency.  It uses
+coroutines to implement user threads on top of either kqueue (FreeBSD,
+OS X) or /dev/epoll (linux), and is written mostly in Pyrex/Cython,
+supporting both 32-bit and 64-bit platforms.  It is the culmination of
+about 8 years of work at IronPort Systems, a provider of high-speed
+mail appliances.  It was open-sourced by Cisco Systems in late 2011.</p>
+<div class="section" id="features">
+<h3>1.1.1&nbsp;&nbsp;&nbsp;Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>Lightweight threads, event-driven scheduler.</li>
+<li>Underneath: non-blocking operations on descriptors, like sockets and pipes.</li>
+<li>On top, synchronous API for straight-line, simple code.</li>
+<li>Highly scalable - tens or hundreds of thousands of connections/threads.</li>
+<li>Thread synchronization primitives, like mutexes, semaphores, etc...</li>
+<li>Wait on kqueue events like file/directory changes, signals, processes, etc... [kqueue only]</li>
+<li>DNS stub resolver (full-fledged resolver may be forthcoming)</li>
+<li>HTTP server and client</li>
+<li>RPC system</li>
+<li>Support for TLS via tlslite (openssl interface may be forthcoming)</li>
+<li>other protocols/codecs: ldap, asn1, ftp, mysql, postgres, <a class="reference external" href="https://github.com/samrushing/amqp-shrapnel">AMQP</a>.</li>
+<li><a class="reference external" href="http://www.opensource.org/licenses/mit-license.html">MIT License</a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="the-name">
+<h3>1.1.2&nbsp;&nbsp;&nbsp;The Name<a class="headerlink" href="#the-name" title="Permalink to this headline">¶</a></h3>
+<p><cite>Shrapnel</cite> is the name of the implementation.  The python package that
+it implements is <tt class="docutils literal"><span class="pre">coro</span></tt>.  It&#8217;s actually the third implementation of
+the coro package written at IronPort - previous versions were written
+in C using a painful type of continuation-passing style, and relied on
+variants of Stackless Python.</p>
+</div>
+<div class="section" id="installing">
+<h3>1.1.3&nbsp;&nbsp;&nbsp;Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h3>
+<p>Requirements:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Cython (&gt;=0.12.1)</li>
+<li>distribute (&gt;=0.6.16)</li>
+</ul>
+</div></blockquote>
+<p>Install with:</p>
+<div class="highlight-python"><pre>$ pip install coro</pre>
+</div>
+<p><em>or</em> alternatively download shrapnel from
+<a class="reference external" href="https://github.com/ironport/shrapnel">https://github.com/ironport/shrapnel</a> and do the usual <tt class="docutils literal"><span class="pre">setup.py</span></tt> procedure:</p>
+<div class="highlight-python"><pre>$ git clone git://github.com/ironport/shrapnel.git
+$ cd shrapnel
+$ python setup.py build
+$ [sudo] python setup.py install</pre>
+</div>
+</div>
+</div>
+<div class="section" id="basics">
+<h2><a class="toc-backref" href="#contents">1.2&nbsp;&nbsp;&nbsp;Basics</a><a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="event-loop">
+<h3>1.2.1&nbsp;&nbsp;&nbsp;Event Loop<a class="headerlink" href="#event-loop" title="Permalink to this headline">¶</a></h3>
+<p>Everything runs in the event loop.  So the last thing your <tt class="docutils literal"><span class="pre">__main__</span></tt> script will do is always:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">coro</span><span class="o">.</span><span class="n">event_loop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Calling this function starts the scheduler, which enters a loop continually running threads that are ready to run, feeding new waitable events to the operating system, and waiting for events to be triggered.  When an event is triggered, the thread waiting on that event is awakened.</p>
+</div>
+<div class="section" id="interaction">
+<h3>1.2.2&nbsp;&nbsp;&nbsp;Interaction<a class="headerlink" href="#interaction" title="Permalink to this headline">¶</a></h3>
+<p>Because everything runs in the event loop, you can&#8217;t interact with the normal python prompt.  But you can interact via the &#8216;backdoor&#8217;.  The backdoor interface is crucial to development with shrapnel.  It allows you to open one or more telnet sessions into the system and interact with a python prompt there.  So a common pattern in __main__ is this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">coro</span>
+    <span class="kn">import</span> <span class="nn">coro.backdoor</span>
+    <span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="n">coro</span><span class="o">.</span><span class="n">backdoor</span><span class="o">.</span><span class="n">serve</span><span class="p">,</span> <span class="n">unix_path</span><span class="o">=</span><span class="s">&#39;/tmp/xx.bd&#39;</span><span class="p">)</span>
+    <span class="n">coro</span><span class="o">.</span><span class="n">event_loop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Once this is running, open another terminal window and:</p>
+<div class="highlight-python"><pre>$ telnet /tmp/xx.bd</pre>
+</div>
+<p>[It&#8217;s important to use the full path, you can&#8217;t cd into /tmp and <tt class="docutils literal"><span class="pre">&quot;$telnet</span> <span class="pre">xx.bd&quot;</span></tt>.]</p>
+<p>Go ahead and run <tt class="docutils literal"><span class="pre">shrapnel/docs/tutorial/t0.py</span></tt> now, we&#8217;ll use it in the following demonstration:</p>
+<div class="highlight-python"><pre>$ cd shrapnel/docs/tutorial/
+$ python t0.py
+1: Sat Mar 31 16:28:44 2012 Backdoor started on unix socket /tmp/xx.bd</pre>
+</div>
+<p>In another window:</p>
+<div class="highlight-python"><pre>$ telnet /tmp/xx.bd
+Trying /tmp/xx.bd...
+Connected to (null).
+Escape character is '^]'.
+Python 2.7.2 (default, Mar 10 2012, 12:30:07)
+[GCC 4.2.1 Compatible Clang 3.1 (trunk 149115)]
+Copyright (c) 2001-2011 Python Software Foundation.
+All Rights Reserved. [etc]
+&gt;&gt;&gt;</pre>
+</div>
+</div>
+<div class="section" id="output">
+<h3>1.2.3&nbsp;&nbsp;&nbsp;Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h3>
+<p>Note the behavior of I/O to sys.stdout/stderr when using the back door:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;Howdy&quot;</span>
+<span class="go">Howdy</span>
+</pre></div>
+</div>
+<p>and:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="s">&quot;Hello</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="go">Hello</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>i.e, they print to the terminal, not the main console.</p>
+<p>To send debugging output to the <em>console</em>, use <tt class="docutils literal"><span class="pre">coro.write_stderr()</span></tt> and <tt class="docutils literal"><span class="pre">coro.print_stderr()</span></tt>.</p>
+</div>
+<div class="section" id="skullduggery">
+<h3>1.2.4&nbsp;&nbsp;&nbsp;Skullduggery<a class="headerlink" href="#skullduggery" title="Permalink to this headline">¶</a></h3>
+<p>From the back door you can poke around in the internals of the system while it&#8217;s running:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">coro</span><span class="o">.</span><span class="n">event_map</span>
+<span class="go">{&lt;kevent_key filter=-1 ident=4&gt;: &lt;kevent_target status=1 index=0 target=&lt;coro #1 name=&#39;&lt;function serve at 0x1007e1de8&gt;&#39; dead=0 started=1 scheduled=0 at     0x1005c1500&gt; flags=0&gt;, ...}</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coro</span><span class="o">.</span><span class="n">where_all</span><span class="p">()</span>
+<span class="go">{1: (&#39;&lt;function serve at 0x1007e1de8&gt;&#39;, &lt;coro #1 name=&#39;&lt;function serve at 0x1007e1de8&gt;&#39; dead=0 started=1 scheduled=0 at 0x1005c1500&gt;, &#39;[coro/backdoor.py     serve|224]&#39;), ...}</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">player_db</span><span class="p">[</span><span class="s">&#39;annoying_guy23&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">demote</span><span class="p">()</span>
+<span class="go">&lt;player annoying_guy23 id=394203 level=peon&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sleeping">
+<h3>1.2.5&nbsp;&nbsp;&nbsp;Sleeping<a class="headerlink" href="#sleeping" title="Permalink to this headline">¶</a></h3>
+<p>The sleep_relative() function allow you to put a thread to sleep for a time:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">coro</span><span class="o">.</span><span class="n">sleep_relative</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">[5 second pause]</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="starting-a-new-thread">
+<h3>1.2.6&nbsp;&nbsp;&nbsp;Starting a New Thread<a class="headerlink" href="#starting-a-new-thread" title="Permalink to this headline">¶</a></h3>
+<p>Start a new thread with <tt class="docutils literal"><span class="pre">coro.spawn()</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">thing</span><span class="p">():</span>
+<span class="gp">... </span>  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">coro</span><span class="o">.</span><span class="n">write_stderr</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,))</span>
+<span class="gp">... </span>    <span class="n">coro</span><span class="o">.</span><span class="n">sleep_relative</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="n">thing</span><span class="p">)</span>
+<span class="go">&lt;coro #5 name=&#39;&lt;function thing at 0x10152af50&gt;&#39; dead=0 started=0 scheduled=1 at 0x1005f97b0&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>In the main window you should see a new digit printed every second.</p>
+<p><tt class="docutils literal"><span class="pre">coro.spawn()</span></tt> takes a callable object, args, and keyword args:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="n">fun0</span><span class="p">,</span> <span class="n">arg0</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">kwd0</span><span class="o">=</span><span class="n">val0</span><span class="p">,</span> <span class="n">kwd1</span><span class="o">=</span><span class="n">val1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="starting-a-lot-of-new-threads">
+<h3>1.2.7&nbsp;&nbsp;&nbsp;Starting A <em>Lot</em> of New Threads<a class="headerlink" href="#starting-a-lot-of-new-threads" title="Permalink to this headline">¶</a></h3>
+<p>Start up 1000 threads:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">random</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">thing</span><span class="p">():</span>
+<span class="gp">... </span>  <span class="n">t</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">coro</span><span class="o">.</span><span class="n">sleep_relative</span> <span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">coro</span><span class="o">.</span><span class="n">write_stderr</span> <span class="p">(</span><span class="s">&#39;*&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="n">thing</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Over the next 15 seconds you should see groups of <tt class="docutils literal"><span class="pre">'*'</span></tt> characters sent to the main window.</p>
+</div>
+</div>
+<div class="section" id="servers-and-clients">
+<h2><a class="toc-backref" href="#contents">1.3&nbsp;&nbsp;&nbsp;Servers and Clients</a><a class="headerlink" href="#servers-and-clients" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="echo-server">
+<h3>1.3.1&nbsp;&nbsp;&nbsp;Echo Server<a class="headerlink" href="#echo-server" title="Permalink to this headline">¶</a></h3>
+<p>Creating a server is easy (see <a class="reference external" href="tutorial/t1.py">docs/tutorial/t1.py</a>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">coro</span>
+<span class="kn">import</span> <span class="nn">coro.backdoor</span>
+
+<span class="k">def</span> <span class="nf">session</span> <span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span> <span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">block</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">conn</span><span class="o">.</span><span class="n">send</span> <span class="p">(</span><span class="n">block</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">serve</span> <span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">9000</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">coro</span><span class="o">.</span><span class="n">tcp_sock</span><span class="p">()</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">bind</span> <span class="p">((</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">listen</span> <span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">conn</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="n">coro</span><span class="o">.</span><span class="n">backdoor</span><span class="o">.</span><span class="n">serve</span><span class="p">,</span> <span class="n">unix_path</span><span class="o">=</span><span class="s">&#39;/tmp/xx.bd&#39;</span><span class="p">)</span>
+    <span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="n">serve</span><span class="p">)</span>
+    <span class="n">coro</span><span class="o">.</span><span class="n">event_loop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can telnet into that server:</p>
+<div class="highlight-python"><pre>$ telnet localhost 9000
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+asdf
+asdf
+asdf
+asdf
+asdf</pre>
+</div>
+<p>[Hit <tt class="docutils literal"><span class="pre">Ctrl-],</span> <span class="pre">c,</span> <span class="pre">&lt;return&gt;</span></tt> to close the connection]</p>
+</div>
+<div class="section" id="timeouts">
+<h3>1.3.2&nbsp;&nbsp;&nbsp;Timeouts<a class="headerlink" href="#timeouts" title="Permalink to this headline">¶</a></h3>
+<p>One of the nicer features of shrapnel is <tt class="docutils literal"><span class="pre">with_timeout()</span></tt>.  Use
+<tt class="docutils literal"><span class="pre">with_timeout()</span></tt> around any function call:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">thing</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span> <span class="p">(</span><span class="s">&quot;SELECT * FROM CANDYBIN;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>with a 30-second timeout becomes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">coro</span><span class="o">.</span><span class="n">with_timeout</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">thing</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">,</span> <span class="s">&quot;SELECT * FROM CANDYBIN;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the function hasn&#8217;t returned within 30 seconds, it will raise
+<tt class="docutils literal"><span class="pre">coro.TimeoutError</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+   <span class="n">r</span> <span class="o">=</span> <span class="n">coro</span><span class="o">.</span><span class="n">with_timeout</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">arg0</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">coro</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+   <span class="n">coro</span><span class="o">.</span><span class="n">write_stderr</span> <span class="p">(</span><span class="s">&quot;Hey, that took too long!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Multiple layers of timeouts work as expected.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Try editing the echo server from above, adding a timeout to the
+<tt class="docutils literal"><span class="pre">conn.recv</span> <span class="pre">(1000)</span></tt> call.  Make it so that it exits the loop and
+closes the connection if nothing is typed within 10 seconds.</p>
+</div>
+</div>
+<div class="section" id="exiting-the-event-loop">
+<h3>1.3.3&nbsp;&nbsp;&nbsp;Exiting The Event Loop<a class="headerlink" href="#exiting-the-event-loop" title="Permalink to this headline">¶</a></h3>
+<p>You can tell the system to exit:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">coro</span><span class="o">.</span><span class="n">set_exit</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Connection</span> <span class="n">closed</span> <span class="n">by</span> <span class="n">foreign</span> <span class="n">host</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Try editing the echo server from above, so that it&#8217;ll exit the
+event loop when it receives the string &#8216;quit\r\n&#8217;.</p>
+</div>
+</div>
+<div class="section" id="echo-client">
+<h3>1.3.4&nbsp;&nbsp;&nbsp;Echo Client<a class="headerlink" href="#echo-client" title="Permalink to this headline">¶</a></h3>
+<p>It&#8217;s difficult to really beat on that server with your own fingers (and telnet).
+How about a client that&#8217;ll exercise it a little (see <a class="reference external" href="tutorial/t2.py">docs/tutorial/t2.py</a>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">coro</span>
+
+<span class="k">def</span> <span class="nf">client</span> <span class="p">(</span><span class="n">ip</span><span class="o">=</span><span class="s">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">9000</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">alive</span>
+    <span class="n">alive</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">coro</span><span class="o">.</span><span class="n">tcp_sock</span><span class="p">()</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">connect</span> <span class="p">((</span><span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">send</span> <span class="p">(</span><span class="s">&#39;howdy there</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">recv_exact</span> <span class="p">(</span><span class="mi">13</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;howdy there</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">coro</span><span class="o">.</span><span class="n">write_stderr</span> <span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">alive</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">alive</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">coro</span><span class="o">.</span><span class="n">write_stderr</span> <span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">done.</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+            <span class="n">coro</span><span class="o">.</span><span class="n">set_exit</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">alive</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="n">client</span><span class="p">)</span>
+    <span class="n">coro</span><span class="o">.</span><span class="n">event_loop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Hit Ctrl-C to exit.</p>
+<p>You should just see a hundred dots in the main window.  You might get connection reset errors if the listen() parameter in the server wasn&#8217;t high enough.  If so, you could put some calls to sleep_relative() in there to stagger the creation of the clients.</p>
+</div>
+<div class="section" id="proxy-server">
+<h3>1.3.5&nbsp;&nbsp;&nbsp;Proxy Server<a class="headerlink" href="#proxy-server" title="Permalink to this headline">¶</a></h3>
+<p>This is a handy little server that lets you &#8216;spy&#8217; on protocols.  It&#8217;s
+very handy when implementing protocols. See <a class="reference external" href="tutorial/proxy.py">docs/tutorial/proxy.py</a>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">coro</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">coro</span><span class="o">.</span><span class="n">write_stderr</span>
+
+<span class="k">class</span> <span class="nc">session</span><span class="p">:</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">def</span> <span class="nf">__init__</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">saddr</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">conn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">saddr</span> <span class="o">=</span> <span class="n">saddr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">counter</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span> <span class="o">=</span> <span class="n">coro</span><span class="o">.</span><span class="n">tcp_sock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">connect</span> <span class="p">(</span><span class="n">saddr</span><span class="p">)</span>
+        <span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="p">,</span> <span class="s">&#39;&lt;==&#39;</span><span class="p">)</span>
+        <span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="s">&#39;==&gt;&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feed</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c0</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="nb">dir</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">block</span> <span class="o">=</span> <span class="n">c0</span><span class="o">.</span><span class="n">recv</span> <span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+                <span class="n">W</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%d</span><span class="s"> </span><span class="si">%r</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">block</span><span class="p">))</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">block</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">c1</span><span class="o">.</span><span class="n">send</span> <span class="p">(</span><span class="n">block</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">c0</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">serve</span> <span class="p">(</span><span class="n">saddr</span><span class="p">):</span>
+    <span class="n">ip</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span> <span class="n">saddr</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">coro</span><span class="o">.</span><span class="n">tcp_sock</span><span class="p">()</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">bind</span> <span class="p">((</span><span class="s">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span> <span class="o">+</span> <span class="mi">9000</span><span class="p">))</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">listen</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">conn</span><span class="p">,</span> <span class="n">caddr</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">caddr</span><span class="p">,</span> <span class="n">saddr</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="k">if</span> <span class="nb">len</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&#39;Usage: </span><span class="si">%s</span><span class="s"> &lt;server-host&gt; &lt;server-port&gt;&#39;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="n">serve</span><span class="p">,</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])))</span>
+        <span class="n">coro</span><span class="o">.</span><span class="n">event_loop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Let&#8217;s say you want to spy on an HTTP connection:</p>
+<div class="highlight-python"><pre>$ python proxy.py 72.52.84.226 80</pre>
+</div>
+<p>The proxy works by adding 9000 to the port number you&#8217;re connecting to.</p>
+<p>Try this link: <a class="reference external" href="http://localhost:9080/tutorial_hello.html">http://localhost:9080/tutorial_hello.html</a></p>
+</div>
+</div>
+<div class="section" id="profiler">
+<h2><a class="toc-backref" href="#contents">1.4&nbsp;&nbsp;&nbsp;Profiler</a><a class="headerlink" href="#profiler" title="Permalink to this headline">¶</a></h2>
+<p>Shrapnel comes with an efficient and comprehensive profiler that
+accounts for the resources used by each thread. On most platforms it
+uses the RDTSC instruction to gather accurate timings with low
+overhead.  It profiles both Python and Cython code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">coro.profiler</span>
+<span class="c">#coro.event_loop()</span>
+<span class="n">coro</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">go</span> <span class="p">(</span><span class="n">coro</span><span class="o">.</span><span class="n">event_loop</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default it collects data from the <tt class="docutils literal"><span class="pre">rusage()</span></tt> facility and RDTSC,
+see the documentation for details.</p>
+<p>When the function you are profiling has exited, it will dump a binary
+file containing the results (default: <tt class="docutils literal"><span class="pre">/tmp/coro_profile.bin</span></tt>),
+which you can post-process using the <tt class="docutils literal"><span class="pre">coro.print_profile</span></tt> module:</p>
+<div class="highlight-python"><pre>$ python coro/print_profile.py /tmp/coro_profile.bin  &gt; /tmp/p0.html</pre>
+</div>
+<p>Pull that up in your browser, you&#8217;ll find aggregate and non-aggregate tables, along with a call graph.</p>
+<p>Non-Aggregate Timings</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="10%" />
+<col width="7%" />
+<col width="9%" />
+<col width="10%" />
+<col width="9%" />
+<col width="9%" />
+<col width="7%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">calls</th>
+<th class="head">ticks</th>
+<th class="head">ticks/call</th>
+<th class="head">utime</th>
+<th class="head">utime/call</th>
+<th class="head">stime</th>
+<th class="head">stime/call</th>
+<th class="head">minflt</th>
+<th class="head">majflt</th>
+<th class="head">oublock</th>
+<th class="head">msgsnd</th>
+<th class="head">msgrcv</th>
+<th class="head">Function</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>29552069532</td>
+<td>29552069532</td>
+<td>0.022320</td>
+<td>0.02232</td>
+<td>0.031529</td>
+<td>0.031529</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>&lt;wait&gt;</td>
+</tr>
+<tr class="row-odd"><td>4540</td>
+<td>299809652 (15.86%)</td>
+<td>66037</td>
+<td>0.118307 (16.70%)</td>
+<td>0.000026</td>
+<td>0.013881 (10.17%)</td>
+<td>0.000003</td>
+<td>2 (4.88%)</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>python/worms.py:move:141</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>227071913 (12.01%)</td>
+<td>227071913</td>
+<td>0.093381 (13.18%)</td>
+<td>0.093381</td>
+<td>0.010697 (7.84%)</td>
+<td>0.010697</td>
+<td>3 (7.32%)</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>&lt;main&gt;</td>
+</tr>
+<tr class="row-odd"><td>4783</td>
+<td>192461416 (10.18%)</td>
+<td>40238</td>
+<td>0.072527 (10.24%)</td>
+<td>0.000015</td>
+<td>0.012591 (9.22%)</td>
+<td>0.000003</td>
+<td>1 (2.44%)</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>python2.7/random.py:randrange:173</td>
+</tr>
+<tr class="row-even"><td>2420</td>
+<td>171570517 (9.08%)</td>
+<td>70896</td>
+<td>0.069622 (9.83%)</td>
+<td>0.000029</td>
+<td>0.006048 (4.43%)</td>
+<td>0.000002</td>
+<td>1 (2.44%)</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>python/worms.py:draw:185</td>
+</tr>
+</tbody>
+</table>
+<p>From the call graph section:</p>
+<div class="highlight-python"><pre>__builtin__:dict.has_key -- ticks=15234 utime=6e-06 stime=1e-06
+         3/3          (100.0%) coro/__init__.py:spawn:337
+              3           __builtin__:dict.has_key
+__builtin__:file.write -- ticks=263623 utime=4.1e-05 stime=7.5e-05
+         7/7          (100.0%) python/worms.py:status:230
+              7           __builtin__:file.write
+__builtin__:len -- ticks=28508261 utime=0.010467 stime=0.002547
+        14/4884       (00.3%) python/worms.py:status:230
+       330/4884       (06.8%) python2.7/random.py:choice:272
+      4540/4884       (93.0%) python/worms.py:move:141
+           4884           __builtin__:len
+[...]</pre>
+</div>
+<p>Example of the full <a class="reference external" href="sample_profile.html">profiler output</a>.  Note: each graph may be [re]sorted by clicking on a column header.</p>
+</div>
+<div class="section" id="the-killer-demo">
+<h2><a class="toc-backref" href="#contents">1.5&nbsp;&nbsp;&nbsp;The Killer Demo</a><a class="headerlink" href="#the-killer-demo" title="Permalink to this headline">¶</a></h2>
+<p>See <a class="reference external" href="tutorial/worms.py">docs/tutorial/worms.py</a> for a fun demo.  Run the script from
+one terminal, and telnet into it from another terminal with a nice
+large window (your terminal needs to support ANSI escape codes).</p>
+<p>Each worm is its own thread, and each socket client has a separate
+view into the shared &#8216;arena&#8217;.  This demo can easily handle hundreds of
+separate worms (though things tend to get crowded):</p>
+<div class="highlight-python"><pre>+=========================================================================+
+|                                                              **********d|
+|               9                                                         |
+|               9                                                         |
+|               9                                                         |
+|               9                                                         |
+|               9                                                         |
+|               9                                                         |
+|               9                                                         |
+|               9                                                         |
+|               9                                                         |
+|               9                                                         |
+|               9                                                         |
+|                                                                         |
+|                                                                         |
+|                                 b                         a             |
+|                                 b                         a             |
+|                                 b                         a             |
+|                                 b                         a      1      |
+|          eeeeee                 b                         a      1      |
+|               e                 b                         a      1      |
+|               e                 b                         a1111111      |
+|               e                 b                         a1            |
+|               e                 b                         a             |
+|               e                 b                         a             |
+|                                 b                         a             |
+|                                                                f        |
+|                                                                f        |
+|                                                                f        |
+|                                                                f        |
+|                                                                f        |
+|                                                                ffffff   |
++=========================================================================+
+ keys: [q]uit [r]edraw [n]ew [c]ull [l]engthen [h]offa</pre>
+</div>
+<p>Here&#8217;s the code controlling each worm&#8217;s movement:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">go</span> <span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">:</span>
+            <span class="n">coro</span><span class="o">.</span><span class="n">sleep_relative</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">speed</span> <span class="o">/</span> <span class="mf">10000.0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">turn</span><span class="p">():</span>
+                    <span class="k">return</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+                <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">arena</span><span class="p">[(</span><span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">)]</span> <span class="o">!=</span> <span class="s">&#39; &#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">turn</span><span class="p">():</span>
+                        <span class="k">return</span>
+                    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">move</span> <span class="p">((</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">))</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arena</span><span class="o">.</span><span class="n">worms</span><span class="o">.</span><span class="n">remove</span> <span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To come: a separate tutorial on hardening servers against attack.  I
+think this would be a great example to work with.</p>
+</div>
+<div class="section" id="details">
+<h2><a class="toc-backref" href="#contents">1.6&nbsp;&nbsp;&nbsp;Details</a><a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exceptions">
+<h3>1.6.1&nbsp;&nbsp;&nbsp;Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h3>
+<p>What happens when there&#8217;s an unhandled exception in a thread?:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">thing</span><span class="p">():</span>
+<span class="gp">... </span>  <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">0</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coro</span><span class="o">.</span><span class="n">spawn</span> <span class="p">(</span><span class="n">thing</span><span class="p">)</span>
+<span class="go">&lt;coro #205 name=&#39;&lt;function thing at 0x1007e6758&gt;&#39; dead=0 started=0 scheduled=1 at 0x1005cf040&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>You should see something like this in the main window:</p>
+<div class="highlight-python"><pre>205: Sat Mar 31 17:29:06 2012 thread 205 (&lt;function thing at 0x1007e6758&gt;): error
+'(\'&lt;coro.backdoor.backdoor instance at 0x1007decf8&gt; thing|2\',
+"&lt;type \'exceptions.ZeroDivisionError\'&gt;", \'integer division or modulo by zero\',
+\'[_coro.pyx coro._coro._wrap1 (coro/_coro.c:8821)|800] [&lt;coro.backdoor.backdoor instance at 0x1007decf8&gt; thing|2]\')'</pre>
+</div>
+<p>The default exception handler for a thread prints a timestamp, some info about the thread that crashed, and a compact, one-line traceback.</p>
+<p>You can replace the default handler with <tt class="docutils literal"><span class="pre">coro.set_exception_notifier()</span></tt>.</p>
+</div>
+<div class="section" id="latency-warnings">
+<h3>1.6.2&nbsp;&nbsp;&nbsp;Latency Warnings<a class="headerlink" href="#latency-warnings" title="Permalink to this headline">¶</a></h3>
+<p>It&#8217;s important that no thread monopolizes the CPU for too long.  This
+can happen if you inadvertently call a blocking system function (e.g.,
+filesystem I/O).  To assist you in finding bugs that do this, the
+scheduler will print out a warning like this:</p>
+<div class="highlight-python"><pre>Wed Apr  4 00:29:01 2012 High Latency: (5.449s) for &lt;coro #4 name='mp4 encoder' at 0x1003ceaa0&gt;</pre>
+</div>
+<p>Any thread that holds the CPU for more than 0.2s will trigger the
+warning.  You can change the trigger value with <tt class="docutils literal"><span class="pre">coro.set_latency_warning()</span></tt>.</p>
+</div>
+<div class="section" id="simultaneouserror">
+<h3>1.6.3&nbsp;&nbsp;&nbsp;SimultaneousError<a class="headerlink" href="#simultaneouserror" title="Permalink to this headline">¶</a></h3>
+<p>If two threads try to perform the same I/O operation (technically,
+wait on the same kevent), this will trigger a <tt class="docutils literal"><span class="pre">SimultaneousError</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">coro</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">recv</span> <span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;/usr/local/lib/python2.7/site-packages/coro/backdoor.py&quot;</span>, line <span class="m">144</span>, in <span class="n">parse</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">eval</span> <span class="p">(</span><span class="n">co</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+  File <span class="nb">&quot;&lt;coro.backdoor.backdoor instance at 0x100624ef0&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+  File <span class="nb">&quot;socket.pyx&quot;</span>, line <span class="m">580</span>, in <span class="n">coro._coro.sock.recv (coro/_coro.c:20208)</span>
+  File <span class="nb">&quot;socket.pyx&quot;</span>, line <span class="m">1113</span>, in <span class="n">coro._coro.sock._wait_for_read (coro/_coro.c:23549)</span>
+  File <span class="nb">&quot;poller.pyx&quot;</span>, line <span class="m">326</span>, in <span class="n">coro._coro.queue_poller._wait_for_read (coro/_coro.c:15292)</span>
+  File <span class="nb">&quot;poller.pyx&quot;</span>, line <span class="m">318</span>, in <span class="n">coro._coro.queue_poller._wait_for_with_eof (coro/_coro.c:15204)</span>
+  File <span class="nb">&quot;poller.pyx&quot;</span>, line <span class="m">342</span>, in <span class="n">coro._coro.queue_poller._wait_for (coro/_coro.c:15516)</span>
+  File <span class="nb">&quot;poller.pyx&quot;</span>, line <span class="m">304</span>, in <span class="n">coro._coro.queue_poller.set_wait_for (coro/_coro.c:15056)</span>
+<span class="gr">SimultaneousError</span>: <span class="n">&lt;SimultaneousError co=&lt;coro #6 name=&#39;backdoor session&#39; dead=0 started=1 scheduled=0 at 0x1003ceaa0&gt; other=&lt;coro #5 name=&#39;backdoor session&#39; dead=0 started=1 scheduled=0 at 0x1003d0080&gt; event=&lt;kevent_key filter=-1 ident=0&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>You can easily avoid this problem by isolating particular events to
+their own thread.  For example, you can have one thread that <em>reads</em>
+from a socket, while another <em>writes</em> to it.  You can combine
+identical events from multiple threads by using one of the
+synchronization primitives.  A common idiom uses a <tt class="docutils literal"><span class="pre">coro.fifo</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">writer</span> <span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fifo</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example we use a sentinel (<tt class="docutils literal"><span class="pre">None</span></tt>) to force the fifo to wake
+up and exit the loop.  This is similar to a generator&#8217;s use of <tt class="docutils literal"><span class="pre">StopIteration</span></tt>.</p>
+</div>
+<div class="section" id="things-to-avoid">
+<h3>1.6.4&nbsp;&nbsp;&nbsp;Things To Avoid<a class="headerlink" href="#things-to-avoid" title="Permalink to this headline">¶</a></h3>
+<p>Blocking calls.  Slow file I/O.  Not closing descriptors.  <em>Threads</em>. etc.</p>
+</div>
+<div class="section" id="how-it-works">
+<h3>1.6.5&nbsp;&nbsp;&nbsp;How it Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h3>
+<p>Shrapnel works by using two (or more) C stacks.  The first stack (the
+default one from libc) runs the scheduler, which is responsible for
+switching out coro threads, managing the timed-events queue, and
+calling kevent (or hitting /dev/epoll).  The second stack is where
+coro threads run.  When it&#8217;s time for a thread to run, its stack
+contents are copied from the heap onto the second stack, and a small
+amount of assembly code (similar to the <tt class="docutils literal"><span class="pre">ucontext</span></tt> facility)
+resumes it.  When a thread yields, the portion of the stack used by
+that thread is evacuated into the heap.</p>
+<img src="_images/shrapnel.svg" /><p>This design allows Shrapnel to work with a completely stock CPython.
+It has been used continuously with Python 2.3 to 2.7, and can usually
+be linked as a shared library against the platform&#8217;s OEM install of
+Python.</p>
+</div>
+</div>
+<div class="section" id="credits">
+<h2><a class="toc-backref" href="#contents">1.7&nbsp;&nbsp;&nbsp;Credits</a><a class="headerlink" href="#credits" title="Permalink to this headline">¶</a></h2>
+<p>[Get a comprehensive list of everyone that&#8217;s contributed to shrapnel,
+maybe with home page links?]</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1&nbsp;&nbsp;&nbsp;Getting Started with Shrapnel</a><ul>
+<li><a class="reference internal" href="#intro">1.1&nbsp;&nbsp;&nbsp;Intro</a><ul>
+<li><a class="reference internal" href="#features">1.1.1&nbsp;&nbsp;&nbsp;Features</a></li>
+<li><a class="reference internal" href="#the-name">1.1.2&nbsp;&nbsp;&nbsp;The Name</a></li>
+<li><a class="reference internal" href="#installing">1.1.3&nbsp;&nbsp;&nbsp;Installing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#basics">1.2&nbsp;&nbsp;&nbsp;Basics</a><ul>
+<li><a class="reference internal" href="#event-loop">1.2.1&nbsp;&nbsp;&nbsp;Event Loop</a></li>
+<li><a class="reference internal" href="#interaction">1.2.2&nbsp;&nbsp;&nbsp;Interaction</a></li>
+<li><a class="reference internal" href="#output">1.2.3&nbsp;&nbsp;&nbsp;Output</a></li>
+<li><a class="reference internal" href="#skullduggery">1.2.4&nbsp;&nbsp;&nbsp;Skullduggery</a></li>
+<li><a class="reference internal" href="#sleeping">1.2.5&nbsp;&nbsp;&nbsp;Sleeping</a></li>
+<li><a class="reference internal" href="#starting-a-new-thread">1.2.6&nbsp;&nbsp;&nbsp;Starting a New Thread</a></li>
+<li><a class="reference internal" href="#starting-a-lot-of-new-threads">1.2.7&nbsp;&nbsp;&nbsp;Starting A <em>Lot</em> of New Threads</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#servers-and-clients">1.3&nbsp;&nbsp;&nbsp;Servers and Clients</a><ul>
+<li><a class="reference internal" href="#echo-server">1.3.1&nbsp;&nbsp;&nbsp;Echo Server</a></li>
+<li><a class="reference internal" href="#timeouts">1.3.2&nbsp;&nbsp;&nbsp;Timeouts</a></li>
+<li><a class="reference internal" href="#exiting-the-event-loop">1.3.3&nbsp;&nbsp;&nbsp;Exiting The Event Loop</a></li>
+<li><a class="reference internal" href="#echo-client">1.3.4&nbsp;&nbsp;&nbsp;Echo Client</a></li>
+<li><a class="reference internal" href="#proxy-server">1.3.5&nbsp;&nbsp;&nbsp;Proxy Server</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#profiler">1.4&nbsp;&nbsp;&nbsp;Profiler</a></li>
+<li><a class="reference internal" href="#the-killer-demo">1.5&nbsp;&nbsp;&nbsp;The Killer Demo</a></li>
+<li><a class="reference internal" href="#details">1.6&nbsp;&nbsp;&nbsp;Details</a><ul>
+<li><a class="reference internal" href="#exceptions">1.6.1&nbsp;&nbsp;&nbsp;Exceptions</a></li>
+<li><a class="reference internal" href="#latency-warnings">1.6.2&nbsp;&nbsp;&nbsp;Latency Warnings</a></li>
+<li><a class="reference internal" href="#simultaneouserror">1.6.3&nbsp;&nbsp;&nbsp;SimultaneousError</a></li>
+<li><a class="reference internal" href="#things-to-avoid">1.6.4&nbsp;&nbsp;&nbsp;Things To Avoid</a></li>
+<li><a class="reference internal" href="#how-it-works">1.6.5&nbsp;&nbsp;&nbsp;How it Works</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#credits">1.7&nbsp;&nbsp;&nbsp;Credits</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/tutorial.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Sam Rushing.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

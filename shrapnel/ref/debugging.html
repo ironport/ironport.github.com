@@ -1,0 +1,373 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7. Debugging &mdash; Shrapnel 1.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Shrapnel 1.0.2 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="debugging">
+<h1>7. Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h1>
+<p>There are a variety of features available to help with debugging in Shrapnel.</p>
+<div class="section" id="backdoor">
+<h2>7.1. Backdoor<a class="headerlink" href="#backdoor" title="Permalink to this headline">¶</a></h2>
+<p>A very powerful feature of Shrapnel is the ability to access a running process
+via a backdoor. You can telnet to a socket (typically a unix-domain socket)
+and get a Python prompt.  At this point, you can interact with anything in
+your Shrapnel process.</p>
+<p>As an example of something you can do in the backdoor is call
+<a class="reference internal" href="#coro.where_all" title="coro.where_all"><tt class="xref py py-func docutils literal"><span class="pre">coro.where_all()</span></tt></a>.  This will return a dictionary of every coroutine that
+is running with a string describing the call stack of  where that coroutine is
+currently blocked.</p>
+<p>To enable the backdoor, you typically start a backdoor coroutine before starting
+the event loop with the following code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">coro.backdoor</span>
+<span class="n">coro</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="n">coro</span><span class="o">.</span><span class="n">backdoor</span><span class="o">.</span><span class="n">serve</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default this will listen on all IP&#8217;s on the lowest port available from 8023
+to 8033. This isn&#8217;t a very safe or secure thing to do.  It&#8217;s best to specify a
+unix-domain socket with the <tt class="docutils literal"><span class="pre">unix_path</span></tt> parameter.  See
+<a class="reference internal" href="#coro.backdoor.serve" title="coro.backdoor.serve"><tt class="xref py py-func docutils literal"><span class="pre">coro.backdoor.serve()</span></tt></a> for details.</p>
+<p>By default, the globals available in a backdoor session is a copy of the
+globals from your applications <tt class="docutils literal"><span class="pre">__main__</span></tt> module.</p>
+<dl class="function">
+<dt id="coro.backdoor.serve">
+<tt class="descclassname">coro.backdoor.</tt><tt class="descname">serve</tt><big>(</big><em>port=None</em>, <em>ip=''</em>, <em>unix_path=None</em>, <em>welcome_message=None</em>, <em>global_dict=None</em><big>)</big><a class="headerlink" href="#coro.backdoor.serve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Backdoor server function.</p>
+<p>This function will listen on the backdoor socket and spawn new threads for
+each connection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first last simple">
+<li><cite>port</cite>: The IPv4 port to listen on (defaults to automatically choose
+an unused port between 8023-&gt;8033).  May also be a list of ports.</li>
+<li><cite>ip</cite>: The IP to listen on.  Defaults to all IP&#8217;s.</li>
+<li><cite>unix_path</cite>: The unix path to listen on.  If this is specified, then
+it will use unix-domain sockets, otherwise it will use IPv4 sockets.</li>
+<li><cite>welcome_message</cite>: A welcome message to display when a user logs in.</li>
+<li><cite>global_dict</cite>: The global dictionary to use for client sessions.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="stderr-output">
+<h2>7.2. Stderr Output<a class="headerlink" href="#stderr-output" title="Permalink to this headline">¶</a></h2>
+<p>Shrapnel provides some functions for printing debug information to stderr. The
+<a class="reference internal" href="#coro.print_stderr" title="coro.print_stderr"><tt class="xref py py-func docutils literal"><span class="pre">coro.print_stderr()</span></tt></a> function will print a string with a timestamp and
+the thread number.  The <a class="reference internal" href="#coro.write_stderr" title="coro.write_stderr"><tt class="xref py py-func docutils literal"><span class="pre">coro.write_stderr()</span></tt></a> function writes the string
+verbatim with no newline.</p>
+<p>Shrapnel keeps a reference to the &#8220;real&#8221; stderr (in <tt class="docutils literal"><span class="pre">saved_stderr</span></tt>) and the
+<tt class="docutils literal"><span class="pre">print_stderr</span></tt> and <tt class="docutils literal"><span class="pre">write_stderr</span></tt> functions always use the real stderr
+value. A particular reason for doing this is the backdoor module replaces
+sys.stderr and sys.stdout, but we do not want debug output to go to the
+interactive session.</p>
+<dl class="function">
+<dt id="coro.write_stderr">
+<tt class="descclassname">coro.</tt><tt class="descname">write_stderr</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.write_stderr" title="Permalink to this definition">¶</a></dt>
+<dd><p>write(str) -&gt; None.  Write string str to file.</p>
+<p>Note that due to buffering, flush() or close() may be needed before
+the file on disk reflects the data written.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.print_stderr">
+<tt class="descclassname">coro.</tt><tt class="descname">print_stderr</tt><big>(</big><em>s</em><big>)</big><a class="headerlink" href="#coro.print_stderr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a string to stderr with a timestamp.</p>
+<p>This will print the thread id, followed by a timestamp, followed by the
+string. If the string does not end with a newline, one will be added.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> &#8211; A string to print.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>7.3. Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tracebacks">
+<h3>7.3.1. Tracebacks<a class="headerlink" href="#tracebacks" title="Permalink to this headline">¶</a></h3>
+<p>As a convenience, Shrapnel has a module for printing stack traces in a
+condensed format. The <tt class="docutils literal"><span class="pre">coro.tb</span></tt> module has the <a class="reference internal" href="#coro.tb.stack_string" title="coro.tb.stack_string"><tt class="xref py py-func docutils literal"><span class="pre">coro.tb.stack_string()</span></tt></a>
+function for printing the current stack, and <a class="reference internal" href="#coro.tb.traceback_string" title="coro.tb.traceback_string"><tt class="xref py py-func docutils literal"><span class="pre">coro.tb.traceback_string()</span></tt></a>
+for getting a traceback in an exception handler.</p>
+<dl class="function">
+<dt id="coro.tb.stack_string">
+<tt class="descclassname">coro.tb.</tt><tt class="descname">stack_string</tt><big>(</big><em>f=None</em><big>)</big><a class="headerlink" href="#coro.tb.stack_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a compact string representing the current call stack.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>f</cite>: Frame object.  If not specified, will use the current call
+position.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns a string of the current stack trace.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.tb.traceback_string">
+<tt class="descclassname">coro.tb.</tt><tt class="descname">traceback_string</tt><big>(</big><em>t=None</em>, <em>v=None</em>, <em>tb=None</em><big>)</big><a class="headerlink" href="#coro.tb.traceback_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a compact string representing the current exception.</p>
+<p>If an exception is not provided as an argument, then it will get the
+current exception from <cite>sys.exc_info</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>t</cite>: Exception type.</li>
+<li><cite>v</cite>: Exception value.</li>
+<li><cite>tb</cite>: Traceback object.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns a string of the current exception and stack trace.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="exception-notifications">
+<h3>7.3.2. Exception Notifications<a class="headerlink" href="#exception-notifications" title="Permalink to this headline">¶</a></h3>
+<p>If an exception is raised in a coroutine and is never caught, then Shrapnel
+will by default display the exception to stderr.  If you want to change this
+behavior, use <a class="reference internal" href="#coro.set_exception_notifier" title="coro.set_exception_notifier"><tt class="xref py py-func docutils literal"><span class="pre">coro.set_exception_notifier()</span></tt></a>.</p>
+<dl class="function">
+<dt id="coro.set_exception_notifier">
+<tt class="descclassname">coro.</tt><tt class="descname">set_exception_notifier</tt><big>(</big><em>new_func</em><big>)</big><a class="headerlink" href="#coro.set_exception_notifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the exception notifier.</p>
+<p>The exception notifier is a function that is called when a coroutine exits
+due to an exception.  The default exception notifier simply prints the name
+of the coroutine and a traceback of where the exception was raised.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>new_func</strong> &#8211; The exception notifier to call.  It takes no arguments.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The old exception notifier.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="latency">
+<h2>7.4. Latency<a class="headerlink" href="#latency" title="Permalink to this headline">¶</a></h2>
+<p>Shrapnel will keep track of how long a coroutine runs before it yields.
+This is helpful to track down coroutines which are running for too long, or are
+potentially calling blocking calls.  Here is an example of the output that would
+be sent to stderr when this happens:</p>
+<div class="highlight-python"><pre>Sat Apr 14 20:55:39 2012 High Latency: (3.884s)
+    for &lt;coro #1 name='&lt;function my_func at 0x800fd32a8&gt;'
+         dead=0 started=1 scheduled=0 at 0x801424720&gt;</pre>
+</div>
+<p>You can change the threshold that will trigger this warning with the
+<a class="reference internal" href="#coro.set_latency_warning" title="coro.set_latency_warning"><tt class="xref py py-func docutils literal"><span class="pre">coro.set_latency_warning()</span></tt></a> function.  However, doing this to silence
+warnings isn&#8217;t a good idea.  It is best to fix whatever code is causing the
+warnings.  You can either call <a class="reference internal" href="coroutines.html#coro.yield_slice" title="coro.yield_slice"><tt class="xref py py-func docutils literal"><span class="pre">coro.yield_slice()</span></tt></a> periodically to let
+other coroutines run, or make sure you are not calling any blocking
+operations.</p>
+<dl class="function">
+<dt id="coro.set_latency_warning">
+<tt class="descclassname">coro.</tt><tt class="descname">set_latency_warning</tt><big>(</big><em>self</em>, <em>int factor</em><big>)</big><a class="headerlink" href="#coro.set_latency_warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the latency warning threshold multiplier.</p>
+<p>The default latency warning threshold is 0.2 seconds.  This will allow
+you to change the threshold by multiplying the 0.2 value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>factor</strong> &#8211; The latency threshold multiplier.  May be a number from
+0 to 300.  A value of 0 disables latency warnings.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The old multipler factor.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Raises ValueError:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">The factor is too small or too large.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="functions">
+<h2>7.5. Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">coro</span></tt> module defines the following functions:</p>
+<dl class="function">
+<dt id="coro.where">
+<tt class="descclassname">coro.</tt><tt class="descname">where</tt><big>(</big><em>co</em><big>)</big><a class="headerlink" href="#coro.where" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string indicating where the given coroutine thread is currently
+running.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>co</strong> &#8211; The coroutine object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A string displaying where the coro thread is currently
+executing.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.where_all">
+<tt class="descclassname">coro.</tt><tt class="descname">where_all</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.where_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a dictionary of where all coroutines are currently executing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A dictionary mapping the coroutine ID to a tuple of <tt class="docutils literal"><span class="pre">(name,</span>
+<span class="pre">coro,</span> <span class="pre">where)</span></tt> where <tt class="docutils literal"><span class="pre">where</span></tt> is a string representing where the
+coroutine is currently running.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.get_live_coros">
+<tt class="descclassname">coro.</tt><tt class="descname">get_live_coros</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.get_live_coros" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of live coroutines.</p>
+<p>Note that this includes coroutines that have not started or have exited,
+but not deallocated, yet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of live coroutine objects.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">7. Debugging</a><ul>
+<li><a class="reference internal" href="#backdoor">7.1. Backdoor</a></li>
+<li><a class="reference internal" href="#stderr-output">7.2. Stderr Output</a></li>
+<li><a class="reference internal" href="#exceptions">7.3. Exceptions</a><ul>
+<li><a class="reference internal" href="#tracebacks">7.3.1. Tracebacks</a></li>
+<li><a class="reference internal" href="#exception-notifications">7.3.2. Exception Notifications</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#latency">7.4. Latency</a></li>
+<li><a class="reference internal" href="#functions">7.5. Functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/ref/debugging.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Sam Rushing.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,903 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Clocks &mdash; Shrapnel 1.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Shrapnel 1.0.2 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="clocks">
+<h1>4. Clocks<a class="headerlink" href="#clocks" title="Permalink to this headline">¶</a></h1>
+<p>Shrapnel needs to keep track of time to manage scheduling of sleeps and
+timeouts.  Because Shrapnel is intended to support thousands of coroutines,
+and each coroutine may be making many timeout calls per second, Shrapnel needs
+to use a timing facility that is relatively high performance.  It also needs
+one that is monotonic, so it does not need to deal with system clock changes.</p>
+<p>The <tt class="docutils literal"><span class="pre">clocks</span></tt> subpackage is intended to provide a variety of different time
+facilities. Currently it only supports using the x86 TSC timer.  This is a
+timer built in to the CPU, and thus is very fast.</p>
+<div class="section" id="tsc-time">
+<h2>4.1. TSC Time<a class="headerlink" href="#tsc-time" title="Permalink to this headline">¶</a></h2>
+<p>Support for TSC time is implemented in the <tt class="docutils literal"><span class="pre">coro.clocks.tsc_time</span></tt> module.</p>
+<span class="target" id="module-coro.clocks.tsc_time"></span><p>TSC time library.</p>
+<div class="section" id="introduction">
+<h3>4.1.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h3>
+<p>This module implements a &#8220;Time&#8221; object that is based on the TSC value of the
+x86 processor. This is a monotonically increasing value that is somewhat
+dependable (whereas system time may change).  It is also very high resolution
+and very efficient to retrieve.</p>
+<p>This library is designed to be as high-performance as possible.  If you use it
+correctly, you can ensure your code maintains that high level of performance.</p>
+</div>
+<div class="section" id="objects">
+<h3>4.1.2. Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h3>
+<p>There are 4 objects in this module all deriving from the base Time object.
+They are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">TSC</span></tt>: TSC value</li>
+<li><tt class="docutils literal"><span class="pre">Posix</span></tt>: POSIX, seconds since 1970</li>
+<li><tt class="docutils literal"><span class="pre">uPosix</span></tt>: POSIX, microseconds since 1970</li>
+<li><tt class="docutils literal"><span class="pre">fPosix</span></tt>: POSIX, floating-point seconds since 1970</li>
+</ul>
+<p>Each of these objects are relatively the same.  The main difference is when
+adding or comparing the objects, they behave as their type describes.</p>
+<p>The base Time object defines methods for converting the TSC value to another
+type.  They are <tt class="docutils literal"><span class="pre">as_posix_sec</span></tt>, <tt class="docutils literal"><span class="pre">as_posix_usec</span></tt>, and <tt class="docutils literal"><span class="pre">as_posix_fsec</span></tt>.</p>
+<p>There are a three classes of functions in the module for creating these
+objects. The <tt class="docutils literal"><span class="pre">now_*</span></tt> functions compute the current time.  The <tt class="docutils literal"><span class="pre">mktime_*</span></tt>
+functions convert a Python &#8220;time tuple&#8221; to a Time object.  The <tt class="docutils literal"><span class="pre">*_from_*</span></tt>
+functions take a raw value (TSC, Posix, etc.) and create a Time object.</p>
+</div>
+<div class="section" id="raw-conversions">
+<h3>4.1.3. Raw Conversions<a class="headerlink" href="#raw-conversions" title="Permalink to this headline">¶</a></h3>
+<p>The module also provides methods for converting raw values from one type to
+another. These are the <tt class="docutils literal"><span class="pre">*_to_*</span></tt> functions, and generally should not be needed
+if your code uses Time objects throughout.</p>
+</div>
+<div class="section" id="wall-clock-synchronization">
+<h3>4.1.4. Wall Clock Synchronization<a class="headerlink" href="#wall-clock-synchronization" title="Permalink to this headline">¶</a></h3>
+<p>When the module is first imported, it captures the current wall-clock time and
+TSC value.  This information is used for doing conversions between TSC and
+Posix time. It is important to call the <tt class="docutils literal"><span class="pre">update_time_relation</span></tt> function
+whenever the wall-clock is changed.  Also, it is a good idea to call it
+periodically to retain accuracy.  This is necessary because the library uses
+the <tt class="docutils literal"><span class="pre">ticks_per_sec</span></tt> value for conversions. This value is obtained from the
+<tt class="docutils literal"><span class="pre">machdep.tsc_freq</span></tt> sysctl, and may be slightly off (my system is about 0.002%
+off which is about 10 minutes per year).  Long-term computations based on the
+<tt class="docutils literal"><span class="pre">ticks_per_sec</span></tt> value should not be trusted to be very accurate.</p>
+</div>
+<div class="section" id="accuracy-and-precision">
+<h3>4.1.5. Accuracy and Precision<a class="headerlink" href="#accuracy-and-precision" title="Permalink to this headline">¶</a></h3>
+<p>The conversion functions use roughly imprecise, but faster integer arithmetic.
+The reason it is inaccurate is because it uses the ticks_per_usec value which
+is less accurate than ticks_per_sec.  To compute the inaccuracy, you can use
+the formula:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="mi">1000000</span> <span class="o">/</span> <span class="n">ticks_per_sec</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is a rough estimate.  On my 3.5 GHz system, this is about 0.027% or about
+2.3 hours per year.  Slower systems have less accuracy (about 0.09% for a 1 GHz
+machine or about 8 hours per year).</p>
+<p>To be more accurate, we would either need to use numbers larger than 64 bits
+(bignums, Python Longs, 80-bit C doubles, etc.), but it would slow the
+conversions down a little (for C doubles it was about 30% slower on my system).</p>
+<p>TSC values that are significantly far from the current time should not be
+trusted to be very accurate.</p>
+</div>
+<div class="section" id="external-c-access">
+<h3>4.1.6. External C Access<a class="headerlink" href="#external-c-access" title="Permalink to this headline">¶</a></h3>
+<p>The C functions in this module are available for direct access from other C
+extension modules.  For C modules, simply include &#8220;tsc_time.h&#8221; and call the
+initialization function once.  For Pyrex modules, include
+&#8220;tsc_time_include.pyx&#8221;. See the respective files for more detail.</p>
+</div>
+<div class="section" id="signedness">
+<h3>4.1.7. Signedness<a class="headerlink" href="#signedness" title="Permalink to this headline">¶</a></h3>
+<p>TSC values may be negative (to indicate a time before the computer booted). In
+general, this library uses signed data types to avoid signed/unsigned
+multiplication/division.  A particular exception is the <cite>ticks_per_sec</cite> value
+because it is currently defined as a 32-bit number, and we need to support
+machines with CPU&#8217;s faster than 2GHz.</p>
+<p>On most POSIX systems, time_t is a signed 32-bit integer (on some it is a
+signed 64-bit integer, whose negative value extends past the beginning of the
+universe). In theory, a signed 32-bit value can handle negative values from
+1901 to 1970 and 1970 to 2038 positive.  Some foolish systems have attempted to
+define time_t as an unsigned value to extend the overflow point to 2106, but
+this is rare.</p>
+</div>
+<div class="section" id="notes">
+<h3>4.1.8. Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h3>
+<p>The rate of the TSC value may change on systems with thermal and power
+throttling. (though rumor has it some processors adjust the TSC rate when
+auto-throttling to ensure it runs at a constant speed). This invalidates
+assumptions made in this library, so do not use those features.</p>
+<p>On SMP kernels, FreeBSD will synchronize the TSC value on all CPU&#8217;s at
+boot time, and the assumption is made that they will remain roughly in sync.
+Rumor has it that some motherboards will attempt to keep the TSC value in
+sync on all processors over time.  AMD CPU&#8217;s are rumored to be especially
+vulnerable to this.</p>
+</div>
+<div class="section" id="rdtsc">
+<h3>4.1.9. RDTSC<a class="headerlink" href="#rdtsc" title="Permalink to this headline">¶</a></h3>
+<p>This is detailed low-level information about the rdtsc instruction that is used
+to obtain the TSC value.</p>
+<p>rdtsc - ReaD TimeStamp Counter</p>
+<p>The cycle counter in the Pentium series of processors is incremented once for
+every clock cycle.  It starts out as 0 on system boot. It is a 64-bit number,
+and thus will wrap over in 292 years on a 2 gigahertz processor.  It should
+keep counting unless the system goes into deep sleep mode.</p>
+<p>FYI, the control registers on the Pentium can be configured to restrict RDTSC
+to privileged level 0.</p>
+<p>The RDTSC instruction is generally not synchronized.  Thus, with out of order
+execution, it is possible for it to run ahead of other instructions that came
+before it.  This is mainly only important if you are trying to do exact
+profiling of instruction cycles.</p>
+</div>
+<div class="section" id="other-counters">
+<h3>4.1.10. Other Counters<a class="headerlink" href="#other-counters" title="Permalink to this headline">¶</a></h3>
+<p>Most x86 systems have other hardware timers.  They all have different
+frequencies, accuracies, performance characteristics, etc.  The following is a
+list of alternate counters that we may want to investigate:</p>
+<ul class="simple">
+<li>Intel 8254 Interval Timer (i8254).  This was introduced in the IBM AT (the
+8253 was used in the IBM XT).</li>
+<li>ACPI (Advanced Configuration and Power Interface) counter (ACPI was
+introduced around 1996).</li>
+<li>HPET (High Precision Event Timer) introduced by Intel around 2004 as a
+replacement to the i8254.</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h3>4.1.11. Further Reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h3>
+<p>Some interesting papers:</p>
+<ul class="simple">
+<li>Timecounters: Efficient and precise timekeeping in SMP kernels:
+<a class="reference external" href="http://phk.freebsd.dk/pubs/timecounter.pdf">http://phk.freebsd.dk/pubs/timecounter.pdf</a></li>
+<li>TSC and Power Management Events on AMD Processors:
+<a class="reference external" href="http://www.opensolaris.org/os/community/performance/technical_docs/amd_tsc_power">http://www.opensolaris.org/os/community/performance/technical_docs/amd_tsc_power</a></li>
+</ul>
+</div>
+<div class="section" id="todo">
+<h3>4.1.12. TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Investigate SMP drift over long periods of time.</li>
+<li>Find a way to detect if the current platform has thermal or power
+throttling, and whether or not it compensates the TSC rate to remain constant.</li>
+<li>machdep.tsc_freq is a 32-bit unsigned integer.  For systems with CPU&#8217;s faster
+that 4 GHz, this is no longer sufficient.</li>
+<li>Get a better (more accurate) value of machdep.tsc_freq.  Investigate
+CLK_USE_TSC_CALIBRATION, CLK_USE_I8254_CALIBRATION, CLK_CALIBRATION_LOOP in
+FreeBSD kernel which use the mc146818A chip.  (CLK_USE_TSC_CALIBRATION seems
+to have disappeared, but is available in older kernels.)</li>
+<li>Write something that will periodically adjust the <cite>ticks_per_sec</cite> value to be
+more accurate, comparing against the wall clock assuming the wall clock is
+adjusted with NTP.  See djb&#8217;s clockspeed for inspiration.</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><cite>ticks_per_sec</cite>: Number of processor ticks per second.</li>
+<li><cite>ticks_per_usec</cite>: Number of processor ticks per microsecond.</li>
+<li><cite>relative_usec_time</cite>: Value of POSIX time (in microseconds) that relates
+to <cite>relative_tsc_time</cite>.</li>
+<li><cite>relative_tsc_time</cite>: Value of TSC counter that corresponds to
+<cite>relative_usec_time</cite>.</li>
+<li><cite>relative_sec_time</cite>: Value of POSIX time (in seconds) that relates to
+<cite>relative_tsc_time</cite>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="coro.clocks.tsc_time.Posix">
+<em class="property">class </em><tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">Posix</tt><a class="headerlink" href="#coro.clocks.tsc_time.Posix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#coro.clocks.tsc_time.Time" title="coro.clocks.tsc_time.Time"><tt class="xref py py-class docutils literal"><span class="pre">coro.clocks.tsc_time.Time</span></tt></a></p>
+<p>Time in POSIX seconds.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.Posix_from_posix_fsec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">Posix_from_posix_fsec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Posix_from_posix_fsec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX floating-point seconds value to a Posix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.Posix_from_posix_sec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">Posix_from_posix_sec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Posix_from_posix_sec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX seconds value to a Posix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.Posix_from_posix_usec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">Posix_from_posix_usec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Posix_from_posix_usec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX microseconds value to a Posix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.Posix_from_ticks">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">Posix_from_ticks</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Posix_from_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw TSC value to a Posix object.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.clocks.tsc_time.TSC">
+<em class="property">class </em><tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">TSC</tt><a class="headerlink" href="#coro.clocks.tsc_time.TSC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#coro.clocks.tsc_time.Time" title="coro.clocks.tsc_time.Time"><tt class="xref py py-class docutils literal"><span class="pre">coro.clocks.tsc_time.Time</span></tt></a></p>
+<p>Time in TSC ticks.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.TSC_from_posix_fsec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">TSC_from_posix_fsec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.TSC_from_posix_fsec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX floating-point seconds value to a TSC object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.TSC_from_posix_sec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">TSC_from_posix_sec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.TSC_from_posix_sec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX seconds value to a TSC object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.TSC_from_posix_usec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">TSC_from_posix_usec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.TSC_from_posix_usec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX microseconds value to a TSC object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.TSC_from_ticks">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">TSC_from_ticks</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.TSC_from_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw TSC value to a TSC object.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.clocks.tsc_time.Time">
+<em class="property">class </em><tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">Time</tt><a class="headerlink" href="#coro.clocks.tsc_time.Time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Base time object.</p>
+<p>Time object support the following operations:</p>
+<ul>
+<li><p class="first">Comparison.  Comparison is done using the native time object type. For
+example, &#8220;Posix&#8221; objects compare time in POSIX seconds.  Thus, if
+comparing two Posix objects that have slightly different TSC values, but
+due to the loss of precision have the same POSIX value, they will compare
+as equal.</p>
+<p>Comparison between different types is OK (Posix compared to TSC).  You
+can also compare a value with Python numeric literals (int, long, float,
+etc.).</p>
+</li>
+<li><p class="first">Hashing.  Hashing is based on the object type.</p>
+</li>
+<li><p class="first">Addition and subtraction.  This only works between two types of the exact
+same type (Posix and Posix for example), or with a Python numeric literal
+(int, long, float, etc.).</p>
+</li>
+<li><p class="first">int/long/float.  Calling the int, long, or float functions on the object
+will return an int, long, or float value of the object&#8217;s type.</p>
+</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Ivariables :</th><td class="field-body"><ul class="first last simple">
+<li><cite>tsc</cite>: The time in TSC.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="coro.clocks.tsc_time.Time.as_posix_fsec">
+<tt class="descname">as_posix_fsec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Time.as_posix_fsec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the time as POSIX seconds (a floating-point number).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return :</th><td class="field-body">Returns a float as POSIX seconds.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.clocks.tsc_time.Time.as_posix_sec">
+<tt class="descname">as_posix_sec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Time.as_posix_sec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the time as POSIX seconds (an integer).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return :</th><td class="field-body">Returns an integer as POSIX seconds.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.clocks.tsc_time.Time.as_posix_usec">
+<tt class="descname">as_posix_usec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Time.as_posix_usec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the time as POSIX microseconds (a long).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return :</th><td class="field-body">Returns a long as POSIX microseconds.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.clocks.tsc_time.Time.ctime">
+<tt class="descname">ctime</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Time.ctime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the time as a string.</p>
+<p>This returns the time as a classic C-style 24-character time string
+in the local timezone in the format &#8216;Sun Jun 20 23:21:05 1993&#8217;.  This
+does <em>not</em> include a trailing newline like C does.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return :</th><td class="field-body">Returns a string of the local time.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.clocks.tsc_time.Time.gmtime">
+<tt class="descname">gmtime</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Time.gmtime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Python time-tuple in UTC.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return :</th><td class="field-body">Returns a <cite>time.struct_time</cite> time-tuple in UTC.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.clocks.tsc_time.Time.localtime">
+<tt class="descname">localtime</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Time.localtime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Python time-tuple in the local timezone.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return :</th><td class="field-body">Returns a <cite>time.struct_time</cite> time-tuple in the local timezone.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.clocks.tsc_time.Time.mkstr_local">
+<tt class="descname">mkstr_local</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Time.mkstr_local" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert time to a string in the local timezone.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>format</cite>: The format that you want the string as. See the
+<tt class="docutils literal"><span class="pre">strftime</span></tt> function in the <cite>time</cite> module for more details.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns a string in the local timezone.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.clocks.tsc_time.Time.mkstr_utc">
+<tt class="descname">mkstr_utc</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.Time.mkstr_utc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert time to a string in UTC.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>format</cite>: The format that you want the string as. See the
+<tt class="docutils literal"><span class="pre">strftime</span></tt> function in the <cite>time</cite> module for more details.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns a string in UTC.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.clocks.tsc_time.fPosix">
+<em class="property">class </em><tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">fPosix</tt><a class="headerlink" href="#coro.clocks.tsc_time.fPosix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#coro.clocks.tsc_time.Time" title="coro.clocks.tsc_time.Time"><tt class="xref py py-class docutils literal"><span class="pre">coro.clocks.tsc_time.Time</span></tt></a></p>
+<p>Time in POSIX seconds as a floating-point number.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.fPosix_from_posix_fsec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">fPosix_from_posix_fsec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.fPosix_from_posix_fsec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX floating-point seconds value to an fPosix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.fPosix_from_posix_sec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">fPosix_from_posix_sec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.fPosix_from_posix_sec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX seconds value to an fPosix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.fPosix_from_posix_usec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">fPosix_from_posix_usec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.fPosix_from_posix_usec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX microseconds value to an fPosix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.fPosix_from_ticks">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">fPosix_from_ticks</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.fPosix_from_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw TSC value to an fPosix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.fsec_to_ticks">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">fsec_to_ticks</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.fsec_to_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert POSIX seconds (a floating-point number) to ticks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>t</cite>: The time in POSIX seconds (a float).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns the time in TSC ticks.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.get_kernel_usec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">get_kernel_usec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.get_kernel_usec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current time from the kernel in microseconds.</p>
+<p>Avoid using this unless absolutely necessary due to performance reasons.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return :</th><td class="field-body">Returns the current time in microseconds.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.mktime_posix_fsec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">mktime_posix_fsec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.mktime_posix_fsec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Python time-tuple to an fPosix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.mktime_posix_sec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">mktime_posix_sec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.mktime_posix_sec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Python time-tuple to a Posix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.mktime_posix_usec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">mktime_posix_usec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.mktime_posix_usec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Python time-tuple to a uPosix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.mktime_tsc">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">mktime_tsc</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.mktime_tsc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Python time-tuple to a TSC object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.now_posix_fsec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">now_posix_fsec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.now_posix_fsec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an fPosix object of the current time.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.now_posix_sec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">now_posix_sec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.now_posix_sec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Posix object of the current time.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.now_posix_usec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">now_posix_usec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.now_posix_usec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a uPosix object of the current time.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.now_raw_posix_fsec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">now_raw_posix_fsec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.now_raw_posix_fsec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current time as raw POSIX floating-point seconds.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.now_raw_posix_sec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">now_raw_posix_sec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.now_raw_posix_sec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current time as raw POSIX seconds.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.now_raw_posix_usec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">now_raw_posix_usec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.now_raw_posix_usec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current time as raw POSIX microseconds.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.now_raw_tsc">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">now_raw_tsc</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.now_raw_tsc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current time as raw ticks.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.now_tsc">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">now_tsc</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.now_tsc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a TSC object of the current time.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.rdtsc">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">rdtsc</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.rdtsc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current TSC value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.sec_to_ticks">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">sec_to_ticks</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.sec_to_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert POSIX seconds to ticks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>t</cite>: The time in POSIX seconds (an integer).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns the time in TSC ticks.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.set_time">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">set_time</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.set_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emulate setting the system time to the given timestamp.</p>
+<p>This alters the library to behave as-if the current time is the given time.
+Note that this is different than changing the clock on the system.
+Changing the clock on the system does not affect TSC values, but this
+function does affect TSC values to behave as-if time has elapsed in the
+real world.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first last simple">
+<li><cite>posix_timestamp</cite>: The POSIX timestamp (in seconds) to set the
+current time.  Pass in a value of 0 to disable emulation.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.step_time">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">step_time</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.step_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emulate changing the system time by the given number of seconds.</p>
+<p>See <cite>set_time</cite> for more detail.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first last simple">
+<li><cite>delta_secs</cite>: The number of seconds to alter the current time.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.ticks_to_fsec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">ticks_to_fsec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.ticks_to_fsec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert ticks to POSIX seconds (a floating-point number).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>t</cite>: The time in TSC.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns the time in POSIX microseconds.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.ticks_to_sec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">ticks_to_sec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.ticks_to_sec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert ticks to POSIX seconds (an integer).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>t</cite>: The time in TSC.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns the time in POSIX microseconds.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.ticks_to_usec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">ticks_to_usec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.ticks_to_usec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert ticks to POSIX microseconds.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>t</cite>: The time in TSC.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns the time in POSIX microseconds.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.ticks_to_usec_safe">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">ticks_to_usec_safe</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.ticks_to_usec_safe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert ticks to POSIX microseconds.</p>
+<p>This is &#8220;safe&#8221; in that if the value is zero, then it returns zero.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>t</cite>: The time in TSC.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns the time in POSIX microseconds.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.clocks.tsc_time.uPosix">
+<em class="property">class </em><tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">uPosix</tt><a class="headerlink" href="#coro.clocks.tsc_time.uPosix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#coro.clocks.tsc_time.Time" title="coro.clocks.tsc_time.Time"><tt class="xref py py-class docutils literal"><span class="pre">coro.clocks.tsc_time.Time</span></tt></a></p>
+<p>Time in POSIX microseconds.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.uPosix_from_posix_fsec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">uPosix_from_posix_fsec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.uPosix_from_posix_fsec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX floating-point seconds value to a uPosix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.uPosix_from_posix_sec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">uPosix_from_posix_sec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.uPosix_from_posix_sec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX seconds value to a uPosix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.uPosix_from_posix_usec">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">uPosix_from_posix_usec</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.uPosix_from_posix_usec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw POSIX microseconds value to a uPosix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.uPosix_from_ticks">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">uPosix_from_ticks</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.uPosix_from_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a raw TSC value to a uPosix object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.update_time_relation">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">update_time_relation</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.update_time_relation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the relative time stamps.</p>
+<p>You should call this whenever you think the clock has been changed. It
+should also be called periodically due to inaccuracies in the
+<tt class="docutils literal"><span class="pre">ticks_per_sec</span></tt> value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.usec_to_ticks">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">usec_to_ticks</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.usec_to_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert POSIX microseconds to ticks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>t</cite>: The time in POSIX microseconds.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns the time in TSC ticks.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.clocks.tsc_time.usec_to_ticks_safe">
+<tt class="descclassname">coro.clocks.tsc_time.</tt><tt class="descname">usec_to_ticks_safe</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.clocks.tsc_time.usec_to_ticks_safe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert POSIX microseconds to ticks.</p>
+<p>This is &#8220;safe&#8221; in that if the value is zero, then it returns zero.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>t</cite>: The time in POSIX microseconds.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first last">Returns the time in TSC ticks.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">4. Clocks</a><ul>
+<li><a class="reference internal" href="#tsc-time">4.1. TSC Time</a><ul>
+<li><a class="reference internal" href="#introduction">4.1.1. Introduction</a></li>
+<li><a class="reference internal" href="#objects">4.1.2. Objects</a></li>
+<li><a class="reference internal" href="#raw-conversions">4.1.3. Raw Conversions</a></li>
+<li><a class="reference internal" href="#wall-clock-synchronization">4.1.4. Wall Clock Synchronization</a></li>
+<li><a class="reference internal" href="#accuracy-and-precision">4.1.5. Accuracy and Precision</a></li>
+<li><a class="reference internal" href="#external-c-access">4.1.6. External C Access</a></li>
+<li><a class="reference internal" href="#signedness">4.1.7. Signedness</a></li>
+<li><a class="reference internal" href="#notes">4.1.8. Notes</a></li>
+<li><a class="reference internal" href="#rdtsc">4.1.9. RDTSC</a></li>
+<li><a class="reference internal" href="#other-counters">4.1.10. Other Counters</a></li>
+<li><a class="reference internal" href="#further-reading">4.1.11. Further Reading</a></li>
+<li><a class="reference internal" href="#todo">4.1.12. TODO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/ref/clocks.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Sam Rushing.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

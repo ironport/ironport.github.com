@@ -1,0 +1,792 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Coroutines &mdash; Shrapnel 1.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Shrapnel 1.0.2 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="coroutines">
+<h1>1. Coroutines<a class="headerlink" href="#coroutines" title="Permalink to this headline">¶</a></h1>
+<p>The central concept of Shrapnel is the coroutine.  You can think of a coroutine
+like it is a thread.  When it runs out of work to do, it yields and allows other
+coroutines to run.  Scheduling of coroutines is handled by the scheduler which
+runs an &#8220;event loop&#8221;.</p>
+<div class="section" id="event-loop">
+<h2>1.1. Event Loop<a class="headerlink" href="#event-loop" title="Permalink to this headline">¶</a></h2>
+<p>The event loop is a loop that runs forever until the program ends.  Every
+Shrapnel program needs to start the event loop as one of the first things it
+does.  A typical example would be:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">coro</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;Hello world!&#39;</span>
+    <span class="c"># This will cause the process to exit.</span>
+    <span class="n">coro</span><span class="o">.</span><span class="n">set_exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">coro</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="n">main</span><span class="p">)</span>
+    <span class="n">coro</span><span class="o">.</span><span class="n">event_loop</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>1.2. Coroutines<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Every coroutine thread is created with either the <tt class="xref py py-func docutils literal"><span class="pre">new()</span></tt> function (which
+does NOT automatically start the thread) or the <tt class="xref py py-func docutils literal"><span class="pre">spawn()</span></tt> function (which
+DOES automatically start it).</p>
+<p>Every thread has a unique numeric ID.  You may also set the name of the thread
+when you create it.</p>
+<dl class="class">
+<dt id="coro.coro">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">coro</tt><a class="headerlink" href="#coro.coro" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>coro(fun, args, kwargs, int id, name=None)
+The coroutine object.</p>
+<blockquote>
+<div>Do not create this object directly.  Use either <a class="reference internal" href="#coro.new" title="coro.new"><tt class="xref py py-func docutils literal"><span class="pre">new()</span></tt></a> or
+<a class="reference internal" href="#coro.spawn" title="coro.spawn"><tt class="xref py py-func docutils literal"><span class="pre">spawn()</span></tt></a> to create one.</div></blockquote>
+<dl class="attribute">
+<dt id="coro.coro.dead">
+<tt class="descname">dead</tt><a class="headerlink" href="#coro.coro.dead" title="Permalink to this definition">¶</a></dt>
+<dd><p>dead: &#8216;int&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.getName">
+<tt class="descname">getName</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.coro.getName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.get_frame">
+<tt class="descname">get_frame</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.coro.get_frame" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.get_name">
+<tt class="descname">get_name</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.coro.get_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the name of this coroutine thread.</p>
+<p>If no name has been specified, then a name is generated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The coroutine name.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="coro.coro.id">
+<tt class="descname">id</tt><a class="headerlink" href="#coro.coro.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>id: &#8216;int&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.interrupt">
+<tt class="descname">interrupt</tt><big>(</big><em>self</em>, <em>value=None</em><big>)</big><a class="headerlink" href="#coro.coro.interrupt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.join">
+<tt class="descname">join</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.coro.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for thread termination.</p>
+<p>This will wait for this thread to exit.  If the thread has already
+exited, this will return immediately.</p>
+<p>Warning: If a thread is created, but never started, this function will
+block forever.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="coro.coro.name">
+<tt class="descname">name</tt><a class="headerlink" href="#coro.coro.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>name: object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.raise_exception">
+<tt class="descname">raise_exception</tt><big>(</big><em>self</em>, <em>the_exception</em>, <em>force=True</em>, <em>cancel_start=False</em><big>)</big><a class="headerlink" href="#coro.coro.raise_exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Schedule this coroutine to resume with an exception.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>the_exception</strong> &#8211; The exception to raise.  May be an Exception class or instance.</li>
+<li><strong>force</strong> &#8211; If True, will force the exception to be raised, even if
+the coroutine is already scheduled.  Defaults to True.</li>
+<li><strong>cancel_start</strong> &#8211; If True, will cancel the coroutine if it has not
+started, yet.  If False, and the couroutine has not started, then
+it will rise <a class="reference internal" href="#coro.NotStartedError" title="coro.NotStartedError"><tt class="xref py py-exc docutils literal"><span class="pre">NotStartedError</span></tt></a>.  Defaults to False.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>DeadCoroutine</strong> &#8211; The coroutine is dead (it has already exited).</li>
+<li><strong>ScheduleError</strong> &#8211; The coroutine is already scheduled to run (and
+<tt class="docutils literal"><span class="pre">force</span></tt> was set to False).</li>
+<li><strong>ScheduleError</strong> &#8211; Attempted to raise an exception on the currently
+running coro.</li>
+<li><strong>NotStartedError</strong> &#8211; The coroutine has not started, yet.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.resume_with_exc">
+<tt class="descname">resume_with_exc</tt><big>(</big><em>self</em>, <em>exc_type</em>, <em>exc_value=None</em><big>)</big><a class="headerlink" href="#coro.coro.resume_with_exc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.schedule">
+<tt class="descname">schedule</tt><big>(</big><em>self</em>, <em>value=None</em><big>)</big><a class="headerlink" href="#coro.coro.schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Schedule this coroutine to run.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>value</strong> &#8211; The value to resume the coroutine with.  Defaults to
+None.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>DeadCoroutine</strong> &#8211; The coroutine is dead (it has already exited).</li>
+<li><strong>ScheduleError</strong> &#8211; The coroutine is already scheduled to run.</li>
+<li><strong>ScheduleError</strong> &#8211; Attempted to schedule the currently running coro.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="coro.coro.scheduled">
+<tt class="descname">scheduled</tt><a class="headerlink" href="#coro.coro.scheduled" title="Permalink to this definition">¶</a></dt>
+<dd><p>scheduled: &#8216;int&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.setName">
+<tt class="descname">setName</tt><big>(</big><em>self</em>, <em>name</em><big>)</big><a class="headerlink" href="#coro.coro.setName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.set_max_selfish_acts">
+<tt class="descname">set_max_selfish_acts</tt><big>(</big><em>self</em>, <em>maximum</em><big>)</big><a class="headerlink" href="#coro.coro.set_max_selfish_acts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the maximum number of selfish acts this coroutine is allowed to
+perform.</p>
+<p>When a coroutine is created, it defaults to 4.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>maximum</strong> &#8211; The maximum number of selfish acts.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.set_name">
+<tt class="descname">set_name</tt><big>(</big><em>self</em>, <em>name</em><big>)</big><a class="headerlink" href="#coro.coro.set_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the name of this coroutine thread.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; The name of the thread.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.shutdown">
+<tt class="descname">shutdown</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.coro.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shut down this coroutine.</p>
+<p>This will raise the <a class="reference internal" href="#coro.Shutdown" title="coro.Shutdown"><tt class="xref py py-exc docutils literal"><span class="pre">Shutdown</span></tt></a> exception on this thread.</p>
+<p>This method will not fail.  If the thread is already dead, then it is
+ignored.  If the thread hasn&#8217;t started, then it is canceled.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.start">
+<tt class="descname">start</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.coro.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the coroutine for the first time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Raises ScheduleError:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">The coro is already started.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="coro.coro.started">
+<tt class="descname">started</tt><a class="headerlink" href="#coro.coro.started" title="Permalink to this definition">¶</a></dt>
+<dd><p>started: &#8216;int&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.coro.thread_id">
+<tt class="descname">thread_id</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.coro.thread_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="coro.coro.value">
+<tt class="descname">value</tt><a class="headerlink" href="#coro.coro.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>value: object</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="timeouts">
+<h2>1.3. Timeouts<a class="headerlink" href="#timeouts" title="Permalink to this headline">¶</a></h2>
+<p>The shrapnel timeout facility allows you to execute a function which will be
+interrupted if it does not finish within a specified period of time.  The
+<tt class="xref py py-class docutils literal"><span class="pre">TimeoutError</span></tt> exception will be raised if the timeout expires.  See the
+<tt class="xref py py-func docutils literal"><span class="pre">with_timeout()</span></tt> docstring for more detail.</p>
+<p>If the event loop is not running (such as in a non-coro process), a custom
+version of <cite>with_timeout</cite> is installed that will operate using SIGALRM so that
+you may use <cite>with_timeout</cite> in code that needs to run in non-coro processes
+(though this is not recommended and should be avoided if possible).</p>
+<dl class="function">
+<dt id="coro.with_timeout">
+<tt class="descclassname">coro.</tt><tt class="descname">with_timeout</tt><big>(</big><em>timeout</em>, <em>function</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#coro.with_timeout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call a function with a timeout.</p>
+<p>This version supports running even if the coro event loop isn&#8217;t running by
+using SIGALRM.</p>
+<p>See <cite>coro._coro.sched.with_timeout</cite> for more detail.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first simple">
+<li><cite>timeout</cite>: The number of seconds to wait before raising the timeout.
+May be a floating point number.</li>
+<li><cite>function</cite>: The function to call.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return :</th><td class="field-body"><p class="first">Returns the return value of the function.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Exceptions :</th><td class="field-body"><ul class="first last simple">
+<li><cite>coro.TimeoutError</cite>: The timeout expired.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="parallel-execution">
+<h2>1.4. Parallel Execution<a class="headerlink" href="#parallel-execution" title="Permalink to this headline">¶</a></h2>
+<p>XXX</p>
+<dl class="function">
+<dt id="coro.in_parallel">
+<tt class="descclassname">coro.</tt><tt class="descname">in_parallel</tt><big>(</big><em>fun_arg_list</em><big>)</big><a class="headerlink" href="#coro.in_parallel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute several functions in parallel.</p>
+<p>This will block until all functions have returned or raised an exception.</p>
+<p>If one or more functions raises an exception, then the <tt class="xref py py-exc docutils literal"><span class="pre">InParallelError</span></tt>
+exception will be raised.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fun_arg_list</strong> &#8211; A list of <tt class="docutils literal"><span class="pre">(fun,</span> <span class="pre">args)</span></tt> tuples.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of return values from the functions.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Raises InParallelError:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">One or more of the functions raised an exception.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="coro.InParallelError">
+<em class="property">exception </em><tt class="descclassname">coro.</tt><tt class="descname">InParallelError</tt><big>(</big><em>result_list</em><big>)</big><a class="headerlink" href="#coro.InParallelError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>An error occurred in the <tt class="xref py py-func docutils literal"><span class="pre">in_parallel()</span></tt> function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><strong>result_list</strong> &#8211; A list of <tt class="docutils literal"><span class="pre">(status,</span> <span class="pre">result)</span></tt> tuples. <tt class="docutils literal"><span class="pre">status</span></tt> is
+either <tt class="xref py py-data docutils literal"><span class="pre">SUCCESS</span></tt> or <tt class="xref py py-data docutils literal"><span class="pre">FAILURE</span></tt>.  For success, the result is the return
+value of the function.  For failure, it is the output from
+<tt class="docutils literal"><span class="pre">sys.exc_info</span></tt>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="thread-local-storage">
+<h2>1.5. Thread Local Storage<a class="headerlink" href="#thread-local-storage" title="Permalink to this headline">¶</a></h2>
+<p>There is a thread-local storage interface available for storing global data that
+is thread-specific.  You instantiate a <tt class="xref py py-class docutils literal"><span class="pre">ThreadLocal</span></tt> instance and you can
+assign attributes to it that will be specific to that thread.  From a design
+perspective, it is generally discouraged to use thread-local storage.  But
+nonetheless, it can be useful at times.</p>
+<dl class="class">
+<dt id="coro.ThreadLocal">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">ThreadLocal</tt><a class="headerlink" href="#coro.ThreadLocal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Thread Local Storage.</p>
+<p>This class implements a thread-local storage facility.  You create an
+instance of ThreadLocal.  You can get and set arbitrary attributes on that
+instance, and those attributes will be thread-local. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">local</span> <span class="o">=</span> <span class="n">coro</span><span class="o">.</span><span class="n">ThreadLocal</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">local</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">local</span><span class="o">.</span><span class="n">foo</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>Now, any code that references this <tt class="docutils literal"><span class="pre">local</span></tt> object can set and get any
+variable on that object, and the value will be local to that thread.
+Imagine this running in another thread:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">local</span><span class="o">.</span><span class="n">foo</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+  File <span class="nb">&quot;local.pyx&quot;</span>, line <span class="m">35</span>, in <span class="n">coro._coro.ThreadLocal.__getattr__</span>
+<span class="gr">AttributeError</span>: <span class="n">foo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">local</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">local</span><span class="o">.</span><span class="n">foo</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<p>Now, in the original thread in the first example, imagine doing this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">local</span><span class="o">.</span><span class="n">foo</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>Notice how the attribute stays the same value for that thread.</p>
+<p>Tip: You can subclass ThreadLocal to add any logic you wish.</p>
+<p>Note: This API is very similar to the one in Python (threading.local)
+with 1 important difference: __slots__ are not supported.  Python&#8217;s
+implementation allows you to add attributes that are not thread-local
+by defining __slots__.  This is not supported at this time.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="functions">
+<h2>1.6. Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<p>The coro module defines the following functions:</p>
+<dl class="function">
+<dt id="coro.get_thread_by_id">
+<tt class="descclassname">coro.</tt><tt class="descname">get_thread_by_id</tt><big>(</big><em>thread_id</em><big>)</big><a class="headerlink" href="#coro.get_thread_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a coro thread by ID.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>thread_id</strong> &#8211; The thread ID.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The coroutine object.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Raises KeyError:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">The coroutine does not exist.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.coro_is_running">
+<tt class="descclassname">coro.</tt><tt class="descname">coro_is_running</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.coro_is_running" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the coro event loop is running.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the event loop is running, otherwise False.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.event_loop">
+<tt class="descclassname">coro.</tt><tt class="descname">event_loop</tt><big>(</big><em>timeout=30</em><big>)</big><a class="headerlink" href="#coro.event_loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the event loop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timeout</strong> &#8211; The amount of time to wait for kevent to return
+events. You should probably <em>not</em> set this value.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.new">
+<tt class="descclassname">coro.</tt><tt class="descname">new</tt><big>(</big><em>fun</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#coro.new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new coroutine object.</p>
+<p>Additional arguments and keyword arguments will be passed to the given
+function.</p>
+<p>This will not start the coroutine.  Call the <tt class="docutils literal"><span class="pre">start</span></tt> method on the
+coroutine to schedule it to run.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fun</strong> &#8211; The function to call when the coroutine starts.</li>
+<li><strong>thread_name</strong> &#8211; The name of the thread.  Defaults to the name of the
+function.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The new coroutine object.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.spawn">
+<tt class="descclassname">coro.</tt><tt class="descname">spawn</tt><big>(</big><em>fun</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#coro.spawn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Spawn a new coroutine.</p>
+<p>Additional arguments and keyword arguments will be passed to the given function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fun</strong> &#8211; The function to call when the coroutine starts.</li>
+<li><strong>thread_name</strong> &#8211; The name of the thread.  Defaults to the name of the
+function.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The new coroutine object.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.waitpid">
+<tt class="descclassname">coro.</tt><tt class="descname">waitpid</tt><big>(</big><em>pid</em><big>)</big><a class="headerlink" href="#coro.waitpid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for a process to exit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pid</strong> &#8211; The process ID to wait for.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple <tt class="docutils literal"><span class="pre">(pid,</span> <span class="pre">status)</span></tt> of the process.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Raises SimultaneousError:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Something is already waiting for this process
+ID.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.yield_slice">
+<tt class="descclassname">coro.</tt><tt class="descname">yield_slice</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.yield_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield to allow other threads to run.</p>
+<p>This will yield to allow other threads to run.  The coroutine will be
+rescheduled to run during the next pass through the event loop.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.schedule">
+<tt class="descclassname">coro.</tt><tt class="descname">schedule</tt><big>(</big><em>coro co</em>, <em>value=None</em><big>)</big><a class="headerlink" href="#coro.schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Schedule a coroutine to run.</p>
+<p>See <a class="reference internal" href="#coro.schedule" title="coro.schedule"><tt class="xref py py-meth docutils literal"><span class="pre">coro.schedule()</span></tt></a> for more detail.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>co</strong> &#8211; The coroutine to schedule.</li>
+<li><strong>value</strong> &#8211; The value to resume the coroutine with.  Defaults to None.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.current">
+<tt class="descclassname">coro.</tt><tt class="descname">current</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.current" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current coroutine object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.set_exit">
+<tt class="descclassname">coro.</tt><tt class="descname">set_exit</tt><big>(</big><em>exit_code=0</em><big>)</big><a class="headerlink" href="#coro.set_exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicate that the event loop should exit.</p>
+<p>Note that if any other coroutines are scheduled to run, they will be given
+a chance to run before exiting.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>exit_code</strong> &#8211; The exit code of the process.  Defaults to 0.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.set_print_exit_string">
+<tt class="descclassname">coro.</tt><tt class="descname">set_print_exit_string</tt><big>(</big><em>val</em><big>)</big><a class="headerlink" href="#coro.set_print_exit_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set whether or not &#8220;Exiting&#8221; should be printed when the event loop
+exits.</p>
+<p>By default, the string will be printed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>val</strong> &#8211; Whether or not &#8220;Exiting&#8221; should be printed when the event loop
+exits.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.sleep_absolute">
+<tt class="descclassname">coro.</tt><tt class="descname">sleep_absolute</tt><big>(</big><em>self</em>, <em>uint64_t when</em><big>)</big><a class="headerlink" href="#coro.sleep_absolute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sleep until a specific point in time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>when</strong> &#8211; The TSC value when you want the coroutine to wake up.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.sleep_relative">
+<tt class="descclassname">coro.</tt><tt class="descname">sleep_relative</tt><big>(</big><em>delta</em><big>)</big><a class="headerlink" href="#coro.sleep_relative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sleep for a period of time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><ul class="first last simple">
+<li><cite>delta</cite>: The number of seconds to sleep.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="variables">
+<h2>1.7. Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="coro.all_threads">
+<tt class="descclassname">coro.</tt><tt class="descname">all_threads</tt><a class="headerlink" href="#coro.all_threads" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary of all live coroutine objects.  The key is the coroutine ID,
+and the value is the coroutine object.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>1.8. Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<p>The coro module defines the following exceptions:</p>
+<dl class="exception">
+<dt id="coro.ScheduleError">
+<em class="property">exception </em><tt class="descclassname">coro.</tt><tt class="descname">ScheduleError</tt><a class="headerlink" href="#coro.ScheduleError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>attempt to schedule an already-scheduled coroutine</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="coro.DeadCoroutine">
+<em class="property">exception </em><tt class="descclassname">coro.</tt><tt class="descname">DeadCoroutine</tt><a class="headerlink" href="#coro.DeadCoroutine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">coro._coro.ScheduleError</span></tt></p>
+<p>attempt to resume a dead coroutine</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="coro.ClosedError">
+<em class="property">exception </em><tt class="descclassname">coro.</tt><tt class="descname">ClosedError</tt><a class="headerlink" href="#coro.ClosedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>Another thread closed this descriptor.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="coro.NotStartedError">
+<em class="property">exception </em><tt class="descclassname">coro.</tt><tt class="descname">NotStartedError</tt><a class="headerlink" href="#coro.NotStartedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">coro._coro.ScheduleError</span></tt></p>
+<p>Attempted to interrupt a thread before it has started.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="coro.TimeoutError">
+<em class="property">exception </em><tt class="descclassname">coro.</tt><tt class="descname">TimeoutError</tt><a class="headerlink" href="#coro.TimeoutError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">coro._coro.Interrupted</span></tt></p>
+<p>A call to with_timeout() has expired</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="coro.SimultaneousError">
+<em class="property">exception </em><tt class="descclassname">coro.</tt><tt class="descname">SimultaneousError</tt><a class="headerlink" href="#coro.SimultaneousError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>Two threads attempted a conflicting blocking operation (e.g., read() on
+the same descriptor).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>co</strong> &#8211; The coroutine that is trying to block on an event.</li>
+<li><strong>other</strong> &#8211; The coroutine or function that is already waiting on the
+event.</li>
+<li><strong>event</strong> &#8211; The event that it is trying to block on.  For kqueue, this
+is normally a <tt class="docutils literal"><span class="pre">kevent_key</span></tt> object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="coro.Shutdown">
+<em class="property">exception </em><tt class="descclassname">coro.</tt><tt class="descname">Shutdown</tt><a class="headerlink" href="#coro.Shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">coro._coro.Interrupted</span></tt></p>
+<p>The thread is shutting down.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="coro.WakeUp">
+<em class="property">exception </em><tt class="descclassname">coro.</tt><tt class="descname">WakeUp</tt><a class="headerlink" href="#coro.WakeUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>A convenience exception used to wake up a sleeping thread.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1. Coroutines</a><ul>
+<li><a class="reference internal" href="#event-loop">1.1. Event Loop</a></li>
+<li><a class="reference internal" href="#id1">1.2. Coroutines</a></li>
+<li><a class="reference internal" href="#timeouts">1.3. Timeouts</a></li>
+<li><a class="reference internal" href="#parallel-execution">1.4. Parallel Execution</a></li>
+<li><a class="reference internal" href="#thread-local-storage">1.5. Thread Local Storage</a></li>
+<li><a class="reference internal" href="#functions">1.6. Functions</a></li>
+<li><a class="reference internal" href="#variables">1.7. Variables</a></li>
+<li><a class="reference internal" href="#exceptions">1.8. Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/ref/coroutines.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Sam Rushing.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,990 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Sockets &mdash; Shrapnel 1.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Shrapnel 1.0.2 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="sockets">
+<h1>2. Sockets<a class="headerlink" href="#sockets" title="Permalink to this headline">¶</a></h1>
+<p>Most Shrapnel programs make heavy use of sockets.  The <tt class="docutils literal"><span class="pre">coro</span></tt> package
+implements its own socket class, which is nearly identical to the socket class
+in Python.  Indeed, if you use <a class="reference internal" href="emulation.html#coro.install_thread_emulation" title="coro.install_thread_emulation"><tt class="xref py py-func docutils literal"><span class="pre">coro.install_thread_emulation()</span></tt></a> then the
+socket class will be monkey-patched into Python&#8217;s socket module.</p>
+<div class="section" id="creating-sockets">
+<h2>2.1. Creating Sockets<a class="headerlink" href="#creating-sockets" title="Permalink to this headline">¶</a></h2>
+<p>Though you are free to directly instantiate the <a class="reference internal" href="#coro.sock" title="coro.sock"><tt class="xref py py-class docutils literal"><span class="pre">coro.sock</span></tt></a> object, there are
+a variety of functions to assist in creating socket objects with a little more clarity.</p>
+<dl class="function">
+<dt id="coro.tcp6_sock">
+<tt class="descclassname">coro.</tt><tt class="descname">tcp6_sock</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.tcp6_sock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a streaming IPv6 socket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A socket object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.tcp_sock">
+<tt class="descclassname">coro.</tt><tt class="descname">tcp_sock</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.tcp_sock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a streaming IPv4 socket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A socket object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.udp6_sock">
+<tt class="descclassname">coro.</tt><tt class="descname">udp6_sock</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.udp6_sock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a datagram IPv6 socket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A socket object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.udp_sock">
+<tt class="descclassname">coro.</tt><tt class="descname">udp_sock</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.udp_sock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a datagram IPv4 socket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A socket object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.unix_sock">
+<tt class="descclassname">coro.</tt><tt class="descname">unix_sock</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.unix_sock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a streaming unix-domain socket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A socket object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.socketpair">
+<tt class="descclassname">coro.</tt><tt class="descname">socketpair</tt><big>(</big><em>int domain=AF_UNIX</em>, <em>int stype=SOCK_STREAM</em>, <em>int protocol=0</em><big>)</big><a class="headerlink" href="#coro.socketpair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an unnamed pair of connected sockets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>domain</strong> &#8211; The socket domain family (defaults to AF_UNIX).</li>
+<li><strong>stype</strong> &#8211; The socket type (defaults to SOCK_STREAM).</li>
+<li><strong>protocol</strong> &#8211; The socket protocol (normally not used, defaults to 0).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple of 2 connected sockets.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body"><p class="first last">OS-level error.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="coro.has_ipv6">
+<tt class="descclassname">coro.</tt><tt class="descname">has_ipv6</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.has_ipv6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not this system can create an IPv6 socket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if this system can create an IPv6 socket, False otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="socket-classes">
+<h2>2.2. Socket Classes<a class="headerlink" href="#socket-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="coro.sock">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">sock</tt><a class="headerlink" href="#coro.sock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>sock(int domain=AF_INET, int stype=SOCK_STREAM, int protocol=0, int fd=-1)</p>
+<p>Coro socket object.</p>
+<p>This is typically used for network sockets, but can also be used for
+coro-safe IO on any file descriptor that supports kqueue non-blocking
+operations.</p>
+<p>The constructor takes the following parameters:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>domain</strong> &#8211; The socket domain family, defaults to AF_INET (see <tt class="xref py py-class docutils literal"><span class="pre">AF</span></tt>).</li>
+<li><strong>stype</strong> &#8211; The socket type, defaults to SOCK_STREAM (see <tt class="xref py py-class docutils literal"><span class="pre">SOCK</span></tt>).</li>
+<li><strong>protocol</strong> &#8211; The socket protocol (normally not used, defaults to 0).</li>
+<li><strong>fd</strong> &#8211; The file descriptor to use.  Creates a new socket file
+descriptor if not specified.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fd</strong> &#8211; The file descriptor number.  Set to -1 when the socket is
+closed.</li>
+<li><strong>orig_fd</strong> &#8211; The original file descriptor number.  This is left for
+debugging purposes to determine which file descriptor was in use
+before the socket was closed.</li>
+<li><strong>domain</strong> &#8211; The socket domain (AF_INET, AF_UNIX, AF_UNSPEC).</li>
+<li><strong>stype</strong> &#8211; The socket type (SOCK_STREAM, SOCK_DGRAM)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="coro.sock.accept">
+<tt class="descname">accept</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.sock.accept" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accept a connection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple <tt class="docutils literal"><span class="pre">(socket,</span> <span class="pre">address)</span></tt> where <tt class="docutils literal"><span class="pre">socket</span></tt> is a socket
+object and <tt class="docutils literal"><span class="pre">address</span></tt> is an <tt class="docutils literal"><span class="pre">(IP,</span> <span class="pre">port)</span></tt> tuple for IP
+addresses or a string for UNIX-domain sockets. IP addresses are
+returned as strings.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.accept_many">
+<tt class="descname">accept_many</tt><big>(</big><em>self</em>, <em>int max=0</em><big>)</big><a class="headerlink" href="#coro.sock.accept_many" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accept multiple connections.</p>
+<p>This will accept up to <tt class="docutils literal"><span class="pre">max</span></tt> connections for any connections available
+on the listen queue.  This will block if there are no connections
+waiting.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>max</strong> &#8211; The maximum number of connections to accept.  If not
+specified, defaults to infinity (accept all pending connections).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of <tt class="docutils literal"><span class="pre">(socket,</span> <span class="pre">address)</span></tt> tuples (see <tt class="xref py py-meth docutils literal"><span class="pre">accept()</span></tt> method
+for information on return format).</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.bind">
+<tt class="descname">bind</tt><big>(</big><em>self</em>, <em>address</em><big>)</big><a class="headerlink" href="#coro.sock.bind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bind the socket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>address</strong> &#8211; The address to bind to.  For IP, it should be a
+<tt class="docutils literal"><span class="pre">(IP,</span> <span class="pre">port)</span></tt> tuple where the IP is a string.  Use the empty
+string to indicate INADDR_ANY.
+The port should always be a host-byte-order integer.
+For Unix-domain sockets, the address should be a string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.close">
+<tt class="descname">close</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.sock.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the socket.</p>
+<p>It is safe to call this if the socket is already closed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.connect">
+<tt class="descname">connect</tt><big>(</big><em>self</em>, <em>address</em><big>)</big><a class="headerlink" href="#coro.sock.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.connect_addr">
+<tt class="descname">connect_addr</tt><big>(</big><em>self</em>, <em>address</em>, <em>int resolve=False</em><big>)</big><a class="headerlink" href="#coro.sock.connect_addr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect the socket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>address</strong> &#8211; The address to connect to.  For IP, it should be a
+<tt class="docutils literal"><span class="pre">(IP,</span> <span class="pre">port)</span></tt> tuple where the IP is a string.
+The port should always be a host-byte-order integer. For
+Unix-domain sockets, the address should be a string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="coro.sock.domain">
+<tt class="descname">domain</tt><a class="headerlink" href="#coro.sock.domain" title="Permalink to this definition">¶</a></dt>
+<dd><p>domain: &#8216;int&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.dup">
+<tt class="descname">dup</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.sock.dup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Duplicate the socket object using the OS dup() call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A new sock instance that holds the new file descriptor.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="coro.sock.fd">
+<tt class="descname">fd</tt><a class="headerlink" href="#coro.sock.fd" title="Permalink to this definition">¶</a></dt>
+<dd><p>fd: &#8216;int&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.fileno">
+<tt class="descname">fileno</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.sock.fileno" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current file descriptor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The current file descriptor number.  Returns -1 if the
+socket is closed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.get_fileno">
+<tt class="descname">get_fileno</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.sock.get_fileno" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current file descriptor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The current file descriptor number.  Returns -1 if the
+socket is closed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.getpeername">
+<tt class="descname">getpeername</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.sock.getpeername" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the remote-side address.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <tt class="docutils literal"><span class="pre">(IP,</span> <span class="pre">port)</span></tt> tuple for IP addresses where IP is a
+string. Returns a string for UNIX-domain sockets.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.getsockname">
+<tt class="descname">getsockname</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.sock.getsockname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the local address of the socket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <tt class="docutils literal"><span class="pre">(IP,</span> <span class="pre">port)</span></tt> tuple for IP addresses where IP is a
+string or an empty string for INADDR_ANY. Returns a
+string for UNIX-domain sockets (empty string if not bound).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.getsockopt">
+<tt class="descname">getsockopt</tt><big>(</big><em>self</em>, <em>int level</em>, <em>int optname</em>, <em>socklen_t buflen=0</em><big>)</big><a class="headerlink" href="#coro.sock.getsockopt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a socket option.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>level</strong> &#8211; The socket level to get (see <tt class="xref py py-class docutils literal"><span class="pre">SOL</span></tt>).</li>
+<li><strong>optname</strong> &#8211; The socket option to get (see <tt class="xref py py-class docutils literal"><span class="pre">SO</span></tt>).</li>
+<li><strong>buflen</strong> &#8211; The size of the buffer needed to retrieve the value. If
+not specified, it assumes the result is an integer and will
+return an integer.  Otherwise, it will create a new string with
+the result, and you may use the struct module to decode it.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer if <tt class="docutils literal"><span class="pre">buflen</span></tt> is zero, otherwise returns a string.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body"><p class="first last">OS-level error.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.listen">
+<tt class="descname">listen</tt><big>(</big><em>self</em>, <em>backlog</em><big>)</big><a class="headerlink" href="#coro.sock.listen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the socket to listen for connections.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>backlog</strong> &#8211; The maximum size of the queue for pending connections.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.makefile">
+<tt class="descname">makefile</tt><big>(</big><em>self</em>, <em>mode='r'</em>, <em>bufsize=-1</em><big>)</big><a class="headerlink" href="#coro.sock.makefile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a regular file object corresponding to the socket.</p>
+<p>The mode and bufsize arguments are as for the built-in open() function.</p>
+<p>The underlying socket is duplicated via <tt class="docutils literal"><span class="pre">sock.dup</span></tt> to emulate Python&#8217;s
+reference counting behavior.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mode</strong> &#8211; The mode of the file, defaults to &#8216;r&#8217;.</li>
+<li><strong>bufsize</strong> &#8211; The buffer size (0 is no buffering, 1 is line
+buffering, greater than 1 is the explicit buffer size).
+Defaults to -1 (does not change the default buffering).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A file-like object that wraps the socket.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="coro.sock.orig_fd">
+<tt class="descname">orig_fd</tt><a class="headerlink" href="#coro.sock.orig_fd" title="Permalink to this definition">¶</a></dt>
+<dd><p>orig_fd: &#8216;int&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.read">
+<tt class="descname">read</tt><big>(</big><em>self</em>, <em>buffer_size</em><big>)</big><a class="headerlink" href="#coro.sock.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read data.</p>
+<p>This is an alias for the <tt class="xref py py-meth docutils literal"><span class="pre">recv()</span></tt> method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.readv">
+<tt class="descname">readv</tt><big>(</big><em>self</em>, <em>size_list</em><big>)</big><a class="headerlink" href="#coro.sock.readv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a vector array of data.</p>
+<p>This will repeatedly call readv until all data is received. If the end
+of the stream is reached before all data is received, then the result
+tuple will only contain the elements competely or partially received.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>size_list</strong> &#8211; A sequence of integers that indicates the buffer
+sizes to read.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple of strings corresponding to the sizes requested in
+<tt class="docutils literal"><span class="pre">size_list</span></tt>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.recv">
+<tt class="descname">recv</tt><big>(</big><em>self</em>, <em>int buffer_size</em><big>)</big><a class="headerlink" href="#coro.sock.recv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive data.</p>
+<p>This may return less data than you request if the socket buffer is not
+large enough.  Use <tt class="xref py py-meth docutils literal"><span class="pre">recv_exact()</span></tt> to ensure you receive exactly the
+amount requested.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buffer_size</strong> &#8211; The number of bytes to receive.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A string of data.  Returns the empty string when the end of
+the stream is reached.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.recv_exact">
+<tt class="descname">recv_exact</tt><big>(</big><em>self</em>, <em>int bytes</em><big>)</big><a class="headerlink" href="#coro.sock.recv_exact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive exactly the number of bytes requested.</p>
+<p>This will repeatedly call read until all data is received.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>bytes</strong> &#8211; The number of bytes to receive.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The data as a string.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>OSError</strong> &#8211; OS-level error.</li>
+<li><strong>EOFError</strong> &#8211; Not all data could be read.  The first argument
+includes any partial data read as a string.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.recv_into">
+<tt class="descname">recv_into</tt><big>(</big><em>self</em>, <em>buffer</em>, <em>int nbytes=0</em>, <em>int flags=0</em><big>)</big><a class="headerlink" href="#coro.sock.recv_into" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive data into a Python buffer.</p>
+<p>This is for the Python buffer interface.  If you don&#8217;t know what that
+is, move along.  This method is for Python socket compatibility.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>buffer</strong> &#8211; A writeable Python buffer object.  Must be a contiguous
+segment.</li>
+<li><strong>nbytes</strong> &#8211; Number of bytes to read.  Must be less than or equal to
+the size of the buffer.  Defaults to 0 which means the size of
+<tt class="docutils literal"><span class="pre">buffer</span></tt>.</li>
+<li><strong>flags</strong> &#8211; Flags for the recv system call (see recv(2) manpage).
+Defaults to 0.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The number of bytes read.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body"><p class="first last">OS-level error.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.recvfrom">
+<tt class="descname">recvfrom</tt><big>(</big><em>self</em>, <em>int buffer_size</em>, <em>int flags=0</em><big>)</big><a class="headerlink" href="#coro.sock.recvfrom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive data.</p>
+<p>This may return less data than you request if the socket buffer is not
+large enough.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>buffer_size</strong> &#8211; The number of bytes to receive.</li>
+<li><strong>flags</strong> &#8211; Socket flags to set (defaults to 0) (see recvfrom(2)
+manpage).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple <tt class="docutils literal"><span class="pre">(data,</span> <span class="pre">address)</span></tt> where data is a string and
+address is the address of the remote side (string for unix-domain,
+tuple of <tt class="docutils literal"><span class="pre">(IP,</span> <span class="pre">port)</span></tt> for IP where IP is a string and port is an
+integer).  Data is the empty string when the end of the stream is
+reached.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body"><p class="first last">OS-level error.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.recvfrom_into">
+<tt class="descname">recvfrom_into</tt><big>(</big><em>self</em>, <em>buffer</em>, <em>int nbytes=0</em>, <em>int flags=0</em><big>)</big><a class="headerlink" href="#coro.sock.recvfrom_into" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive data into a Python buffer.</p>
+<p>This is for the Python buffer interface.  If you don&#8217;t know what that
+is, move along.  This method is for Python socket compatibility.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>buffer</strong> &#8211; A writeable Python buffer object.  Must be a contiguous
+segment.</li>
+<li><strong>nbytes</strong> &#8211; Number of bytes to read.  Must be less than or equal to
+the size of the buffer.  Defaults to 0 which means the size of
+<tt class="docutils literal"><span class="pre">buffer</span></tt>.</li>
+<li><strong>flags</strong> &#8211; Flags for the recv system call (see recvfrom(2) manpage).
+Defaults to 0.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple <tt class="docutils literal"><span class="pre">(nbytes,</span> <span class="pre">address)</span></tt> where <tt class="docutils literal"><span class="pre">bytes</span></tt> is the number
+of bytes read and <tt class="docutils literal"><span class="pre">address</span></tt> then it is the address of the remote
+side.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body"><p class="first last">OS-level error.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.send">
+<tt class="descname">send</tt><big>(</big><em>self</em>, <em>data</em><big>)</big><a class="headerlink" href="#coro.sock.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send data on the socket.</p>
+<p>This will repeatedly call write to ensure all data has been sent. This
+will raise OSError if it is unable to send all data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; The data to send.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The number of bytes sent, which should always be the length
+of <tt class="docutils literal"><span class="pre">data</span></tt>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.sendall">
+<tt class="descname">sendall</tt><big>(</big><em>self</em>, <em>data</em><big>)</big><a class="headerlink" href="#coro.sock.sendall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send all data.</p>
+<p>This is an alias for the <tt class="xref py py-meth docutils literal"><span class="pre">send()</span></tt> method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.sendto">
+<tt class="descname">sendto</tt><big>(</big><em>self</em>, <em>data</em>, <em>address</em>, <em>int flags=0</em><big>)</big><a class="headerlink" href="#coro.sock.sendto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send data to a specific address.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> &#8211; The data to send.</li>
+<li><strong>address</strong> &#8211; The address to send to.  For unix-domain sockets, this
+is a string.  For IP sockets, this is a tuple <tt class="docutils literal"><span class="pre">(IP,</span> <span class="pre">port)</span></tt>
+where IP is a string.
+Port is always an integer.</li>
+<li><strong>flags</strong> &#8211; sendto flags to use (defaults to 0) (see sendto(2)
+manpage).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The number of bytes sent which may be less than the send
+requested.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body"><p class="first last">OS-level error.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.set_reuse_addr">
+<tt class="descname">set_reuse_addr</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.sock.set_reuse_addr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the SO_REUSEADDR socket option.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.setsockopt">
+<tt class="descname">setsockopt</tt><big>(</big><em>self</em>, <em>int level</em>, <em>int optname</em>, <em>value</em><big>)</big><a class="headerlink" href="#coro.sock.setsockopt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a socket option.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>level</strong> &#8211; The socket level to set (see <tt class="xref py py-class docutils literal"><span class="pre">SOL</span></tt>).</li>
+<li><strong>optname</strong> &#8211; The socket option to set (see <tt class="xref py py-class docutils literal"><span class="pre">SO</span></tt>).</li>
+<li><strong>value</strong> &#8211; The value to set.  May be an integer, or a struct-packed string.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body"><p class="first last">OS-level error.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.shutdown">
+<tt class="descname">shutdown</tt><big>(</big><em>self</em>, <em>int how</em><big>)</big><a class="headerlink" href="#coro.sock.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shutdown the socket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>how</strong> &#8211; How to shut down the socket (see the shutdown(2) manpage).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="coro.sock.stype">
+<tt class="descname">stype</tt><a class="headerlink" href="#coro.sock.stype" title="Permalink to this definition">¶</a></dt>
+<dd><p>stype: &#8216;int&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.wait_for_read">
+<tt class="descname">wait_for_read</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.sock.wait_for_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Block until the socket is readable.</p>
+<p>This will block until there is data available to be read.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The amount &#8220;readable&#8221;.  For different sockets, this may be
+different values, see the EVFILT_READ section of the kevent manpage
+for details.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.wait_for_write">
+<tt class="descname">wait_for_write</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#coro.sock.wait_for_write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Block until the socket is writeable.</p>
+<p>This will block until it is possible to write to the socket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of bytes writeable on the socket.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.write">
+<tt class="descname">write</tt><big>(</big><em>self</em>, <em>data</em><big>)</big><a class="headerlink" href="#coro.sock.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write data.</p>
+<p>This is an alias for the <tt class="xref py py-meth docutils literal"><span class="pre">send()</span></tt> method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="coro.sock.writev">
+<tt class="descname">writev</tt><big>(</big><em>self</em>, <em>data</em><big>)</big><a class="headerlink" href="#coro.sock.writev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a vector array of data.</p>
+<p>This will repeatedly call writev until all data is sent. If it is
+unable to send all data, it will raise an OSError exception.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; A sequence of strings to write.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The number of bytes sent which should always be the sum of
+the lengths of all the strings in the data sequence.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises OSError:</th><td class="field-body">OS-level error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.file_sock">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">file_sock</tt><a class="headerlink" href="#coro.file_sock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">coro._coro.sock</span></tt></p>
+<p>file_sock(fileobj)
+A file-object wrapper using the socket object.</p>
+<blockquote>
+<div><p>The constructor takes one argument:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param fileobj:</th><td class="field-body">A Python-like file object.  Currently only needs to
+implement the <tt class="docutils literal"><span class="pre">fileno</span></tt> method.</td>
+</tr>
+</tbody>
+</table>
+<p>When the object is deallocated, the file descriptor is closed.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.fd_sock">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">fd_sock</tt><a class="headerlink" href="#coro.fd_sock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">coro._coro.sock</span></tt></p>
+<p>fd_sock(fd)
+A file-descriptor wrapper using the socket object.</p>
+<blockquote>
+<div><p>The constructor takes one argument:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param fd:</th><td class="field-body">A file descriptor.</td>
+</tr>
+</tbody>
+</table>
+<p>When the object is deallocated, the file descriptor is closed.</p>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="socket-functions">
+<h2>2.3. Socket Functions<a class="headerlink" href="#socket-functions" title="Permalink to this headline">¶</a></h2>
+<p>The coro module offers the following functions related to sockets.</p>
+<dl class="function">
+<dt id="coro.get_live_sockets">
+<tt class="descclassname">coro.</tt><tt class="descname">get_live_sockets</tt><big>(</big><big>)</big><a class="headerlink" href="#coro.get_live_sockets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of live socket objects.  This includes socket objects
+that are closed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of socket objects.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="socket-constants">
+<h2>2.4. Socket Constants<a class="headerlink" href="#socket-constants" title="Permalink to this headline">¶</a></h2>
+<p>The following classes provide a variety of constants often used with sockets.</p>
+<dl class="class">
+<dt id="coro.AF">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">AF</tt><a class="headerlink" href="#coro.AF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Socket families.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="coro.PF">
+<tt class="descclassname">coro.</tt><tt class="descname">PF</tt><a class="headerlink" href="#coro.PF" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">AF</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.SHUT">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">SHUT</tt><a class="headerlink" href="#coro.SHUT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Socket shutdown methods.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.SO">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">SO</tt><a class="headerlink" href="#coro.SO" title="Permalink to this definition">¶</a></dt>
+<dd><p>Socket options.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.SOCK">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">SOCK</tt><a class="headerlink" href="#coro.SOCK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Socket types.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="coro.SOL">
+<em class="property">class </em><tt class="descclassname">coro.</tt><tt class="descname">SOL</tt><a class="headerlink" href="#coro.SOL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Socket levels.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2. Sockets</a><ul>
+<li><a class="reference internal" href="#creating-sockets">2.1. Creating Sockets</a></li>
+<li><a class="reference internal" href="#socket-classes">2.2. Socket Classes</a></li>
+<li><a class="reference internal" href="#socket-functions">2.3. Socket Functions</a></li>
+<li><a class="reference internal" href="#socket-constants">2.4. Socket Constants</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/ref/sockets.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Sam Rushing.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,600 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1   Shrapnel/Coro &mdash; Shrapnel 1.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <link rel="top" title="Shrapnel 1.0.2 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="shrapnel-coro">
+<h1><a class="toc-backref" href="#contents">1&nbsp;&nbsp;&nbsp;Shrapnel/Coro</a><a class="headerlink" href="#shrapnel-coro" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">$Date: 2008/05/06 $</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Sam Rushing</td>
+</tr>
+</tbody>
+</table>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="auto-toc simple">
+<li><a class="reference internal" href="#shrapnel-coro" id="id1">1&nbsp;&nbsp;&nbsp;Shrapnel/Coro</a><ul class="auto-toc">
+<li><a class="reference internal" href="#threads" id="id2">1.1&nbsp;&nbsp;&nbsp;Threads</a></li>
+<li><a class="reference internal" href="#kqueue-kevent" id="id3">1.2&nbsp;&nbsp;&nbsp;kqueue()/kevent()</a></li>
+<li><a class="reference internal" href="#non-blocking-operations" id="id4">1.3&nbsp;&nbsp;&nbsp;Non-Blocking Operations</a></li>
+<li><a class="reference internal" href="#precious-resources" id="id5">1.4&nbsp;&nbsp;&nbsp;Precious Resources</a></li>
+<li><a class="reference internal" href="#the-back-door" id="id6">1.5&nbsp;&nbsp;&nbsp;The Back Door</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Shrapnel/Coro is a cooperative thread facility built on top of Python.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This document was originally written for internal use at
+IronPort.  It refers to several facilities that unfortunately have not
+(yet) been open-sourced, (e.g., the dns resolver and sntp client).
+It also references and describes things that are specific to the
+IronPort mail appliance.  Much of the advice in here is good, though,
+and I hope to revisit it soon.</p>
+</div>
+<div class="section" id="threads">
+<h2><a class="toc-backref" href="#contents">1.1&nbsp;&nbsp;&nbsp;Threads</a><a class="headerlink" href="#threads" title="Permalink to this headline">¶</a></h2>
+<p>The main abstraction is the &#8216;coro&#8217;, or thread.  A normally-configured
+MGA will usually start up with 100+ threads, many of them devoted to
+monitoring the system and its configuration.  Others are maintenance
+threads which run for a few seconds every 30 minutes or so.  A system
+under load can easily have 3000-4000 active threads.</p>
+<p>For example, an SNTP (simple network time protocol) client thread will
+send a few packets upon startup, until it has synchronized with a
+network time server, then it may send a request every 30-60 minutes to
+maintain synchronization via the kernel PLL.</p>
+<p>Threads are cheap in Shrapnel, especially if they&#8217;re idle.  The
+overhead of a sleeping thread consists of a single entry in a priority
+queue, and the memory for the thread object itself.  Don&#8217;t avoid
+dedicating a thread to some task if it&#8217;s the right abstraction.</p>
+</div>
+<div class="section" id="kqueue-kevent">
+<h2><a class="toc-backref" href="#contents">1.2&nbsp;&nbsp;&nbsp;kqueue()/kevent()</a><a class="headerlink" href="#kqueue-kevent" title="Permalink to this headline">¶</a></h2>
+<p>FreeBSD has a kernel facility for asynchronous events, called
+&#8216;kqueue&#8217;.  It&#8217;s a generalization of select(), poll(), /dev/poll, and
+other event mechanisms.  Shrapnel&#8217;s main scheduler loop is built
+around the kevent() system call.  Whenever the scheduler runs out of
+threads that are ready to run, it calls kevent() to wait for an
+external event of some kind.</p>
+</div>
+<div class="section" id="non-blocking-operations">
+<h2><a class="toc-backref" href="#contents">1.3&nbsp;&nbsp;&nbsp;Non-Blocking Operations</a><a class="headerlink" href="#non-blocking-operations" title="Permalink to this headline">¶</a></h2>
+<p>Large-scale concurrency is achieved by avoiding &#8216;blocking&#8217; system
+calls, or any operation that consumes too much CPU for too long.
+Shrapnel scales up by juggling thousands of such operations at the
+same time.  Each thread runs for a short &#8216;slice&#8217; of time, usually
+until it performs an operation that would block, then it yields.  The
+general idea is to &#8216;ask&#8217; the kernel to start doing something, and
+arrange for it to let you know when it&#8217;s done.</p>
+<div class="section" id="non-blocking-sockets">
+<h3>1.3.1&nbsp;&nbsp;&nbsp;Non-Blocking Sockets<a class="headerlink" href="#non-blocking-sockets" title="Permalink to this headline">¶</a></h3>
+<p>For a network server, the most common operation is a socket read() or
+write().  A normal call to read() will disappear into the kernel,
+locking up the entire process, while waiting for data to be available
+for reading on the socket.  But when the socket is in &#8216;non-blocking&#8217;
+mode, it will return EWOULDBLOCK instead.  Shrapnel catches this
+error, and submits a &#8216;kevent&#8217; to the kernel.  Then it yield()s the
+thread.  When data eventually becomes available, the kevent will
+trigger, and shrapnel&#8217;s scheduler will wake up the thread.</p>
+</div>
+<div class="section" id="aio-signals-etc">
+<h3>1.3.2&nbsp;&nbsp;&nbsp;aio(), signals, etc...<a class="headerlink" href="#aio-signals-etc" title="Permalink to this headline">¶</a></h3>
+<p>Any blocking operation can conceivably be converted into a
+kevent();yield();...wait...;resume() sequence.  Other examples are
+asynchronous disk i/o (&#8216;aio&#8217;), signals, wait(4).  There are even some
+facilities that are new to Unix, like file/directory change
+monitoring.</p>
+</div>
+<div class="section" id="the-scheduler">
+<h3>1.3.3&nbsp;&nbsp;&nbsp;The Scheduler<a class="headerlink" href="#the-scheduler" title="Permalink to this headline">¶</a></h3>
+<p>At the heart of shrapnel is the &#8216;event loop&#8217;.  It acts as the
+scheduler for all the threads and events in the system.  It looks
+something like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">while</span> <span class="n">running</span><span class="p">:</span>
+  <span class="n">schedule_timed_events</span><span class="p">()</span>
+  <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">ready_jobs</span><span class="p">):</span>
+    <span class="n">run_ready_jobs</span><span class="p">()</span>
+  <span class="n">kevent</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The scheduler is very simple - it uses a round-robin algorithm.  There
+are no priorities.  [In general, we have avoided adding priorities due
+to the complexity and danger of thread starvation].</p>
+</div>
+<div class="section" id="selfishness">
+<h3>1.3.4&nbsp;&nbsp;&nbsp;&#8216;Selfishness&#8217;<a class="headerlink" href="#selfishness" title="Permalink to this headline">¶</a></h3>
+<p>One subtle issue with regards to starvation needs to be mentioned.</p>
+<p>The design of most non-blocking operations on Unix is one of &#8216;attempt,
+maybe EWOULDBLOCK&#8217;.  That is, a call to send() <em>may</em> succeed
+immediately.  Only if it cannot do so will it return EWOULDBLOCK.  On
+a very fast locally-connected network, it may be possible to call
+send() hundreds of times before it will throw EWOULDBLOCK.  Any thread
+relying on the &#8216;non-blocking&#8217; nature of network communication might
+actually run in a tight loop, starving other threads on the system.
+To avoid this problem, a simple form of &#8216;selfishness&#8217; is associated
+with each thread.  A thread&#8217;s selfishness defaults to a small number
+(say, 4 or 5).  It may try and succeed immediately only that many
+operations before it is forcibly yielded.  This gives other threads a
+chance to run. [see ap/shrapnel/coro/{_coro.pyx,socket.pyx} for the
+&#8216;try_selfish()&#8217; method]</p>
+</div>
+<div class="section" id="the-priority-queue">
+<h3>1.3.5&nbsp;&nbsp;&nbsp;The Priority Queue<a class="headerlink" href="#the-priority-queue" title="Permalink to this headline">¶</a></h3>
+<p>At the top of the event loop you&#8217;ll see &#8216;schedule_timed_events()&#8217;.
+The scheduler uses a priority queue to manage timed events.  The
+priority queue contains two kinds of objects, threads and timeouts,
+sorted by time.  schedule_timed_events() pops off any events that have
+&#8216;expired&#8217; (their trigger times have passed), and schedules either a
+thread or an exception (in the case of a timeout).</p>
+<p>There are two common ways for a thread to &#8216;yield&#8217;: either it&#8217;s waiting
+on an external event, or it&#8217;s just waiting for a certain amount of
+time.  The &#8216;sleep&#8217; method on a thread simply places the thread into
+the priority queue and yields() itself.</p>
+</div>
+<div class="section" id="timeouts">
+<h3>1.3.6&nbsp;&nbsp;&nbsp;Timeouts<a class="headerlink" href="#timeouts" title="Permalink to this headline">¶</a></h3>
+<p>The most important use of the priority queue is for timeouts,
+however.  This facility is probably unlike anything you&#8217;ve seen in
+other thread packages.  It&#8217;s designed to be very efficient, so don&#8217;t
+hesitate to use it whenever appropriate.  The interface is through the
+&#8216;with_timeout()&#8217; function.</p>
+<div class="section" id="with-timeout">
+<h4>1.3.6.1&nbsp;&nbsp;&nbsp;with_timeout()<a class="headerlink" href="#with-timeout" title="Permalink to this headline">¶</a></h4>
+<p>Let&#8217;s say you would like to perform a network operation of some kind,
+one that is usually pretty fast, but occasionally might take much
+longer, or even forever.  For example, a dns request:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
+<span class="n">ip_addrs</span> <span class="o">=</span> <span class="n">resolver</span><span class="o">.</span><span class="n">query</span> <span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="n">ip_addrs</span><span class="p">:</span>
+   <span class="o">...</span>
+</pre></div>
+</div>
+<p>You can transform this code to use a five-second timeout easily:</p>
+<div class="highlight-python"><pre>...
+try:
+   ip_addrs = coro.with_timeout (5, resolver.query, hostname, 'A')
+   for ip in ip_addrs:
+      ...
+except coro.TimeoutError:
+   &lt;handle timeout here&gt;</pre>
+</div>
+<p>The first argument is the number of seconds to wait.  The second
+argument is the original function.  The remaining arguments are the
+original arguments to that function.</p>
+<p>If the DNS query doesn&#8217;t finish in 5 seconds, the scheduler will
+resume() this thread with the coro.TimeoutError exception.</p>
+</div>
+<div class="section" id="with-timeout-style-high-and-low-level-timeouts">
+<h4>1.3.6.2&nbsp;&nbsp;&nbsp;with_timeout() Style... High and Low-Level Timeouts.<a class="headerlink" href="#with-timeout-style-high-and-low-level-timeouts" title="Permalink to this headline">¶</a></h4>
+<p>There are two main styles of &#8216;with_timeout()&#8217; usage.</p>
+<p>The first is to wrap a simple operation tightly with a timeout, and is
+meant to capture simple network problems with single operations - like
+sending a query to a server that&#8217;s down.  A good example of this would
+be to have a timeout on getting a DNS reply from a server.</p>
+<p>The second style wraps a complex, high-level operation with a single
+&#8216;umbrella&#8217; timeout - this style is used more to limit the total amount
+of time that the task will take, regardless of the underlying reason
+for the delay (which might be network, disk, or something else like
+waiting on a semaphore or other resource).  An example of this would
+be to have a timeout on sending an email message.</p>
+<p>Using these two styles, you can avoid using with_timeout() in most of
+your code - everything in between the low-level operations and the
+outermost task.</p>
+<p>A good example of the two styles working together can be found in
+godspeed/dns.  In dns_cache.py (the low-level protocol
+implementation), you&#8217;ll see the query_by_ip() method uses a timeout
+around a single query/response operation to a single server.  This
+timeout defaults to about 5 seconds.</p>
+<p>In PrioritizedIP.injector_ip_lookup_ex(), the call to resolver.query()
+is protected with a high-level timeout around the PTR lookup.  Due to
+the nature of DNS, the PTR query could trigger several low-level DNS
+lookups, for things like nameserver and address records.  The
+high-level query thus uses a 20-second timeout for the outer
+operation.</p>
+</div>
+</div>
+<div class="section" id="synchronization-primitives">
+<h3>1.3.7&nbsp;&nbsp;&nbsp;Synchronization Primitives<a class="headerlink" href="#synchronization-primitives" title="Permalink to this headline">¶</a></h3>
+<p>Also in the &#8216;coro&#8217; module you will find a collection of standard
+thread-synchronization primitives, including mutexes, semaphores,
+condition variables, read/write locks, etc...</p>
+<p>If you&#8217;re used to &#8216;real&#8217; threaded programming, you may be tempted to
+make heavy use of these to &#8216;protect&#8217; your code against other threads.
+In most cases you don&#8217;t need to do this.  Shrapnel is a &#8216;cooperatively
+threaded&#8217; system, which means that even on a multi-processor system
+only one thread will ever be running at a time.  Only in rare cases do
+you need to worry about races.</p>
+<p>These facilities are mostly for control over resource usage.  For
+example, a semaphore can be used to limit the number of outstanding
+requests on an RPC link or DNS socket.  A mutex or read/write lock can
+be used to limit access to a file or directory.</p>
+</div>
+<div class="section" id="exceptions">
+<h3>1.3.8&nbsp;&nbsp;&nbsp;Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h3>
+<p>Correctly handling exceptions is relatively easy, but there are a few
+critical rules that need to be followed.</p>
+<div class="section" id="coro-interrupted">
+<h4>1.3.8.1&nbsp;&nbsp;&nbsp;coro.Interrupted<a class="headerlink" href="#coro-interrupted" title="Permalink to this headline">¶</a></h4>
+<p>This is an exception that is used internally by shrapnel.  It&#8217;s used
+for the correct propagation of timeout errors, but it is also the base
+class for any exception that will interrupt a thread
+unexpectedly. (e.g., shutting down a thread asynchronously).
+Normally, you shouldn&#8217;t need to pay attention to coro.Interrupted -
+with the following caveat:</p>
+<p>Because coro.Interrupted can be raised anywhere within any system, it
+is VERY important that you not mask it through the use of an &#8216;except:&#8217;
+blanket handler.  [this issue is going to be addressed in future
+versions of Python via the introduction of a &#8216;non-maskable&#8217; base
+class].</p>
+<p>In general, using &#8216;except:&#8217; is bad form - whether in Shrapnel, Python,
+or any other language- but on the rare occasion that you need to write
+a blanket handler, here&#8217;s the safe idiom you should use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+  <span class="n">do_something</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">coro</span><span class="o">.</span><span class="n">Interrupted</span><span class="p">:</span>
+  <span class="k">raise</span>
+<span class="k">except</span><span class="p">:</span>
+  <span class="n">handle_unexpected_exceptions</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The clause with the &#8216;raise&#8217; will allow timeouts and other
+interruptions to be processed correctly.</p>
+</div>
+<div class="section" id="coro-timeouterror">
+<h4>1.3.8.2&nbsp;&nbsp;&nbsp;coro.TimeoutError<a class="headerlink" href="#coro-timeouterror" title="Permalink to this headline">¶</a></h4>
+<p>When a timeout expires, an internal &#8216;Interrupted&#8217; exception gets
+translated into a coro.TimeoutError.  You may have multiple embedded
+timeouts and handlers - the system will delivery the correct timeout
+to the correct handler.  [see ap/shrapnel/coro/_coro.pyx for details]</p>
+</div>
+<div class="section" id="coro-scheduleerror">
+<h4>1.3.8.3&nbsp;&nbsp;&nbsp;coro.ScheduleError<a class="headerlink" href="#coro-scheduleerror" title="Permalink to this headline">¶</a></h4>
+<p>This exception will be raised whenever an attempt is made to schedule
+a thread to run when it has already been scheduled.  The only way that
+this will happen normally is when another thread tries to wake or
+interrupt a thread unexpectedly - it&#8217;s usually the symptom of some
+kind of race condition.  There are a few simple techniques to avoid it:</p>
+<ol class="arabic simple">
+<li>Use the builtin synchronization primitives.  Rewrite your code to
+use a semaphore or a condition variable.  The builtin primitives
+already deal with these issues effectively.  [see
+godspeed/coroutine/coro_fifo.py for an example]</li>
+<li>Use a dedicated thread to manage a queue.  By isolating the
+interaction of many threads through a protected data structure,
+complex thread races can be avoided.  [See
+godspeed/rpc/packet_stream.py or godspeed/ldap/ldap_api.py for
+examples]</li>
+</ol>
+</div>
+</div>
+<div class="section" id="time-scale">
+<h3>1.3.9&nbsp;&nbsp;&nbsp;Time Scale<a class="headerlink" href="#time-scale" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="user-time">
+<h4>1.3.9.1&nbsp;&nbsp;&nbsp;User Time<a class="headerlink" href="#user-time" title="Permalink to this headline">¶</a></h4>
+<p>Shrapnel supports two separate concepts of &#8216;time&#8217;.  One is the real
+time that users see, which is a standard Unix time_t scale, extended
+to microsecond accuracy by FreeBSD.  User time is under the control of
+the end user, who can change it at will, including things like time
+zone and DST.</p>
+</div>
+<div class="section" id="tsc-time">
+<h4>1.3.9.2&nbsp;&nbsp;&nbsp;TSC Time<a class="headerlink" href="#tsc-time" title="Permalink to this headline">¶</a></h4>
+<p>For this reason &#8216;user time&#8217; is not appropriate for internal scheduler
+use.  For example, if we need an event to take place once every 5
+minutes, it&#8217;s important that this happen regardless of how user time
+has changed around it.  (If the user moves time forward by a year, we
+don&#8217;t want to trigger 170,000 such events).  TSC Time is named after
+the internal Time Stamp Counter register which has been a feature of
+the x86 processor line since the days of the Pentium.  The TSC is a
+simple 64-bit counter that increments once for each tick of the CPU
+clock.</p>
+<p>The internal time scale never changes - it always represents the
+number of clock ticks since the machine was booted.  The user time
+scale is &#8216;pinned&#8217; to the TSC timescale by a single value, the
+&#8216;relative tsc time&#8217;, which tells us &#8216;what time it was&#8217; when the TSC
+counter was at zero (i.e., when the machine booted).  When the user
+changes time via the OS or NTP, all that&#8217;s really changed is
+coro.relative_tsc_time.</p>
+<p>[See ap/shrapnel/coro/time.pyx for more details]</p>
+</div>
+</div>
+<div class="section" id="rpc">
+<h3>1.3.10&nbsp;&nbsp;&nbsp;RPC<a class="headerlink" href="#rpc" title="Permalink to this headline">¶</a></h3>
+<p>Shrapnel&#8217;s library includes a fast lightweight RPC system, called
+&#8216;fast_rpc&#8217;, that&#8217;s built around Python&#8217;s &#8216;pickle&#8217; marshalling
+facility.  If you need to exchange data between two processes, this is
+the preferred method.  [see godspeed/rpc/fast_rpc.py]</p>
+<p>Many of the difficult problems with RPC (or even protocols in
+general), have been solved in this module, including difficult race
+conditions, socket issues, etc.  fast_rpc supports multiple
+outstanding requests, out-of-order execution, and pipelining.  Many
+threads can make simultaneous requests on the same RPC connection.</p>
+<p>Underneath the RPC layer is a simpler abstraction, the
+&#8216;packet_stream&#8217;.  It uses dedicated threads for sending and receiving
+packets each stamped with a unique id.  It protects from
+thread-related races by using a request queue.  If for some reason
+fast_rpc doesn&#8217;t quite meet your needs, consider using packet_stream
+before rolling your own.</p>
+</div>
+<div class="section" id="ssl">
+<h3>1.3.11&nbsp;&nbsp;&nbsp;SSL<a class="headerlink" href="#ssl" title="Permalink to this headline">¶</a></h3>
+<p>The interface to OpenSSL is through a Python extension module, called
+&#8216;sslip&#8217; (&#8216;SSL IronPort&#8217;).  It&#8217;s a minimalist interface - rather than
+trying to put all OpenSSL features in the module, we&#8217;ve added things
+as needed over the years.  If you need access to a feature that&#8217;s not
+yet exposed, consider adding it to sslip rather than coding it up
+separately.  [It&#8217;s possible that over the next few years sslip will be
+rewritten in Pyrex, so keep that in mind.  Currently the source is in
+godspeed/python_modules/sslip.c]</p>
+<p>&#8216;sslip&#8217; is exposed in the coro API via &#8216;coro_ssl.py&#8217; [currently in
+godspeed/coroutine, but may be moved].  OpenSSL supports non-blocking
+sockets directly, so the wrapper passes ssl operations through to the
+library via the underlying file descriptor.</p>
+</div>
+</div>
+<div class="section" id="precious-resources">
+<h2><a class="toc-backref" href="#contents">1.4&nbsp;&nbsp;&nbsp;Precious Resources</a><a class="headerlink" href="#precious-resources" title="Permalink to this headline">¶</a></h2>
+<p>Shrapnel programs are long-running, complex systems that may have
+thousands of threads.  In such a crowded environment, it&#8217;s important
+that no one thread or task consume precious resources.  Unlike most
+Unix software, a wasteful design won&#8217;t be whitewashed when your
+program exits in a fraction of a second.  Think of your thread as a
+single passenger on a crowded train in Tokyo.</p>
+<p>Over-consuming any of the following resources can eventually bring the
+process down.  Unless you want to be the one losing sleep in order to
+make the CEO of a major ISP happy after a major disaster, try to be
+frugal with them!</p>
+<p>Sometimes there&#8217;s a trade-off between these - for example, you might
+be able to use less memory if you use a little more CPU.  If you&#8217;re
+having trouble deciding, feel free to track down a more experienced
+engineer and get some help.</p>
+<div class="section" id="memory">
+<h3>1.4.1&nbsp;&nbsp;&nbsp;Memory<a class="headerlink" href="#memory" title="Permalink to this headline">¶</a></h3>
+<p>We&#8217;ve touched on this issue already.  Know how much memory you&#8217;re
+using.  Don&#8217;t cache things unnecessarily.  Avoid keeping many separate
+copies of identical objects.  [see godlib/shared_objects.py].</p>
+<p>Python can make it difficult to know exactly how much memory you&#8217;re
+using.  Use the &#8216;mstats&#8217; module to track memory consumption.  It
+allows you to sample <em>exactly</em> how much memory you&#8217;re using.</p>
+<blockquote>
+<div>Python itself has a few builtin object caches that can confuse
+your measurements.  IronPort has added a function to the &#8216;sys&#8217;
+module to clear these caches - sys.free_caches().  You may want to
+call it before and after your test code.</div></blockquote>
+<p>Another useful tool is the &#8216;sizeof&#8217; module [see
+python_modules/sizeof.c], which can give detailed information about
+the memory used by a particular object.</p>
+</div>
+<div class="section" id="file-descriptors">
+<h3>1.4.2&nbsp;&nbsp;&nbsp;File Descriptors<a class="headerlink" href="#file-descriptors" title="Permalink to this headline">¶</a></h3>
+<p>In Unix, every socket and file-like object is represented by a &#8216;file
+descriptor&#8217;.  Internally, a file descriptor is simply a small integer.
+Descriptors are managed by the OS, which places a cap on the total
+number of descriptors at kernel build time, and descriptor tables are
+managed as fixed-size arrays. [So it&#8217;s a hard limit].</p>
+<p>Once a process or kernel starts running out of file descriptors,
+things will get ugly, <em>fast</em>.  Our system is compiled to allow up to
+32K descriptors per-process and per-system.  [The two limits are kept
+pretty close because an MGA normally has only one process, hermes,
+that consumes large numbers of descriptors].</p>
+<p>In Python, the &#8216;os&#8217; module exposes many of the standard unix system
+calls that work with file descriptors.  Using the functions in that
+module, it&#8217;s possible to create, use, and destroy file desciptors of
+various kinds.  If you&#8217;re not careful, you can create a file
+descriptor but forget to destroy it (this usually happens because of
+an exception of some kind)... in which case the descriptor will &#8216;leak&#8217;
+- it will consume a precious entry in the table that will not be freed
+until close() is called on it.</p>
+<p>If you find youself working with low-level file descriptors (in <em>any</em>
+language), you should consider using a wrapper class (like the one in
+hermes/qstore/gcq.py::os_file] to ensure that the descriptor gets
+closed.  Another good technique is to use a try/finally clause with
+the call to &#8216;close()&#8217; in the finally block.  Most of our objects that
+wrap file descriptors already use destructors to close their
+descriptors, but it&#8217;s still good practice to use try/finally anyway.</p>
+</div>
+<div class="section" id="cpu">
+<h3>1.4.3&nbsp;&nbsp;&nbsp;CPU<a class="headerlink" href="#cpu" title="Permalink to this headline">¶</a></h3>
+<p>CPU time is always a precious resource, but in this case we&#8217;re talking
+about something a little more subtle.  In a cooperative multi-tasking
+environment, it&#8217;s important that no task monopolize the CPU for too
+long, otherwise other tasks will get locked out.  The shrapnel
+scheduler monitors how long each thread runs, and will emit a &#8216;latency
+warning&#8217; if a thread runs for over 1/5 of a second without yielding.</p>
+<p>If you&#8217;re doing something that needs a lot of CPU - usually processing
+a large data structure - you can be a &#8216;good neighbor&#8217; by yield()ing
+every once in a while inside your main loop.  [see
+hermes/omh/omh.py::spawn_all_domains() for a good example of this
+technique]</p>
+<p>Python is not a good language for low-level &#8216;character&#8217; processing,
+it&#8217;s too slow.  Examples would be things like MIME and base64
+decoding, parsing, etc... .  If your code needs to do this kind of
+work, the recommended approach is to write everything in Python, then
+identify the &#8216;hot&#8217; spots and re-code only those portions in Pyrex, C,
+or C++.  This is exactly the approach used by Python itself [see
+Python/Modules/binascii.c]</p>
+</div>
+<div class="section" id="coro-profiler">
+<h3>1.4.4&nbsp;&nbsp;&nbsp;Coro Profiler<a class="headerlink" href="#coro-profiler" title="Permalink to this headline">¶</a></h3>
+<p>Shrapnel includes a simple yet powerful profiler.  The &#8216;coro profiler&#8217;
+[see godspeed/coroutine/coro_profile.py] is a Python profiler
+implementation that takes samples of system resources using the
+&#8216;getrusage()&#8217; system call.  It also maintains simple call counts.  You
+can wrap calls to the profiler around a single function, or (more
+commonly) the entire event loop. [see godspeed/hermes/hermes.py for a
+sample profiler usage - the profile line is commented out, right next
+to the main call to coro.event_loop()]</p>
+<p>The profiler outputs its data into a binary file, which is then
+post-processed with &#8216;print_profile.py&#8217;, which generates an HTML
+table.  For more information on the fields in the table, try &#8216;man
+getrusage&#8217;.</p>
+</div>
+</div>
+<div class="section" id="the-back-door">
+<h2><a class="toc-backref" href="#contents">1.5&nbsp;&nbsp;&nbsp;The Back Door</a><a class="headerlink" href="#the-back-door" title="Permalink to this headline">¶</a></h2>
+<p>The &#8216;back door&#8217; is a externally-accessible Python prompt.  Through it,
+you can get into a running coro process to examine, change, or debug
+any aspect of the system.  It&#8217;s invaluable in all stages of
+development, QA, and even deployment.  Many bugs have been found
+quickly and easily by using the back door to do things like dump
+caches, examine and dump data structures, etc... - even in the field.</p>
+<p>The back door is implemented as a socket server.  For security
+reasons, back doors are usually bound to a unix-domain socket, often
+kept in &#8216;/tmp&#8217; with a name like &#8216;/tmp/my_application.bd&#8217;.  To connect
+to it, simply &#8216;telnet&#8217; to the full pathname, like this:</p>
+<div class="highlight-python"><pre>$ telnet /tmp/my_application.bd
+
+Python 2.4.3-IronPort (#61, Jun 14 2006, 14:59:13)
+[GCC 3.4.2 [FreeBSD] 20040728]
+[...]
+&gt;&gt;&gt;</pre>
+</div>
+<p>From this prompt you can interact with Python normally.</p>
+<p>It can be convenient to store some utility functions for use via the
+back door in a module that is loaded automatically.  See
+godspeed/hermes/service.py for such a utility file, which should also
+give you an idea of the kinds of things that are possible via this
+feature.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1&nbsp;&nbsp;&nbsp;Shrapnel/Coro</a><ul>
+<li><a class="reference internal" href="#threads">1.1&nbsp;&nbsp;&nbsp;Threads</a></li>
+<li><a class="reference internal" href="#kqueue-kevent">1.2&nbsp;&nbsp;&nbsp;kqueue()/kevent()</a></li>
+<li><a class="reference internal" href="#non-blocking-operations">1.3&nbsp;&nbsp;&nbsp;Non-Blocking Operations</a><ul>
+<li><a class="reference internal" href="#non-blocking-sockets">1.3.1&nbsp;&nbsp;&nbsp;Non-Blocking Sockets</a></li>
+<li><a class="reference internal" href="#aio-signals-etc">1.3.2&nbsp;&nbsp;&nbsp;aio(), signals, etc...</a></li>
+<li><a class="reference internal" href="#the-scheduler">1.3.3&nbsp;&nbsp;&nbsp;The Scheduler</a></li>
+<li><a class="reference internal" href="#selfishness">1.3.4&nbsp;&nbsp;&nbsp;&#8216;Selfishness&#8217;</a></li>
+<li><a class="reference internal" href="#the-priority-queue">1.3.5&nbsp;&nbsp;&nbsp;The Priority Queue</a></li>
+<li><a class="reference internal" href="#timeouts">1.3.6&nbsp;&nbsp;&nbsp;Timeouts</a><ul>
+<li><a class="reference internal" href="#with-timeout">1.3.6.1&nbsp;&nbsp;&nbsp;with_timeout()</a></li>
+<li><a class="reference internal" href="#with-timeout-style-high-and-low-level-timeouts">1.3.6.2&nbsp;&nbsp;&nbsp;with_timeout() Style... High and Low-Level Timeouts.</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#synchronization-primitives">1.3.7&nbsp;&nbsp;&nbsp;Synchronization Primitives</a></li>
+<li><a class="reference internal" href="#exceptions">1.3.8&nbsp;&nbsp;&nbsp;Exceptions</a><ul>
+<li><a class="reference internal" href="#coro-interrupted">1.3.8.1&nbsp;&nbsp;&nbsp;coro.Interrupted</a></li>
+<li><a class="reference internal" href="#coro-timeouterror">1.3.8.2&nbsp;&nbsp;&nbsp;coro.TimeoutError</a></li>
+<li><a class="reference internal" href="#coro-scheduleerror">1.3.8.3&nbsp;&nbsp;&nbsp;coro.ScheduleError</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#time-scale">1.3.9&nbsp;&nbsp;&nbsp;Time Scale</a><ul>
+<li><a class="reference internal" href="#user-time">1.3.9.1&nbsp;&nbsp;&nbsp;User Time</a></li>
+<li><a class="reference internal" href="#tsc-time">1.3.9.2&nbsp;&nbsp;&nbsp;TSC Time</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rpc">1.3.10&nbsp;&nbsp;&nbsp;RPC</a></li>
+<li><a class="reference internal" href="#ssl">1.3.11&nbsp;&nbsp;&nbsp;SSL</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#precious-resources">1.4&nbsp;&nbsp;&nbsp;Precious Resources</a><ul>
+<li><a class="reference internal" href="#memory">1.4.1&nbsp;&nbsp;&nbsp;Memory</a></li>
+<li><a class="reference internal" href="#file-descriptors">1.4.2&nbsp;&nbsp;&nbsp;File Descriptors</a></li>
+<li><a class="reference internal" href="#cpu">1.4.3&nbsp;&nbsp;&nbsp;CPU</a></li>
+<li><a class="reference internal" href="#coro-profiler">1.4.4&nbsp;&nbsp;&nbsp;Coro Profiler</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-back-door">1.5&nbsp;&nbsp;&nbsp;The Back Door</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/coro.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Shrapnel 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Sam Rushing.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
