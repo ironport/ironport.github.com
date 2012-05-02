@@ -254,7 +254,7 @@ All Rights Reserved. [etc]
 <h2><a class="toc-backref" href="#contents">1.3&nbsp;&nbsp;&nbsp;Servers and Clients</a><a class="headerlink" href="#servers-and-clients" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="echo-server">
 <h3>1.3.1&nbsp;&nbsp;&nbsp;Echo Server<a class="headerlink" href="#echo-server" title="Permalink to this headline">¶</a></h3>
-<p>Creating a server is easy (see <a class="reference external" href="tutorial/t1.py">docs/tutorial/t1.py</a>):</p>
+<p>Creating a server is easy (see <a class="reference download internal" href="_downloads/t1.py"><tt class="xref download docutils literal"><span class="pre">docs/tutorial/t1.py</span></tt></a>):</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">coro</span>
 <span class="kn">import</span> <span class="nn">coro.backdoor</span>
 
@@ -336,7 +336,7 @@ event loop when it receives the string &#8216;quit\r\n&#8217;.</p>
 <div class="section" id="echo-client">
 <h3>1.3.4&nbsp;&nbsp;&nbsp;Echo Client<a class="headerlink" href="#echo-client" title="Permalink to this headline">¶</a></h3>
 <p>It&#8217;s difficult to really beat on that server with your own fingers (and telnet).
-How about a client that&#8217;ll exercise it a little (see <a class="reference external" href="tutorial/t2.py">docs/tutorial/t2.py</a>):</p>
+How about a client that&#8217;ll exercise it a little (see <a class="reference download internal" href="_downloads/t2.py"><tt class="xref download docutils literal"><span class="pre">docs/tutorial/t2.py</span></tt></a>):</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">coro</span>
 
 <span class="k">def</span> <span class="nf">client</span> <span class="p">(</span><span class="n">ip</span><span class="o">=</span><span class="s">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">9000</span><span class="p">):</span>
@@ -369,7 +369,7 @@ How about a client that&#8217;ll exercise it a little (see <a class="reference e
 <div class="section" id="proxy-server">
 <h3>1.3.5&nbsp;&nbsp;&nbsp;Proxy Server<a class="headerlink" href="#proxy-server" title="Permalink to this headline">¶</a></h3>
 <p>This is a handy little server that lets you &#8216;spy&#8217; on protocols.  It&#8217;s
-very handy when implementing protocols. See <a class="reference external" href="tutorial/proxy.py">docs/tutorial/proxy.py</a>.</p>
+very handy when implementing protocols. See <a class="reference download internal" href="_downloads/proxy.py"><tt class="xref download docutils literal"><span class="pre">docs/tutorial/proxy.py</span></tt></a>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">coro</span>
 <span class="n">W</span> <span class="o">=</span> <span class="n">coro</span><span class="o">.</span><span class="n">write_stderr</span>
 
@@ -566,7 +566,7 @@ __builtin__:len -- ticks=28508261 utime=0.010467 stime=0.002547
 </div>
 <div class="section" id="the-killer-demo">
 <h2><a class="toc-backref" href="#contents">1.5&nbsp;&nbsp;&nbsp;The Killer Demo</a><a class="headerlink" href="#the-killer-demo" title="Permalink to this headline">¶</a></h2>
-<p>See <a class="reference external" href="tutorial/worms.py">docs/tutorial/worms.py</a> for a fun demo.  Run the script from
+<p>See <a class="reference download internal" href="_downloads/worms.py"><tt class="xref download docutils literal"><span class="pre">docs/tutorial/worms.py</span></tt></a> for a fun demo.  Run the script from
 one terminal, and telnet into it from another terminal with a nice
 large window (your terminal needs to support ANSI escape codes).</p>
 <p>Each worm is its own thread, and each socket client has a separate
